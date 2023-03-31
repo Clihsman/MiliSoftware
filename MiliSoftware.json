@@ -1,0 +1,25 @@
+{
+  "name": "MiliSoftware",
+  "version": "0.0.0.*",
+  "creationDate": "2023-03-06T20:31:44.4205423-05:00",
+  "path": "C:\\Users\\Clihsman\\source\\repos\\MiliSoftware",
+  "dest": "D:\\copias",
+  "exclude": [
+    "packages",
+    "*\\bin",
+    "*\\obj",
+    ".git",
+    ".vs"
+  ],
+  "excludeFiles": [],
+  "builds": [
+    {
+      "version": "0.0.0.1",
+      "buildPath": "D:\\copias"
+    },
+    {
+      "version": "0.0.0.2",
+      "buildPath": "D:\\copias"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿<Page x:Class="MiliSoftware.Paginas.PgStart"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+      xmlns:local="clr-namespace:MiliSoftware.Paginas"
+      mc:Ignorable="d"
+      Title="Start"
+      Height="760" Width="450"
+      MaxHeight="760" MaxWidth="450" 
+      MinHeight="760" MinWidth="450"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      Background="{x:Null}"
+      >
+
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
+     Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <Image x:Name="image" gif:AnimationBehavior.SourceUri="/MiliSoftware;component/Resources/cargando0.gif"  HorizontalAlignment="Left" Height="346" Margin="-55,396,-287,-32" VerticalAlignment="Top" Width="742"/>
+
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
+</Page>

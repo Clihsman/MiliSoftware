@@ -1,0 +1,21 @@
+﻿<Window x:Class="MiliSoftware.FormStart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiliSoftware"
+        mc:Ignorable="d"
+        Title="Login"
+        Height="760" Width="450"
+        MaxHeight="760" MaxWidth="450" 
+        MinHeight="760" MinWidth="450"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        WindowStartupLocation="CenterScreen"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        >
+    <Frame x:Name="myFrame" NavigationUIVisibility="Hidden"/>
+</Window>
