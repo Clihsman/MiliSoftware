@@ -77,20 +77,20 @@ namespace MiliSoftware.Views.Suppliers
             // Contact 2
             tbCelCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCelCode);
             tbContact2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbContact);
-            // Country 0
-            cbCountry0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            // Amountry 0
+            cbAmountry0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
             tbCondition0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
             tbDirection0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
-            // Country 1
-            cbCountry1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            // Amountry 1
+            cbAmountry1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
             tbCondition1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
             tbDirection1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
-            // Country 2
-            cbCountry2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            // Amountry 2
+            cbAmountry2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
             tbCondition2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
@@ -262,19 +262,19 @@ namespace MiliSoftware.Views.Suppliers
             string businessRegistration = tbBusinessRegistration.Text;
             bool taxIncluded = chTaxIncluded.IsChecked.Value;
             // direcction 0
-            string country0 = cbCountry0.Text;
+            string country0 = cbAmountry0.Text;
             string condition0 = tbCondition0.Text;
             string city0 = tbCity0.Text;
             string postalCode0 = tbPostalCode0.Text;
             string direction0 = tbDirection0.Text;
             // direcction 1
-            string country1 = cbCountry1.Text;
+            string country1 = cbAmountry1.Text;
             string condition1 = tbCondition1.Text;
             string city1 = tbCity1.Text;
             string postalCode1 = tbPostalCode1.Text;
             string direction1 = tbDirection1.Text;
             // direcction 2
-            string country2 = cbCountry2.Text;
+            string country2 = cbAmountry2.Text;
             string condition2 = tbCondition2.Text;
             string city2 = tbCity2.Text;
             string postalCode2 = tbPostalCode2.Text;

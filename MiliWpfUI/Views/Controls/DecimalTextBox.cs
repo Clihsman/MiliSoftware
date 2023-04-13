@@ -154,8 +154,6 @@ namespace MiliSoftware.WpfUI
             m_real = m_real.Replace(".", NumberFormat.NumberGroupSeparator);
             m_decimal = m_decimal.Replace(",", NumberFormat.NumberDecimalSeparator);
 
-            Console.WriteLine(@in);
-
             return m_real + NumberFormat.NumberDecimalSeparator + m_decimal;
         }
 

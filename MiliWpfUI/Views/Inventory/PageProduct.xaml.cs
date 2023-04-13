@@ -9,7 +9,6 @@ using GrapInterCom.Interfaces.Inventory;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using MiliSoftware.Inventory;
-using MiliSoftware.Objects.Inventory;
 using MiliSoftware.UI;
 using MiliSoftware.Views.Customers;
 using MiliSoftware.WpfUI;
@@ -45,6 +44,7 @@ namespace MiliSoftware.Views.Inventory
 
         private object[] components;
         private object[] equivalents;
+
         public PageProduct(Frame parent)
         {
             InitializeComponent();
@@ -255,13 +255,13 @@ namespace MiliSoftware.Views.Inventory
         private void btSaveClick(object o, EventArgs e)
         {
             string Code = tbCode.Text;
-            uint Type = (uint)cbType.SelectedIndex;
-            uint Group = (uint)cbGrup.SelectedIndex;
+            int Type = cbType.SelectedIndex;
+            int Group = cbGrup.SelectedIndex;
             string Name = tbName.Text;
             string Barcode = tbBarcode.Text;
-            uint UnitOfMeasurement = (uint)cbUnitOfMeasurement.SelectedIndex;
-            uint TaxClassification = (uint)cbTaxClassification.SelectedIndex;
-            uint Store = (uint)cbStore.SelectedIndex;
+            int UnitOfMeasurement = cbUnitOfMeasurement.SelectedIndex;
+            int TaxClassification = cbTaxClassification.SelectedIndex;
+            int Store = cbStore.SelectedIndex;
             string Picture = tbPicture.Text;
             string Description = tbDescription.Text;
             bool SaveImage = chSaveImage.IsChecked.Value;
@@ -279,8 +279,7 @@ namespace MiliSoftware.Views.Inventory
             string Value5 = tbValue5.Text;
 
             Product product = new Product(Code, Type, Group, Name, Barcode, UnitOfMeasurement, TaxClassification, Store, Picture, Description,  SaveImage,  Key0, 
-                Value0,  Key1,  Value1,  Key2, Value2,  Key3,  Value3,  Key4,  Value4,  Key5,  Value5);
-
+                Value0,  Key1,  Value1,  Key2, Value2,  Key3,  Value3,  Key4,  Value4,  Key5,  Value5,(EquivalentProduct[])equivalents, (ProductComponent[])components);
 
             controller.Create(product);
 

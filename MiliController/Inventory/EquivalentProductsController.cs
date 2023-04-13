@@ -32,9 +32,23 @@ namespace MiliSoftware.Inventory
 
         public object[] Read(object[] data)
         {
-            List<dynamic> products = new List<dynamic>();
+            List<EquivalentProduct> products = new List<EquivalentProduct>();
 
-            SqlConnection connection = new SqlConnection("Data Source=DESKTOP-V156BBR\\TECHNOTEL;Initial Catalog=monica_9;Persist Security Info=True;User ID=sa;Password=Admin2012");
+            SqlLite.SqlLiteDatabase sqlLiteDatabase = new SqlLite.SqlLiteDatabase();
+            sqlLiteDatabase.Open();
+
+            foreach (Dictionary<string, object> value in sqlLiteDatabase.ExecuteQueryD("SELECT _id, Code, Name FROM Products"))
+            {
+                products.Add(new EquivalentProduct(
+                    (string)value[nameof(ProductComponent._id)],
+                    (string)value[nameof(ProductComponent.Code)],
+                    (string)value[nameof(ProductComponent.Name)]));
+            }
+
+            sqlLiteDatabase.Close();
+            /*
+            sqlLiteDatabase.Close();
+             SqlConnection connection = new SqlConnection("Data Source=DESKTOP-V156BBR\\TECHNOTEL;Initial Catalog=monica_9;Persist Security Info=True;User ID=sa;Password=Admin2012");
             try
             {
                 connection.Open();
@@ -62,6 +76,7 @@ namespace MiliSoftware.Inventory
             {
                 // Console.WriteLine("Error");
             }
+            */
             return products.ToArray();
         }
 

@@ -20,6 +20,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -92,6 +93,7 @@ namespace MiliSoftware.Views.Main
             btEmail.MouseDown += btEmailClick;
             btDebug.MouseDown += btDebugClick;
             btHelp.MouseDown += btHetpClick;
+            btHome.MouseDown += btHomeClick;
 
             foreach (Control control in stMenuBar.Children)
             {
@@ -108,7 +110,6 @@ namespace MiliSoftware.Views.Main
 
         private void btHetpClick(object sender, MouseButtonEventArgs e)
         {
-
         }
 
         private void loadLanguaje()
@@ -181,6 +182,15 @@ namespace MiliSoftware.Views.Main
             UpdateButtonChecked((PackIcon)sender);
         }
 
+        private void btHomeClick(object sender, MouseButtonEventArgs e)
+        {
+            parentFrame.Content = null;
+            dialogFrame.Content = null;
+            dialogFrame1.Content = null;
+
+            UpdateButtonChecked((PackIcon)sender, false);
+        }
+
         private void PackIcon_MouseEnter(object sender, MouseEventArgs e)
         {
             try
@@ -244,7 +254,7 @@ namespace MiliSoftware.Views.Main
             return buttons[button];
         }
 
-        private void UpdateButtonChecked(PackIcon button)
+        private void UpdateButtonChecked(PackIcon button, bool showSubOptions = true)
         {
             var keys = buttons.Keys.ToArray();
             foreach (var sender in keys)
@@ -256,6 +266,25 @@ namespace MiliSoftware.Views.Main
                     buttons[sender] = false;
                     PackIcon_MouseLeave(sender, null);
                 }
+            }
+
+            if (showSubOptions)
+            {
+                stSubOptions.Visibility = Visibility.Visible;
+                stDate.Visibility = Visibility.Hidden;
+                stTools.Visibility = Visibility.Hidden;
+                DoubleAnimation animation = new DoubleAnimation(0, 250, new Duration(new TimeSpan(0, 0, 0, 0, 650)));
+
+                animation.Completed += delegate
+                {
+                };
+                tnElement.BeginAnimation(WidthProperty, animation);
+            }
+            else
+            {
+                stSubOptions.Visibility = Visibility.Hidden;
+                stDate.Visibility = Visibility.Visible;
+                stTools.Visibility = Visibility.Visible;
             }
         }
 

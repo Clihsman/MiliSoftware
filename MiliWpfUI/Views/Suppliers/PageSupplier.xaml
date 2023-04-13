@@ -182,7 +182,7 @@
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
                         <!-- Dirección 0 -->
                         <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
-                        <ComboBox x:Name="cbCountry0" IsEditable="True" Width="120"/>
+                        <ComboBox x:Name="cbAmountry0" IsEditable="True" Width="120"/>
                         <TextBox x:Name="tbCondition0" Margin="10,0,0,0" Width="200" />
                         <TextBox x:Name="tbCity0" Margin="10,0,0,0" Width="150"/>
                         <TextBox x:Name="tbPostalCode0" Margin="10,0,0,0" Width="140"/>
@@ -192,7 +192,7 @@
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
                         <!-- Dirección 1 -->
                         <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
-                        <ComboBox x:Name="cbCountry1" IsEditable="True" Width="120"/>
+                        <ComboBox x:Name="cbAmountry1" IsEditable="True" Width="120"/>
                         <TextBox x:Name="tbCondition1" Margin="10,0,0,0" Width="200" />
                         <TextBox x:Name="tbCity1" Margin="10,0,0,0" Width="150"/>
                         <TextBox x:Name="tbPostalCode1" Margin="10,0,0,0" Width="140"/>
@@ -202,7 +202,7 @@
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
                         <!-- Dirección 2 -->
                         <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
-                        <ComboBox x:Name="cbCountry2" IsEditable="True" Width="120"/>
+                        <ComboBox x:Name="cbAmountry2" IsEditable="True" Width="120"/>
                         <TextBox x:Name="tbCondition2" Margin="10,0,0,0" Width="200" />
                         <TextBox x:Name="tbCity2" Margin="10,0,0,0" Width="150"/>
                         <TextBox x:Name="tbPostalCode2" Margin="10,0,0,0" Width="140"/>

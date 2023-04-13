@@ -46,27 +46,28 @@ namespace MiliSoftware.Views.Customers
             progBar.Visibility = Visibility.Visible;
             stTools.Visibility = Visibility.Hidden;
             LoadEvents();
+            LoadLanguage();
 
             new Thread(new ThreadStart(delegate
             {
                 LoadData();
-                Dispatcher.Invoke(new Action(delegate
+                Thread.Sleep(100);
+                Dispatcher.Invoke(() =>
                 {
-                    var alert = new Alerts.Alert();
-
+                   // var alert = new Alerts.Alert();
+                   /*
                     alert.btnClose.Click += (o, ev) =>
                     {
                         alert = null;
                         Main.MainWindow.Instace.dialogFrame.Content = null;
                         MessageBox.Show("Close");
                     };
-
-                    Main.MainWindow.Instace.dialogFrame.Content = alert;
-                    lvCustomers.ItemsSource = customers;
+                    */
+                   // Main.MainWindow.Instace.dialogFrame.Content = alert;       
                     progBar.Visibility = Visibility.Hidden;
                     stTools.Visibility = Visibility.Visible;
-                    LoadLanguage();
-                }));
+                    lvCustomers.ItemsSource = customers;
+                });
             })).Start();       
         }
 
@@ -100,11 +101,13 @@ namespace MiliSoftware.Views.Customers
             btDelete.Click += btDeleteClick;
             btEdit.Click += btEditClick;
             btExport.Click += btExportClick;
+
+            tbSearch.TextChanged += btSearchClick;
         }
 
         private void LoadData()
         {
-            customers = (DObject[])controller.Read(null);
+             customers = (DObject[])controller.Read(null);
         }
 
         #region Codigo Prueba

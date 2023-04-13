@@ -8,10 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Linq;
 namespace MiliSoftware.SqlLite
 {
-    public class SqlLoader
+    public class SqlLoader : IDisposable
     {
         /// <summary>
         /// Crea un esquema de una tabla a partir de un tipo
@@ -26,13 +26,14 @@ namespace MiliSoftware.SqlLite
             if (sqlTable is null) return null;
 
             // Obtiene los campos de la tabla
-            SqlField[] sqlFields = GetSqlFields(type);
+            Dictionary<SqlField, object> fields = GetSqlFields(type);
+            SqlField[] sqlFields = fields.Keys.ToArray();
 
             // Verifica que los campos de la tabla sean mayor a cero, en caso contrario retorna nulo
             if (!(sqlFields.Length > 0)) return null;
 
             // Crea el esquema de la tabla
-            return new SqlSchema(sqlTable, sqlFields);
+            return new SqlSchema(sqlTable, sqlFields, fields);
         }
 
         /// <summary>
@@ -40,9 +41,9 @@ namespace MiliSoftware.SqlLite
         /// </summary>
         /// <param name="type">Ingrese el tipo de la clase para obtener los campos</param>
         /// <returns></returns>
-        private SqlField[] GetSqlFields(Type type)
+        private Dictionary<SqlField,object> GetSqlFields(Type type)
         {
-            List<SqlField> fields = new List<SqlField>();
+            Dictionary<SqlField, object> fields = new Dictionary<SqlField, object>();
 
             foreach (PropertyInfo property in type.GetProperties())
             {
@@ -50,7 +51,11 @@ namespace MiliSoftware.SqlLite
                 if (sqlField != null)
                 {
                     string name = sqlField.Name != null ? sqlField.Name : property.Name;
-                    fields.Add(new SqlField(sqlField.FieldType, name));
+
+                    if (sqlField is SqlTableRef)
+                        fields.Add(new SqlTableRef(name, ((SqlTableRef)sqlField).SqlTableRefType), property);
+                    else if(sqlField is SqlField)
+                        fields.Add(new SqlField(sqlField.FieldType, name), property);
                 }
             }
 
@@ -60,11 +65,15 @@ namespace MiliSoftware.SqlLite
                 if (sqlField != null)
                 {
                     string name = sqlField.Name != null ? sqlField.Name : fieldInfo.Name;
-                    fields.Add(new SqlField(sqlField.FieldType, name));
+
+                    if (sqlField is SqlTableRef)
+                        fields.Add(new SqlTableRef(name, ((SqlTableRef)sqlField).SqlTableRefType), fieldInfo);
+                    else if (sqlField is SqlField)
+                        fields.Add(new SqlField(sqlField.FieldType, name), fieldInfo);
                 }
             }
 
-            return fields.ToArray();
+            return fields;
         }
 
         /// <summary>
@@ -76,6 +85,14 @@ namespace MiliSoftware.SqlLite
         {
             SqlTable sqlTable = type.GetCustomAttribute<SqlTable>(false);
             return sqlTable;
+        }
+
+        /// <summary>
+        /// Libera los recursos usados
+        /// </summary>
+        public void Dispose()
+        {
+
         }
     }
 }

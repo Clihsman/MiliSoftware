@@ -39,7 +39,8 @@ namespace MiliSoftware
 
                 Thread hilo1 = new Thread(new ThreadStart(delegate
                 {
-                    //Thread.Sleep(2800);
+                    Thread.Sleep(600);
+                   // MiliSoftware.ControllerMain.Main(null);
                     Dispatcher.Invoke(delegate
                     {
                         myFrame.NavigationService.Navigate(pgLogin);

@@ -34,6 +34,7 @@ namespace MiliSoftware.Views.Inventory
         public ICRUD<string, object[], string, string> controller { get; set; }
         public DialogResult DialogResult { get; set; }
         private Frame parent;
+        private IntTextBox tbAmount;
 
         public PageProductComponents(Frame parent)
         {
@@ -43,7 +44,7 @@ namespace MiliSoftware.Views.Inventory
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            IntTextBox intText = new IntTextBox(tbCant);
+            tbAmount = new IntTextBox(tbCant);
 
             products = new List<object>();
             products.AddRange(controller.Read(null));
@@ -64,7 +65,7 @@ namespace MiliSoftware.Views.Inventory
             {
                 foreach (dynamic component in lvProductsComponets.Items)
                 {
-                    if (product.Codigo == component.Codigo)
+                    if (product.Code == component.Code)
                         products.Remove(product);
                 }
             }
@@ -100,14 +101,14 @@ namespace MiliSoftware.Views.Inventory
             //************
 
             // List View Products
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Codigo") });
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Nombre") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
             //************
 
             // List View Products Components
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Codigo") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Nombre") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headAmount, DisplayMemberBinding = new Binding("Cantidad") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headAmount, DisplayMemberBinding = new Binding("Amount") });
             //************
         }
 
@@ -137,20 +138,13 @@ namespace MiliSoftware.Views.Inventory
 
         private void btAddClick(object sender, EventArgs e)
         {
-            dynamic product = lvProducts.SelectedItem;
+            ProductComponent product = (ProductComponent)lvProducts.SelectedItem;
 
-            string codigo = product.Codigo;
-            string nombre = product.Nombre;
-            string cant = tbCant.Text;
+            int Amount = (int)tbAmount.Value();
 
-            if (cant.Length > 0 && cant != "0")
+            if (Amount > 0)
             {
-                DObject dObject = new DObject(new Dictionary<string, object>() { 
-                    {"Codigo", codigo},
-                    {"Nombre", nombre},
-                    { "Cantidad",cant}});
-
-                lvProductsComponets.Items.Add(dObject);
+                lvProductsComponets.Items.Add(new ProductComponent(product._id,product.Code, product.Name, Amount));
 
                 products.Remove(product);
                 lvProducts.ItemsSource = null;
@@ -166,20 +160,13 @@ namespace MiliSoftware.Views.Inventory
 
         private void btRemoveClick(object sender, EventArgs e)
         {
-            dynamic product = lvProductsComponets.SelectedItem;
+            ProductComponent product = (ProductComponent)lvProductsComponets.SelectedItem;
 
-            string codigo = product.Codigo;
-            string nombre = product.Nombre;
-
-            DObject dObject = new DObject(new Dictionary<string, object>() {
-                        {"Codigo", codigo },
-                        {"Nombre", nombre }});
-
-            products.Add(dObject);
+            products.Add(new ProductComponent(product._id, product.Code, product.Name, 0));
             lvProducts.ItemsSource = null;
             lvProducts.ItemsSource = products;
 
-            lvProductsComponets.Items.Remove(lvProductsComponets.SelectedItem);
+            lvProductsComponets.Items.Remove(product);
             btSave.IsEnabled = true;
         }
 
@@ -196,7 +183,7 @@ namespace MiliSoftware.Views.Inventory
 
                 foreach (dynamic product in products)
                 {
-                    if (product.Codigo == search || product.Nombre.ToUpper().Contains(search))
+                    if (product.Code == search || product.Name.ToUpper().Contains(search))
                     {
                         achieved.Add(product);
                     }
@@ -229,14 +216,14 @@ namespace MiliSoftware.Views.Inventory
 
         public object[] GetValues()
         {
-            List<DObject> components = new List<DObject>();
+            List<ProductComponent> productComponents = new List<ProductComponent>();
 
-            foreach (DObject component in lvProductsComponets.Items)
+            foreach (ProductComponent productComponent in lvProductsComponets.Items)
             {
-                components.Add(component);
+                productComponents.Add(productComponent);
             }
 
-            return components.ToArray();
+            return productComponents.ToArray();
         }
 
         public void SetValues(object[] data)

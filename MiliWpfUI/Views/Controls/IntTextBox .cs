@@ -14,6 +14,8 @@ namespace MiliSoftware.WpfUI
 
         protected override void SetMoneyTextBox(TextBox texbox)
         {
+            textBox.Text = "0";
+            texbox.Select(1, 0);
             texbox.PreviewKeyDown += delegate (object o, KeyEventArgs e)
             {
                 bool keys = (e.Key == Key.Up && e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right);
@@ -129,7 +131,7 @@ namespace MiliSoftware.WpfUI
 
         public override decimal Value()
         {
-            throw new System.NotImplementedException();
+            return int.Parse(Text());
         }
     }
 }

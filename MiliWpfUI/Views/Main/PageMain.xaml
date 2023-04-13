@@ -6,8 +6,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MiliSoftware.Views.Main"
         mc:Ignorable="d"
-        Background="LightGray"
+       
         Title="MiliSoftware"  d:DesignHeight="450" d:DesignWidth="800">
+
+    <Page.Background>
+        <ImageBrush Stretch="UniformToFill" ImageSource="https://cdn.pixabay.com/photo/2016/12/17/18/51/spices-1914130_1280.jpg">
+
+        </ImageBrush>
+    </Page.Background>
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -31,6 +38,16 @@
             </StackPanel>
 
             <StackPanel x:Name="stMenuBar" Orientation="Horizontal" Margin="15,15,15,12" HorizontalAlignment="Right">
+
+                <materialDesign:PackIcon  
+                             x:Name="btHome"
+                             Background="White" 
+                             Foreground="Black"
+                             Kind="HomeOutline" 
+                             Width="25"
+                             Height="25"
+                             Margin="0,0,10,0"
+                    />
 
                 <materialDesign:PackIcon  
                              x:Name="btDebug"
@@ -177,8 +194,101 @@
 
         </Grid>
 
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="parentFrame" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0"/>
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0"/>
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame1" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0"/>
+        <StackPanel x:Name="stSubOptions" Grid.Row="1">
+            <Border x:Name="tnElement" Width="0" Height="30" Background="#606770" CornerRadius="10">
+
+            </Border>
+            <StackPanel Orientation="Horizontal" Width="{Binding Path=Width, ElementName=tnElement}" HorizontalAlignment="Center" Margin="0,-29,0,0">
+
+                <materialDesign:PackIcon
+                            Margin="7,0"
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="AccountSupervisorOutline" 
+                             Width="25"
+                             Height="25"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="AccountTieOutline" 
+                             ToolTip="Proveedores"
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="PackageVariant" 
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="ReportFinance"
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="CartArrowDown" 
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="ShoppingOutline" 
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+                <materialDesign:PackIcon
+                             Background="Transparent" 
+                             Foreground="White"
+                             Kind="CashMultiple" 
+                             Width="25"
+                             Height="25"
+                             Margin="5,0"
+                    />
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel x:Name="stDate" Grid.Row="1" Width="250" Height="150" HorizontalAlignment="Right" Opacity="0.8" VerticalAlignment="Top" Margin="15">
+            <Border Width="250" Height="80" Background="#444444" CornerRadius="10,5,5,10">
+                <StackPanel Height="80" Margin="10,5,16,0">
+                    <TextBlock FontSize="32" Foreground="#00ffcc" FontFamily="Arial Rounded MT Bold">11:25 PM</TextBlock>
+                    <TextBlock FontSize="22" Foreground="White" FontFamily="Arial Rounded MT Bold">Martes, 4 Abril 2023</TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Width="10" Height="80" Background="#00ffcc" Margin="239,-80,0,0" CornerRadius="0,4,4,0"/>
+
+        </StackPanel>
+
+        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="parentFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
+        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
+        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame1" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
+
+        <StackPanel x:Name="stTools" Margin="10" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Border Width="32" Height="31" CornerRadius="5" Background="Black" Opacity="0.6">
+                <StackPanel>
+                    <materialDesign:PackIcon Width="32" Height="32" Foreground="White" Kind="Apps" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </Page>

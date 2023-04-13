@@ -25,6 +25,7 @@ namespace MiliSoftware.Login.Controller
 
         private bool OnLogin()
         {
+            /*
             error = null;
             WebServices.WebPostService webPostService = new WebServices.WebPostService("http://localhost:3000/api/auth/signin");
             string result = webPostService.PostJson(new {
@@ -43,6 +44,8 @@ namespace MiliSoftware.Login.Controller
                 error = jObject;
                 return false;
             }
+            */
+            return true;
         }
 
         public Newtonsoft.Json.Linq.JObject GetError() {

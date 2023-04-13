@@ -8,29 +8,30 @@
 using Newtonsoft.Json.Linq;
 using MiliSoftware.SqlLite;
 
-namespace MiliSoftware.Objects.Inventory
+namespace MiliSoftware
 {
     [SqlTable("Products")]
     public class Product : IJsonObject
     {
-        [SqlField(SqlFieldType.Integer)]
-        public uint ID { get; protected set; }
+        // product data
+        [SqlField(SqlFieldType.Text)]
+        public string _id { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Code { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public uint Type { get; protected set; }
+        public int Type { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public uint Group { get; protected set; }
+        public int Group { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Name { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Barcode { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public uint UnitOfMeasurement { get; protected set; }
+        public int UnitOfMeasurement { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public uint TaxClassification { get; protected set; }
+        public int TaxClassification { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public uint Store { get; protected set; }
+        public int Store { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Picture { get; protected set; }
         [SqlField(SqlFieldType.Text)]
@@ -62,10 +63,17 @@ namespace MiliSoftware.Objects.Inventory
         public string Key5 { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Value5 { get; protected set; }
+        // equivalent products
+        [SqlTableRef("EquivalentProducts", SqlTableRefType.Array)]
+        public EquivalentProduct[] EquivalentProducts { get; protected set; }
+        // product components
+        [SqlTableRef("ProductComponents", SqlTableRefType.Array)]
+        public ProductComponent[] ProductComponents { get; protected set; }
 
-        public Product(string Code, uint Type, uint Group, string Name, string Barcode, uint UnitOfMeasurement, uint TaxClassification,
-         uint Store, string Picture, string Description, bool SaveImage, string Key0, string Value0, string Key1, string Value1, string Key2,
-         string Value2, string Key3,  string Value3, string Key4, string Value4,string Key5, string Value5)
+        public Product(string Code, int Type, int Group, string Name, string Barcode, int UnitOfMeasurement, int TaxClassification,
+         int Store, string Picture, string Description, bool SaveImage, string Key0, string Value0, string Key1, string Value1, string Key2,
+         string Value2, string Key3,  string Value3, string Key4, string Value4,string Key5, string Value5, 
+         EquivalentProduct[] EquivalentProducts, ProductComponent[] ProductComponents)
         {
             this.Code = Code;
             this.Type = Type;
@@ -91,23 +99,30 @@ namespace MiliSoftware.Objects.Inventory
             this.Value4 = Value4;
             this.Key5 = Key5;
             this.Value5 = Value5;
+            // equivalent products
+            this.EquivalentProducts = EquivalentProducts;
+            // product components
+            this.ProductComponents = ProductComponents;
         }
+
+        public Product(){}
 
         public void FromJson(string json)
         {
             JObject jObject = JObject.Parse(json);
-            ID = jObject.Value<uint>(nameof(ID));
+            _id = jObject.Value<string>(nameof(_id));
             Code = jObject.Value<string>(nameof(Code));
-            Type = jObject.Value<uint>(nameof(Type));
-            Group = jObject.Value<uint>(nameof(Group));
+            Type = jObject.Value<int>(nameof(Type));
+            Group = jObject.Value<int>(nameof(Group));
             Name = jObject.Value<string>(nameof(Name));
             Barcode = jObject.Value<string>(nameof(Barcode));
-            UnitOfMeasurement = jObject.Value<uint>(nameof(UnitOfMeasurement));
-            TaxClassification = jObject.Value<uint>(nameof(TaxClassification));
-            Store = jObject.Value<uint>(nameof(Store));
+            UnitOfMeasurement = jObject.Value<int>(nameof(UnitOfMeasurement));
+            TaxClassification = jObject.Value<int>(nameof(TaxClassification));
+            Store = jObject.Value<int>(nameof(Store));
             Picture = jObject.Value<string>(nameof(Picture));
             Description = jObject.Value<string>(nameof(Description));
             SaveImage = jObject.Value<bool>(nameof(SaveImage));
+
             // key value group
             Key0 = jObject.Value<string>(nameof(Key0));
             Value0 = jObject.Value<string>(nameof(Value0));
@@ -121,6 +136,41 @@ namespace MiliSoftware.Objects.Inventory
             Value4 = jObject.Value<string>(nameof(Value4));
             Key5 = jObject.Value<string>(nameof(Key5));
             Value5 = jObject.Value<string>(nameof(Value5));
+
+            // equivalent products 
+            if (jObject.Value<JArray>(nameof(EquivalentProduct)) == null) EquivalentProducts = null;
+            else
+            {
+                JArray equivalens = jObject.Value<JArray>(nameof(EquivalentProducts));
+                EquivalentProducts = new EquivalentProduct[equivalens.Count];
+
+                for (int i = 0; i < EquivalentProducts.Length; i++)
+                {
+                    JObject equivalent = (JObject)equivalens[i];
+                    EquivalentProducts[i] = new EquivalentProduct(
+                        equivalent.Value<string>(nameof(EquivalentProduct._id)),
+                        equivalent.Value<string>(nameof(EquivalentProduct.Code)),
+                        equivalent.Value<string>(nameof(EquivalentProduct.Name)));
+                }
+            }
+
+            // product components
+            if (jObject.Value<JArray>(nameof(ProductComponents)) == null) ProductComponents = null;
+            else
+            {
+                JArray productComponents = jObject.Value<JArray>(nameof(ProductComponents));
+                ProductComponents = new ProductComponent[productComponents.Count];
+
+                for (int i = 0; i < ProductComponents.Length; i++)
+                {
+                    JObject productComponent = (JObject)productComponents[i];
+                    ProductComponents[i] = new ProductComponent(
+                        productComponent.Value<string>(nameof(ProductComponent._id)),
+                        productComponent.Value<string>(nameof(ProductComponent.Code)),
+                        productComponent.Value<string>(nameof(EquivalentProduct.Name)),
+                        productComponent.Value<int>(nameof(ProductComponent.Amount)));
+                }
+            }
         }
 
         public string ToJson()
@@ -137,6 +187,7 @@ namespace MiliSoftware.Objects.Inventory
             jObject.Add(nameof(Picture), Picture);
             jObject.Add(nameof(Description), Description);
             jObject.Add(nameof(SaveImage), SaveImage);
+
             // key value group
             jObject.Add(nameof(Key0), Key0);
             jObject.Add(nameof(Value0), Value0);
@@ -150,6 +201,37 @@ namespace MiliSoftware.Objects.Inventory
             jObject.Add(nameof(Value4), Value4);
             jObject.Add(nameof(Key5), Key5);
             jObject.Add(nameof(Value5), Value5);
+
+            // equivalent products 
+            if (EquivalentProducts == null) jObject.Add(nameof(EquivalentProducts), null);
+            else
+            {
+                JArray equivalens = new JArray();
+                foreach (EquivalentProduct equivalent in EquivalentProducts)
+                {
+                    JObject o_equivalent = new JObject();
+                    o_equivalent.Add(nameof(EquivalentProduct._id), equivalent._id);
+                    o_equivalent.Add(nameof(EquivalentProduct.Code), equivalent.Code);
+                    equivalens.Add(o_equivalent);
+                }
+                jObject.Add(nameof(EquivalentProducts), equivalens);
+            }
+
+            // product components
+            if (ProductComponents == null) jObject.Add(nameof(ProductComponents), null);
+            else
+            {
+                JArray components = new JArray();
+                foreach (ProductComponent productComponent in ProductComponents)
+                {
+                    JObject o_productComponent = new JObject();
+                    o_productComponent.Add(nameof(ProductComponent._id), productComponent._id);
+                    o_productComponent.Add(nameof(ProductComponent.Code), productComponent.Code);
+                    o_productComponent.Add(nameof(ProductComponent.Amount), productComponent.Amount);
+                    components.Add(o_productComponent);
+                }
+                jObject.Add(nameof(ProductComponents), components);
+            }
 
             return jObject.ToString();
         }

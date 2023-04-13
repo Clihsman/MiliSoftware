@@ -50,13 +50,15 @@ namespace MiliSoftware.Views.Inventory
             RemoveFromExistingProducts();
         }
 
+        #region Functions
+
         private void RemoveFromExistingProducts()
         {
             foreach (dynamic product in products.ToArray())
             {
                 foreach (dynamic component in lvEquivalentProducts.Items)
                 {
-                    if (product.Codigo == component.Codigo)
+                    if (product.Code == component.Code)
                         products.Remove(product);
                 }
             }
@@ -92,15 +94,17 @@ namespace MiliSoftware.Views.Inventory
             //************
 
             // List View Products
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Codigo") });
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Nombre") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Name") });
             //************
 
             // List View Products Components
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Codigo") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Nombre") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Name") });
             //************
         }
+
+        #endregion
 
         #region Events
 
@@ -139,16 +143,9 @@ namespace MiliSoftware.Views.Inventory
 
         private void btRemoveClick(object sender, EventArgs e)
         {
-            dynamic product = lvEquivalentProducts.SelectedItem;
+            EquivalentProduct product = (EquivalentProduct)lvEquivalentProducts.SelectedItem;
 
-            string codigo = product.Codigo;
-            string nombre = product.Nombre;
-
-            DObject dObject = new DObject(new Dictionary<string, object>() {
-                        {"Codigo", codigo },
-                        {"Nombre", nombre }});
-
-            products.Add(dObject);
+            products.Add(product);
             lvProducts.ItemsSource = null;
             lvProducts.ItemsSource = products;
 
@@ -169,7 +166,7 @@ namespace MiliSoftware.Views.Inventory
 
                 foreach (dynamic product in products)
                 {
-                    if (product.Codigo == search || product.Nombre.ToUpper().Contains(search))
+                    if (product.Code == search || product.Name.ToUpper().Contains(search))
                     {
                         achieved.Add(product);
                     }
@@ -203,11 +200,11 @@ namespace MiliSoftware.Views.Inventory
 
         public object[] GetValues()
         {
-            List<DObject> equivalents = new List<DObject>();
+            List<EquivalentProduct> equivalents = new List<EquivalentProduct>();
 
-            foreach (DObject equivalent in lvEquivalentProducts.Items)
+            foreach (EquivalentProduct equivalent in lvEquivalentProducts.Items)
             {
-                equivalents.Add(equivalent);
+                equivalents.Add(new EquivalentProduct(equivalent._id, equivalent.Code, equivalent.Name));
             }
 
             return equivalents.ToArray();

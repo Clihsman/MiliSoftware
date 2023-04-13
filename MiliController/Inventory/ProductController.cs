@@ -7,7 +7,6 @@
 
 using GrapInterCom.Interfaces.Inventory;
 using MiliSoftware.Model.WebServices;
-using MiliSoftware.Objects.Inventory;
 using MiliSoftware.WebServices;
 using MiliWebService.WebServices;
 using System;
@@ -39,6 +38,27 @@ namespace MiliSoftware.Inventory
         /// <param name="data">Datos del cliente a crear</param>
         public bool Create(Product product)
         {
+            SqlLite.SqlLiteDatabase database = new SqlLite.SqlLiteDatabase();
+            database.Open();
+            SqlLite.SqlSchema sqlSchema = (new SqlLite.SqlLoader()).LoadSqlSchema(typeof(Product));
+            if (sqlSchema.SqlTable.TableName == "Products")
+            {
+
+
+                sqlSchema.Save(database, sqlSchema.GetDataArray(product));
+                /*
+                foreach (var item in sqlSchema.FindOne<AccountingSeat>(database, "3a0a4852650c000000000000").AccountingPositions)
+                {
+                    Console.WriteLine(item.Description);
+                }*/
+                /*
+                AccountingPosition accountingPosition = new AccountingPosition();
+                accountingPosition.Description = "Venta del señor luis";
+                sqlSchema.Save(database, "DC001", DateTime.Now, "DCAD444", "15421", 30, 30499354, 0, 0, 0, new object[] { accountingPosition, accountingPosition, accountingPosition });
+                */
+            }
+            database.Close();
+            /*
              WebPostService webPostService = new WebPostService("http://localhost/apirest/products");
              Console.WriteLine(webPostService.PostJson(product.ToJson()));      
 
@@ -53,6 +73,8 @@ namespace MiliSoftware.Inventory
 
             // Console.WriteLine(webPostService.PostStream(image, hash + ".png", WebFileFormat.PNG));
             //  throw new System.NotImplementedException();
+            */
+
             return true;
         }
 

@@ -8,8 +8,6 @@
 using MiliSoftware.SqlLite;
 using MiliSoftware.Model.WebServices;
 using MiliSoftware.UI;
-using MiliWebService.WebServices;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace MiliSoftware.Customers
