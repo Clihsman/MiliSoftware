@@ -18,6 +18,7 @@ namespace MiliSoftware
         public static dynamic PageSupplier;
         public static dynamic PageEmail;
         public static dynamic PageLogin;
+        public static dynamic PageUnitOfMeasurement;
 
         public static void Init()
         {
@@ -55,6 +56,7 @@ namespace MiliSoftware
             PageSupplier = value[7];
             PageEmail = value[8];
             PageLogin = value[9];
+            PageUnitOfMeasurement = value[10];
         }
 
         private static void EnUS() {
@@ -266,7 +268,7 @@ namespace MiliSoftware
         private static void EsCO()
         {
 
-            object[] data = new object[10];
+            object[] data = new object[11];
 
             // MainWindow
             data[0] = new
@@ -487,6 +489,16 @@ namespace MiliSoftware
                 contentBtnExit = "Cerrar",
                 toolTipBtnHelp = "Teniendo problemas para iniciar sesión?",
                 toolTipBtnExit = "Salir de la Aplicación"
+            };
+
+
+            // PageUnitOfMeasurement
+            data[10] = new
+            {
+                toolTipBtnNew = "Nueva unidad de medida",
+                toolTipBtnDelete = "Eliminar unidad de medida",
+                toolTipBtnEdit = "Editar unidad de medida",
+                toolTipBtnExport = "Exportar datos"
             };
 
             MiliFileEngine.src.Resources.MiliResources.Externs.SetString(MiliFileEngine.src.Resources.ResHash.GetHash("es-CO"), Newtonsoft.Json.JsonConvert.SerializeObject(data));

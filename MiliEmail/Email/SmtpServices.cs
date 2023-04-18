@@ -8,10 +8,11 @@
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Collections.Generic;
+using System;
 
 namespace MilISoftware.Email
 {
-    public class SmtpServices
+    public class SmtpServices : IDisposable
     {
         private SmtpClient smtpClient;
 
@@ -86,5 +87,20 @@ namespace MilISoftware.Email
             smtpClient.Disconnect(true);
             smtpClient.Dispose();
         }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                if (smtpClient != null) smtpClient.Dispose();
+            }
+        }
+
     }
 }

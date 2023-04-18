@@ -90,9 +90,15 @@ namespace MiliSoftware.SqlLite
         /// <summary>
         /// Libera los recursos usados
         /// </summary>
+
         public void Dispose()
         {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
         }
     }
 }

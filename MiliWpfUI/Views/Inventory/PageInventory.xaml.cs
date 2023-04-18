@@ -103,7 +103,13 @@ namespace MiliSoftware.Views.Inventory
 
         public void Close()
         {
-            throw new NotImplementedException();
+            OnClosed?.Invoke(this, new EventArgs());
+            lvCustomers.ItemsSource = null;
+            progBar.Visibility = Visibility.Hidden;
+            lvHeaders.Columns.Clear();
+            OnClosed?.Invoke(this, new EventArgs());
+            GC.SuppressFinalize(this);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
 
         public object GetGUI()

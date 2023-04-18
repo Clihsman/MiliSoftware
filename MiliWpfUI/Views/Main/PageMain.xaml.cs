@@ -3,6 +3,7 @@ using MiliSoftware.Customers;
 using MiliSoftware.Email;
 using MiliSoftware.Inventory;
 using MiliSoftware.Suppliers;
+using MiliSoftware.UI;
 using MiliSoftware.Views.Customers;
 using MiliSoftware.Views.Debug;
 using MiliSoftware.Views.Email;
@@ -33,11 +34,12 @@ namespace MiliSoftware.Views.Main
     public partial class PageMain : Page
     {
         private Thread thread;
-        public static MainWindow Instace { private set; get; }
+        public static PageMain Instace { private set; get; }
 
         private const string TITLE = "MiliSoftware";
 
         // pages
+        private IGUIEvents iGUI;
         private PageInventory pageInventory = null;
         private PageCustomers pageCustomers = null;
         private PageSuppliers pageSuppliers = null;
@@ -95,6 +97,83 @@ namespace MiliSoftware.Views.Main
             btHelp.MouseDown += btHetpClick;
             btHome.MouseDown += btHomeClick;
 
+            // Containers
+
+            int puntero = 0;
+            bool playSound = false;
+            string[] musics = System.IO.Directory.GetFiles(@"F:\antiguop\Nueva carpeta (2)","*.mp3");
+
+            meMedia.Source = new Uri(musics[puntero]);
+
+            mcBtNext.MouseDown += (o, e) => {
+                if (puntero < musics.Length) puntero++;
+                else puntero = 0;
+
+                if(System.IO.File.Exists(musics[puntero]))
+                    mcTbTitle.Text = System.IO.Path.GetFileName(musics[puntero]);
+
+                meMedia.Source = new Uri(musics[puntero]);
+            };
+
+            mcBtPrevious.MouseDown += (o, e) => {
+                if (puntero > 0) puntero--;
+                else puntero = musics.Length - 1;
+
+                if (System.IO.File.Exists(musics[puntero]))
+                    mcTbTitle.Text = System.IO.Path.GetFileName(musics[puntero]);
+
+                meMedia.Source = new Uri(musics[puntero]);
+            };
+
+            meMedia.MediaOpened += (o, e) => {
+                mePgMedia.Maximum = TimeSpan.FromSeconds(meMedia.NaturalDuration.TimeSpan.TotalSeconds).TotalSeconds;
+            };
+
+            mcBtPausePlay.MouseDown += (o,e) => {
+                if (mcBtPausePlay.Kind == PackIconKind.Play)
+                {
+                    playSound = true;
+                    Task.Run(() => {
+                        while (playSound)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                mePgMedia.Value = meMedia.Position.TotalSeconds;
+                            });
+                            Thread.Sleep(50);
+                        }
+                    });
+
+                    meMedia.Play();
+                    mcBtPausePlay.Kind = PackIconKind.Pause;
+
+                    mcTbTitle.Text = System.IO.Path.GetFileName(musics[puntero]);
+
+                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(1, 1);
+                    System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap);
+                    var width = graphics.MeasureString(mcTbTitle.Text, new System.Drawing.Font(mcTbTitle.FontFamily.Source, (float)mcTbTitle.FontSize)).Width / 2;
+                    
+                    ThicknessAnimation animation = new ThicknessAnimation(
+                        new Thickness(-(width + 90), 0, 0, 0),
+                        new Thickness(width - 50, 0, 0, 0),
+                        new Duration(new TimeSpan(0, 0, 0, 20, 0)));
+                    
+                    animation.Completed += delegate
+                    {
+                        mcTbTitle.BeginAnimation(MarginProperty, animation);
+                    };
+                    mcTbTitle.BeginAnimation(MarginProperty, animation);
+                }
+                else
+                {
+                    playSound = false;
+                    meMedia.Pause();
+                    mcBtPausePlay.Kind = PackIconKind.Play;
+                }
+            };
+
+            //***********
+
             foreach (Control control in stMenuBar.Children)
             {
                 control.MouseEnter += PackIcon_MouseEnter;
@@ -110,6 +189,7 @@ namespace MiliSoftware.Views.Main
 
         private void btHetpClick(object sender, MouseButtonEventArgs e)
         {
+            parentFrame.Content = new PageUnitOfMeasurement();
         }
 
         private void loadLanguaje()
@@ -136,7 +216,14 @@ namespace MiliSoftware.Views.Main
 
         private void btInventoryClick(object sender, RoutedEventArgs e)
         {
+            if (iGUI != null)
+            {
+                iGUI.Close();
+                iGUI = null;
+            }
+
             pageInventory = new PageInventory(parentFrame);
+            iGUI = pageInventory;
             Title = string.Format("{0}@{1}", TITLE, languaje.MainWindow.toolTipInventory);
             InventoryController inventoryController = new InventoryController(pageInventory);
             UpdateButtonChecked((PackIcon)sender);
@@ -144,26 +231,28 @@ namespace MiliSoftware.Views.Main
 
         private void btCustomersClick(object sender, RoutedEventArgs e)
         {
-            if (pageCustomers != null)
+            if (iGUI != null)
             {
-                pageCustomers.Close();
-                pageCustomers = null;
+                iGUI.Close();
+                iGUI = null;
             }
 
             pageCustomers = new PageCustomers(parentFrame);
+            iGUI = pageCustomers;
             ClientController clientController = new ClientController(pageCustomers);
             UpdateButtonChecked((PackIcon)sender);
         }
 
         private void btSuppliersClick(object sender, RoutedEventArgs e)
         {
-            if (pageSuppliers != null)
+            if (iGUI != null)
             {
-                pageSuppliers.Close();
-                pageSuppliers = null;
+                iGUI.Close();
+                iGUI = null;
             }
 
             pageSuppliers = new PageSuppliers(parentFrame);
+            iGUI = pageSuppliers;
             SuppliersController suppliersController = new SuppliersController(pageSuppliers);
             UpdateButtonChecked((PackIcon)sender);
 
@@ -171,19 +260,26 @@ namespace MiliSoftware.Views.Main
 
         private void btEmailClick(object sender, MouseButtonEventArgs e)
         {
-            if (pageEmails != null)
+            if (iGUI != null)
             {
-                pageEmails.Close();
-                pageEmails = null;
+                iGUI.Close();
+                iGUI = null;
             }
 
             pageEmails = new PageEmails(parentFrame);
+            iGUI = pageEmails;
             EmailsController emailController = new EmailsController(pageEmails);
             UpdateButtonChecked((PackIcon)sender);
         }
 
         private void btHomeClick(object sender, MouseButtonEventArgs e)
         {
+            if (iGUI != null)
+            {
+                iGUI.Close();
+                iGUI = null;
+            }
+
             parentFrame.Content = null;
             dialogFrame.Content = null;
             dialogFrame1.Content = null;

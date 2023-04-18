@@ -1,11 +1,8 @@
 ﻿using MiliSoftware.Model.WebServices;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MiliSoftware.WebServices
 {
@@ -13,6 +10,7 @@ namespace MiliSoftware.WebServices
     {
         private HttpWebRequest webRequest;
         private readonly string uri;
+        private bool disposed;
 
         public WebPostService(string uri)
         {
@@ -36,7 +34,6 @@ namespace MiliSoftware.WebServices
             {
                 writer.Write(data);
                 writer.Flush();
-                writer.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -62,7 +59,6 @@ namespace MiliSoftware.WebServices
                 {
                     writer.Write(json);
                     writer.Flush();
-                    writer.Close();
                 }
 
                 try
@@ -122,7 +118,6 @@ namespace MiliSoftware.WebServices
             {
                 writer.Write(data);
                 writer.Flush();
-                writer.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -146,7 +141,6 @@ namespace MiliSoftware.WebServices
             {
                 stream.CopyTo(requestStream);
                 requestStream.Flush();
-                requestStream.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -168,7 +162,6 @@ namespace MiliSoftware.WebServices
             {
                 stream.CopyTo(requestStream);
                 requestStream.Flush();
-                requestStream.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -190,7 +183,6 @@ namespace MiliSoftware.WebServices
             {
                 requestStream.Write(buffer, 0, buffer.Length);
                 requestStream.Flush();
-                requestStream.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -212,7 +204,6 @@ namespace MiliSoftware.WebServices
             {
                 requestStream.Write(buffer,0, buffer.Length);
                 requestStream.Flush();
-                requestStream.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -252,8 +243,22 @@ namespace MiliSoftware.WebServices
             }
         }
 
-        public void Dispose() {
-          
+        /// <summary>
+        /// Libera los recursos
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                webRequest = null;
+                disposed = true;
+            }
         }
 
         #region Utils

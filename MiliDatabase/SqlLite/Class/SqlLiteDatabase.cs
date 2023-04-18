@@ -18,8 +18,10 @@ namespace MiliSoftware.SqlLite
     /// Esta clase se encarga de conectarse
     /// a la base de datos local SQlLite
     /// </summary>
-    public class SqlLiteDatabase
+    public class SqlLiteDatabase : IDisposable
     {
+        private bool disposed;
+
         /// <summary>
         /// Instacia de la base de datos SQlLite
         /// </summary>
@@ -65,7 +67,9 @@ namespace MiliSoftware.SqlLite
         /// </param>
         public void ExecuteNomQuery(string query)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(query, connection);
+#pragma warning restore CA2100
             command.ExecuteNonQuery();
             command.Dispose();
         }
@@ -78,7 +82,9 @@ namespace MiliSoftware.SqlLite
         /// </param>
         public void ExecuteNomQuery(string query, Dictionary<string, object> @params)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(query, connection);
+#pragma warning restore CA2100
             foreach (KeyValuePair<string, object> param in @params)
             {
                 SQLiteParameter parameter = new SQLiteParameter();
@@ -113,7 +119,9 @@ namespace MiliSoftware.SqlLite
         /// </param>
         public int ExecuteNomQueryID(string query, Dictionary<string, object> @params)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(query, connection);
+#pragma warning restore CA2100
             foreach (KeyValuePair<string, object> param in @params)
             {
                 SQLiteParameter parameter = new SQLiteParameter();
@@ -134,7 +142,9 @@ namespace MiliSoftware.SqlLite
         /// </param>
         public int GetRowCount(string tableName)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(string.Format("SELECT count(*) FROM {0};", tableName), connection);
+#pragma warning restore CA2100
             SQLiteDataReader reader = command.ExecuteReader();
             reader.Read();
             int id = reader.GetInt32(0);
@@ -154,7 +164,9 @@ namespace MiliSoftware.SqlLite
         /// </returns>
         public List<object[]> ExecuteQuery(string query)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(query, connection);
+#pragma warning restore CA2100
             var reader = command.ExecuteReader();
             List<object[]> data = new List<object[]>();
 
@@ -186,9 +198,10 @@ namespace MiliSoftware.SqlLite
         public Dictionary<string, object>[] ExecuteQueryD(string query, Dictionary<string, object> @params)
         {
             List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
-
+#pragma warning disable CA2100
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
+#pragma warning restore CA2100
                 foreach (KeyValuePair<string, object> param in @params)
                 {
                     SQLiteParameter parameter = new SQLiteParameter();
@@ -229,9 +242,10 @@ namespace MiliSoftware.SqlLite
         public Dictionary<string, object>[] ExecuteQueryD(string query)
         {
             List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
-
+#pragma warning disable CA2100
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
+#pragma warning restore CA2100
                 var reader = command.ExecuteReader();
                 int fieldCount = reader.FieldCount;
 
@@ -251,7 +265,6 @@ namespace MiliSoftware.SqlLite
             }
             return data.ToArray();
         }
-
         /// <summary>
         /// Metodo que crea la base de datos
         /// </summary>
@@ -282,6 +295,22 @@ namespace MiliSoftware.SqlLite
         private static string GetDatabasePath()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), "database.db");
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (connection != null) connection.Dispose();
+                connection = null;
+                disposed = true;
+            }
         }
     }
 }

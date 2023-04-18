@@ -17,6 +17,8 @@ namespace MiliSoftware.Model.WebServices
     /// </summary>
     public class RSAEncryptServices : RSAService, IRSAEncrypt, IDisposable
     {
+        private bool disposed = false;
+
         /// <summary>
         /// Codificación
         /// </summary>
@@ -122,11 +124,20 @@ namespace MiliSoftware.Model.WebServices
         /// </summary>
         public void Dispose()
         {
-            Key = null;
-            Password = null;
-            Encoding = null;
-            ServiceProvider.Dispose();
-            ServiceProvider = null;
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed) {
+                Key = null;
+                Password = null;
+                Encoding = null;
+                ServiceProvider.Dispose();
+                ServiceProvider = null;
+                disposed = true;
+            }
         }
     }
 }

@@ -433,10 +433,5 @@ namespace MiliSoftware.Views.Inventory
             const string Prefijo = "BBC*";
             tbCode.Text = Prefijo;
         }
-
-        IGUI<Product, string, string, string> IGUI<Product, string, string, string>.GetParent()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

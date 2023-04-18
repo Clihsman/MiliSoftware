@@ -87,8 +87,8 @@ namespace MiliSoftware
 
           //  Console.WriteLine(volumeMap.ToString());
 
-            Console.ReadKey();
-            Desmontar();
+        //    Console.ReadKey();
+          //  Desmontar();
         }
         
         [System.Runtime.InteropServices.DllImport("kernel32")]

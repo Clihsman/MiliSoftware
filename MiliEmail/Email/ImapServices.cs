@@ -10,14 +10,16 @@ using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
 using System.Collections.Generic;
+using System;
 
 namespace MilISoftware.Email
 {
-    public class ImapServices
+    public class ImapServices : IDisposable
     {
         private MimeMessage[] messages;
         private List<Dictionary<string, object>> emails;
         private ImapClient imapClient;
+        private bool disposed;
 
         public bool Connect(string host, int port, string userName, string password, SecureSocketOptions secureSocket) {
             try
@@ -215,6 +217,24 @@ namespace MilISoftware.Email
             imapClient.Disconnect(true);
             imapClient.Dispose();
             imapClient = null;
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                messages = null;
+                emails = null;
+                imapClient.Dispose();
+                imapClient = null;
+                disposed = true;
+             }
         }
     }
 }

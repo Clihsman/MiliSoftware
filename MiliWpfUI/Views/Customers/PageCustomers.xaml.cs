@@ -39,15 +39,14 @@ namespace MiliSoftware.Views.Customers
         {
             InitializeComponent();
             this.parent = parent;
+            LoadEvents();
+            LoadLanguage();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             progBar.Visibility = Visibility.Visible;
             stTools.Visibility = Visibility.Hidden;
-            LoadEvents();
-            LoadLanguage();
-
             new Thread(new ThreadStart(delegate
             {
                 LoadData();
@@ -71,6 +70,8 @@ namespace MiliSoftware.Views.Customers
             })).Start();       
         }
 
+        #region Functions
+
         private void LoadLanguage()
         {
             tbSearch.SetValue(MaterialDesignThemes.Wpf.HintAssist.HintProperty, languaje.PageCustomers.hintTbSearch);
@@ -93,6 +94,7 @@ namespace MiliSoftware.Views.Customers
 
         private void LoadEvents()
         {
+            Loaded += Page_Loaded;
             lvCustomers.SelectionChanged += lvCustomersSelectItem;
             btNew.Click += btNewClick;
             btSearch.Click += btSearchClick;
@@ -101,14 +103,15 @@ namespace MiliSoftware.Views.Customers
             btDelete.Click += btDeleteClick;
             btEdit.Click += btEditClick;
             btExport.Click += btExportClick;
-
-            tbSearch.TextChanged += btSearchClick;
+            tbSearch.KeyDown += (o,e)=> { if (e.Key == Key.Enter) btSearchClick(o, e); };
         }
 
         private void LoadData()
         {
-             customers = (DObject[])controller.Read(null);
+            customers = (DObject[])controller.Read(null);
         }
+
+        #endregion
 
         #region Codigo Prueba
 
@@ -299,8 +302,11 @@ namespace MiliSoftware.Views.Customers
             lvCustomers.ItemsSource = null;
             progBar.Visibility = Visibility.Hidden;
             lvHeaders.Columns.Clear();
+            GC.SuppressFinalize(customers);
             customers = null;
             OnClosed?.Invoke(this, new EventArgs());
+            GC.SuppressFinalize(this);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
 
         public int GetWidth()

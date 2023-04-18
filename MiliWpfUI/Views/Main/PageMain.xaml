@@ -279,6 +279,32 @@
 
         </StackPanel>
 
+        <StackPanel x:Name="stMedia" Grid.Row="1" Width="250" Height="100" HorizontalAlignment="Right" Opacity="0.8" VerticalAlignment="Top" Margin="15,110">
+            <MediaElement x:Name="meMedia" UnloadedBehavior="Close" Volume="{Binding Path=Value, ElementName=meSlVolume}" LoadedBehavior="Manual" Visibility="Hidden"/>
+
+            <Border Width="250" Height="100" Background="#444444" CornerRadius="10,5,5,10">
+                <StackPanel Height="100" Margin="10,5,16,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="28" Foreground="#00ffcc" FontFamily="Arial Rounded MT Bold">MiliMedia</TextBlock>
+                        <materialDesign:PackIcon x:Name="mcBtPrevious" Margin="20,5,0,0" Width="25" Height="25" Foreground="White" Kind="PreviousTitle" />
+                        <materialDesign:PackIcon x:Name="mcBtPausePlay" Margin="0,5,0,0" Width="25" Height="25" Foreground="White" Kind="Play" />
+                        <materialDesign:PackIcon x:Name="mcBtNext" Margin="0,5,0,0" Width="25" Height="25" Foreground="White" Kind="NextTitle" />
+                    </StackPanel>
+                    <StackPanel Margin="0,6" Orientation="Horizontal">
+                        <StackPanel Width="145" Margin="0,0,5,0">
+                            <TextBlock x:Name="mcTbTitle" Margin="0,0,0,0" FontSize="18" Foreground="White" FontFamily="Arial Rounded MT Bold"></TextBlock>
+                        </StackPanel>
+                        
+                        <Slider x:Name="meSlVolume" Width="70" Maximum="1" Value="0.5"></Slider>
+                     </StackPanel>
+                            <!--TextBlock FontSize="22" Foreground="White" FontFamily="Arial Rounded MT Bold">No es Como yo</-->
+                    <ProgressBar  x:Name="mePgMedia" Margin="0,1" Height="10"/>
+                </StackPanel>
+            </Border>
+            <Border Width="10" Height="100" Background="#00ffcc" Margin="239,-100,0,0" CornerRadius="0,4,4,0"/>
+
+        </StackPanel>
+
         <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="parentFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
         <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
         <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame1" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>

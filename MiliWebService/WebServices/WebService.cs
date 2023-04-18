@@ -93,7 +93,6 @@ namespace MiliSoftware.Model.WebServices
 
                 data.CopyTo(stream);
                 stream.Flush();
-                stream.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -130,7 +129,6 @@ namespace MiliSoftware.Model.WebServices
             {
                 writer.Write(data);
                 writer.Flush();
-                writer.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -158,7 +156,6 @@ namespace MiliSoftware.Model.WebServices
             {
                 writer.Write(data);
                 writer.Flush();
-                writer.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();
@@ -185,7 +182,6 @@ namespace MiliSoftware.Model.WebServices
             {
                 writer.Write(data);
                 writer.Flush();
-                writer.Close();
             }
 
             WebResponse webResponse = webRequest.GetResponse();

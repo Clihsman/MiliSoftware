@@ -9,16 +9,11 @@ using System;
 
 namespace MiliSoftware.UI
 {
-    public interface IGUI<C, R, U, D> : IGUITransform, IGUIInfo
+    public interface IGUI<C, R, U, D> : IGUITransform, IGUIInfo, IGUIEvents
     {
         ICRUD<C, R, U, D> controller { get; set; }
         DialogResult DialogResult { get; set; }
         #region IGUI
-
-        void Show();
-        DialogResult ShowDialog();
-        IGUI<C, R, U, D> GetParent();
-        void Close();
 
         event EventHandler OnOpen;
         event EventHandler OnClosed;
