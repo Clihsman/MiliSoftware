@@ -210,6 +210,21 @@ namespace MiliSoftware.SqlLite
             return data.ToArray();
         }
 
+        public T[] Find<T>(SqlLiteDatabase database) where T : class
+        {
+            List<T> data = new List<T>();
+            Dictionary<string, object>[] values = database.ExecuteQueryD(string.Format("SELECT * FROM {0}", SqlTable.TableName));
+
+            foreach (Dictionary<string, object> value in values)
+            {
+                T instance = Activator.CreateInstance<T>();
+                SetDataArray(database, instance, value);
+                data.Add(instance);
+            }
+
+            return data.ToArray();
+        }
+
         public object[] Find(SqlLiteDatabase database,Type type, string _id)
         {
             List<object> data = new List<object>();

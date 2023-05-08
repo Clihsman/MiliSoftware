@@ -1,7 +1,12 @@
-﻿using System.Windows.Controls;
+﻿/***************************************
+ * Author : Clihsman Iscala            *
+ * Company : All Software Company      *
+ * Creation date : 17/12/2022          *
+ * Assembly : MiliWpfUI                *
+ * *************************************/
+
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Globalization;
-using System;
 
 namespace MiliSoftware.WpfUI
 {

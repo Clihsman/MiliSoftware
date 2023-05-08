@@ -66,7 +66,7 @@
     <Compile Include="Objects\Inventory\Product.cs" />
     <Compile Include="Objects\Inventory\ProductComponent.cs" />
     <Compile Include="Objects\IObjects\IJsonObject.cs" />
-    <Compile Include="Objects\Supplier\Address.cs" />
+    <Compile Include="Objects\Others\Address.cs" />
     <Compile Include="Objects\Supplier\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suppliers\SuppliersController.cs" />

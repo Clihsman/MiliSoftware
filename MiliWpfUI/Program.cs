@@ -189,7 +189,7 @@ namespace MiliSoftware
                 if (key == ConsoleKey.DownArrow)
                     unitOfMeasurement.Subtract(2, 1);
             }
-           // MiliSoftware.ControllerMain.Main(args);
+             MiliSoftware.ControllerMain.Main(args);
             //   Console.ReadKey();
             
             MiliWpfUI.App app = new MiliWpfUI.App();

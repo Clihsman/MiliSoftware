@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace MiliSoftware.Customers
 {
-    public sealed class ClientController : IController<string, object[], string, string>
+    public sealed class ClientController : IController<string, Client[], string, string>
     {
         #region Constucts
 
@@ -47,7 +47,7 @@ namespace MiliSoftware.Customers
         /// Metodo para Leer datos de un Cliente
         /// </summary>
         /// <param name="data">Datos del Cliente a Leer</param>
-        public object[] Read(object[] data)
+        public Client[] Read(Client[] data)
         {
             /*
             WebGetService webService = new WebGetService("http://localhost/apirest/clientes");
@@ -73,12 +73,18 @@ namespace MiliSoftware.Customers
             SqlLiteDatabase sqlLiteDatabase = new SqlLiteDatabase();
             sqlLiteDatabase.Open();
             
-            Dictionary<string, object>[] customers = sqlLiteDatabase.ExecuteQueryD("SELECT * FROM clientes");
+            Dictionary<string, object>[] customers = sqlLiteDatabase.ExecuteQueryD("SELECT * FROM clientes limit 100");
             sqlLiteDatabase.Close();
-            
-          //  return null;
 
-            return DObject.GetArray(customers);
+            SqlLiteDatabase database = new SqlLiteDatabase();
+            database.Open();
+            SqlLoader loader = new SqlLoader();
+            SqlSchema schema = loader.LoadSqlSchema(typeof(Client));
+            Client[] clients = schema.Find<Client>(database);
+            database.Close();
+            //  return null;
+
+            return clients;
         }
 
         /// <summary>

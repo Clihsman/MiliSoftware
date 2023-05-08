@@ -65,7 +65,7 @@ namespace MiliSoftware.Views.Customers
                    // Main.MainWindow.Instace.dialogFrame.Content = alert;       
                     progBar.Visibility = Visibility.Hidden;
                     stTools.Visibility = Visibility.Visible;
-                    lvCustomers.ItemsSource = customers;
+                 //   lvCustomers.ItemsSource = customers;
                 });
             })).Start();       
         }
@@ -141,10 +141,15 @@ namespace MiliSoftware.Views.Customers
 
         private void btNewClick(object o, EventArgs e)
         {
+            PageClient pageClient = new PageClient(Main.MainWindow.Instace.dialogFrame);
+            ClientController clientController = new ClientController(pageClient);
+
+            pageClient.Show();
+            /*
             DoubleAnimation animation = new DoubleAnimation(1, 0, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
 
             animation.Completed += delegate {
-                PageClient pageClient = new PageClient(parent) { Opacity = 0 };
+                PageClient pageClient = new PageClient(Main.MainWindow.Instace.dialogFrame) { Opacity = 0 };
                 ClientController clientController = new ClientController(pageClient);
 
                 DoubleAnimation animation2 = new DoubleAnimation(0, 1, new Duration(new TimeSpan(0, 0, 0, 0, 800)));
@@ -153,6 +158,7 @@ namespace MiliSoftware.Views.Customers
 
             };
             BeginAnimation(OpacityProperty, animation);
+            */
         }
 
         private void btSearchClick(object o, EventArgs e)

@@ -47,12 +47,13 @@ namespace MiliSoftware.Views.Suppliers
         {
             IntTextBox intDocument = new IntTextBox(tbDocument);
         }
-
+        /// <summary>
+        /// Este metodo se encarga de cargar el Idioma de la interfaz grafica
+        /// </summary>
         private void LoadLanguage()
         {
             // data supplier
             tbCode.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCode);
-            cbCategory.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCategory);
             cbCategory.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCategory);
             cbLineOfBusiness.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbLineOfBusiness);
             cbGrup.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbGrup);
@@ -78,19 +79,19 @@ namespace MiliSoftware.Views.Suppliers
             tbCelCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCelCode);
             tbContact2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbContact);
             // Amountry 0
-            cbAmountry0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
+            cbAmountry0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
             tbCondition0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
             tbDirection0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
             // Amountry 1
-            cbAmountry1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
+            cbAmountry1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
             tbCondition1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
             tbDirection1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
             // Amountry 2
-            cbAmountry2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbAmountry);
+            cbAmountry2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
             tbCondition2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
             tbCity2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
             tbPostalCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);

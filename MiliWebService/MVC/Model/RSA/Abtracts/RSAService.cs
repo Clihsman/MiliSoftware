@@ -4,7 +4,6 @@
  * Creation date : 16/11/2022          *
  * *************************************/
 
-using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
@@ -14,7 +13,7 @@ using System.Security.Cryptography;
 namespace MiliSoftware.Model.WebServices
 {
     /// <summary>
-    /// Esta clase permite obtener funciones para leer llaves
+    /// Esta clase permite obtener funciones para leer llaves del sevicio RSA
     /// </summary>
     public abstract class RSAService
     {
@@ -40,6 +39,7 @@ namespace MiliSoftware.Model.WebServices
                 PemReader pemReader;
 
                 RsaPrivateCrtKeyParameters keyParams = null;
+                
                 if (Password is null)
                 {
                     pemReader = new PemReader(stringReader);
