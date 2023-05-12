@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MiliSoftware.WebServices
 {
@@ -46,24 +47,23 @@ namespace MiliSoftware.WebServices
             return result;
         }
 
-        public string PostJson(string json)
+        public async Task<string> PostJson(string json)
         {
             string message = null;
             int statusCode = 404;
             webRequest.ContentType = "application/json;charset=UTF-8";
             HttpWebResponse webResponse = null;
-
             try
             {
-                using (StreamWriter writer = new StreamWriter(webRequest.GetRequestStream()))
+                Stream stream = await webRequest.GetRequestStreamAsync();
+                using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.Write(json);
                     writer.Flush();
                 }
-
                 try
                 {
-                    webResponse = (HttpWebResponse)webRequest.GetResponse();
+                    webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
                     statusCode = (int)webResponse.StatusCode;
                     message = GetString(webResponse);
                 }
@@ -92,8 +92,19 @@ namespace MiliSoftware.WebServices
                     message = ex.ToString();
                 }
             }
-            catch {
-
+            catch (WebException ex) {
+                webResponse = ex.Response as HttpWebResponse;
+                if (webResponse != null)
+                {
+                    message = GetString(webResponse);
+                    statusCode = (int)webResponse.StatusCode;
+                }
+                else
+                {
+                    statusCode = 404;
+                }
+               
+                message = ex.Message;
             }
 
             if (webResponse != null) webResponse.Dispose();
@@ -104,9 +115,9 @@ namespace MiliSoftware.WebServices
             });
         }
 
-        public string PostJson(object data)
+        public async Task<string> PostJson(object data)
         {
-            return PostJson(Newtonsoft.Json.JsonConvert.SerializeObject(data));
+            return await PostJson(Newtonsoft.Json.JsonConvert.SerializeObject(data));
         }
 
         public string PostJson(string[] data)
@@ -265,13 +276,15 @@ namespace MiliSoftware.WebServices
 
         private string GetString(WebResponse response) {
             string message = "";
-
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
                 message = reader.ReadToEnd().Trim();
             }
 
-            return message;
+            return GetJsonToObject(new {
+                contentType = response.ContentType,
+                data = message
+            });
         }
 
         private string GetJsonToObject(object obj) {

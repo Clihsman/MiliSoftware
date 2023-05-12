@@ -42,77 +42,15 @@ namespace MiliSoftware.Views.Inventory
             this.parent = parent;
         }
 
+        #region Events
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            tbAmount = new IntTextBox(tbCant);
-
-            products = new List<object>();
-            products.AddRange(controller.Read(null));
-
-            lvProducts.ItemsSource = products;
-
-            var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(800));
-            MySnackbar.MessageQueue = myMessageQueue;
-
+            LoadControls();
             LoadLanguage();
             LoadEvents();
             RemoveFromExistingProducts();
         }
-
-        private void RemoveFromExistingProducts()
-        {
-            foreach (dynamic product in products.ToArray())
-            {
-                foreach (dynamic component in lvProductsComponets.Items)
-                {
-                    if (product.Code == component.Code)
-                        products.Remove(product);
-                }
-            }
-
-            lvProducts.ItemsSource = null;
-            lvProducts.ItemsSource = products;
-        }
-
-        private void LoadEvents() {
-            lvProducts.SelectionChanged += lvProductsSelectItem;
-            lvProducts.MouseDoubleClick += lvProductMouseDoubleClick;
-            lvProducts.KeyDown += lvProductsKeyDown;
-            lvProductsComponets.SelectionChanged += lvProductsComponetsSelectItem;
-            btSearch.Click += btSearchClick;
-            btAdd.Click += btAddClick;
-            btRemove.Click += btRemoveClick;
-            btExit.Click += btExitClick;
-            btSave.Click += btSaveClick;
-        }
-
-        private void LoadLanguage()
-        {
-            // ToolBar
-            tbProducts.Text = languaje.PageProductComponents.textTbProducts;
-            tbProductsComponents.Text = languaje.PageProductComponents.textTbProductsComponents;
-            tbSearch.SetValue(HintAssist.HintProperty, languaje.PageProductComponents.hintTbSearch);
-            btSearch.ToolTip = languaje.PageProductComponents.toolTipBtSearchProduct;
-            tbCant.SetValue(HintAssist.HintProperty, languaje.PageProductComponents.hintTbCant);
-            btRemove.ToolTip = languaje.PageProductComponents.toolTipBtRemove;
-            btAdd.ToolTip = languaje.PageProductComponents.toolTipBtAdd;
-            btExit.ToolTip = languaje.PageProductComponents.toolTipBtExit;
-            btSave.ToolTip = languaje.PageProductComponents.toolTipBtSave;
-            //************
-
-            // List View Products
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
-            //************
-
-            // List View Products Components
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headAmount, DisplayMemberBinding = new Binding("Amount") });
-            //************
-        }
-
-        #region Events
 
         private void lvProductsSelectItem(object sender, SelectionChangedEventArgs e)
         {
@@ -208,6 +146,78 @@ namespace MiliSoftware.Views.Inventory
         {
             if (lvProducts.SelectedItem != null && e.Key == Key.Enter)
                 tbCant.Focus();
+        }
+
+        #endregion
+
+        #region Functions
+
+
+        private void RemoveFromExistingProducts()
+        {
+            foreach (dynamic product in products.ToArray())
+            {
+                foreach (dynamic component in lvProductsComponets.Items)
+                {
+                    if (product.Code == component.Code)
+                        products.Remove(product);
+                }
+            }
+
+            lvProducts.ItemsSource = null;
+            lvProducts.ItemsSource = products;
+        }
+
+        private void LoadEvents()
+        {
+            lvProducts.SelectionChanged += lvProductsSelectItem;
+            lvProducts.MouseDoubleClick += lvProductMouseDoubleClick;
+            lvProducts.KeyDown += lvProductsKeyDown;
+            lvProductsComponets.SelectionChanged += lvProductsComponetsSelectItem;
+            btSearch.Click += btSearchClick;
+            btAdd.Click += btAddClick;
+            btRemove.Click += btRemoveClick;
+            btExit.Click += btExitClick;
+            btSave.Click += btSaveClick;
+        }
+
+        private void LoadLanguage()
+        {
+            // ToolBar
+            tbProducts.Text = languaje.PageProductComponents.textTbProducts;
+            tbProductsComponents.Text = languaje.PageProductComponents.textTbProductsComponents;
+            tbSearch.SetValue(HintAssist.HintProperty, languaje.PageProductComponents.hintTbSearch);
+            btSearch.ToolTip = languaje.PageProductComponents.toolTipBtSearchProduct;
+            tbCant.SetValue(HintAssist.HintProperty, languaje.PageProductComponents.hintTbCant);
+            btRemove.ToolTip = languaje.PageProductComponents.toolTipBtRemove;
+            btAdd.ToolTip = languaje.PageProductComponents.toolTipBtAdd;
+            btExit.ToolTip = languaje.PageProductComponents.toolTipBtExit;
+            btSave.ToolTip = languaje.PageProductComponents.toolTipBtSave;
+            //************
+
+            // List View Products
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
+            //************
+
+            // List View Products Components
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headAmount, DisplayMemberBinding = new Binding("Amount") });
+            //************
+        }
+
+        private void LoadControls()
+        {
+            tbAmount = new IntTextBox(tbCant);
+
+            products = new List<object>();
+            products.AddRange(controller.Read(null));
+
+            lvProducts.ItemsSource = products;
+
+            var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(800));
+            MySnackbar.MessageQueue = myMessageQueue;
         }
 
         #endregion

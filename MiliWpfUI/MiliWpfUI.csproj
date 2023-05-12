@@ -171,6 +171,7 @@
     <Compile Include="Views\Controls\PercentageTextBox.cs" />
     <Compile Include="Views\Controls\IntTextBox .cs" />
     <Compile Include="Views\Controls\DecimalTextBox.cs" />
+    <Compile Include="Views\Controls\SymbolTextBox.cs" />
     <Compile Include="Views\Customers\PageClient.xaml.cs">
       <DependentUpon>PageClient.xaml</DependentUpon>
     </Compile>
@@ -374,6 +375,10 @@
     <ProjectReference Include="..\MiliController\MiliController.csproj">
       <Project>{fd326a0c-072d-4097-b2c0-270a72934880}</Project>
       <Name>MiliController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiliModels\MiliModels.csproj">
+      <Project>{9d35b025-bc80-49f1-b230-e4b62438e83a}</Project>
+      <Name>MiliModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiliWebService\MiliWebService.csproj">
       <Project>{c29a251b-73d0-4fbc-b51a-af039573dcf0}</Project>

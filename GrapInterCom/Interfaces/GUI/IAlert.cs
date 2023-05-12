@@ -1,15 +1,14 @@
 ﻿/***************************************
  * Author : Clihsman Iscala            *
  * Company : All Software Company      *
- * Creation date : 09/05/2023          *
- * Assembly : MiliWpfUI                *
+ * Creation date : 13/04/2023          *
+ * Assembly : GrapInterCom             *
  * *************************************/
 
 namespace MiliSoftware.UI
 {
-    public interface ILoginGUI
+    public  interface IAlert
     {
-        string GetUserEmail();
-        string GetUserPassword();
+
     }
 }

@@ -1,7 +1,9 @@
 ﻿using MiliSoftware.WpfUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,24 +23,49 @@ namespace MiliSoftware.Views.Inventory.UnitOfMeasurement
     /// </summary>
     public partial class PageNewUnitOfMeasurement : Page
     {
+        private SymbolTextBox SymbolTextBox;
+
         public PageNewUnitOfMeasurement()
         {
             InitializeComponent();
             LoadControls();
-            cbUnit1.ItemsSource = new string[] {"kg","g","mg"};
-            cbUnit2.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit3.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit4.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit5.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit6.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit7.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit8.ItemsSource = new string[] { "kg", "g", "mg" };
-            cbUnit9.ItemsSource = new string[] { "kg", "g", "mg" };
+            LoadLanguaje();
+            string[] source = new string[] { "kg", "g", "mg" };
+            int pointer = 0;
+
+            
+
+            tbMaxUnit.PreviewKeyDown += (o, e) => {
+                if (e.Key == Key.Up)
+                {
+                    pointer++;
+                    if (!(pointer < source.Length)) pointer = 0;
+                    SymbolTextBox.Symbol = source[pointer];
+                }
+
+                if (e.Key == Key.Down)
+                {
+                    pointer--;
+                    if (!(pointer > -1)) pointer = source.Length - 1;
+                    SymbolTextBox.Symbol = source[pointer];
+                }
+            };
+
+            cbUnit1.ItemsSource = source;
+            cbUnit2.ItemsSource = source;
+            btSave.Click += (o, e) =>
+            {
+                SymbolTextBox.Symbol = source[pointer++];
+            };
         }
 
         private void LoadControls()
         {
-            IntTextBox intTextBox = new IntTextBox(tbMaxUnit);
+            SymbolTextBox = new SymbolTextBox(tbMaxUnit,"kl");
+        }
+
+        private void LoadLanguaje() {
+           
         }
     }
 }

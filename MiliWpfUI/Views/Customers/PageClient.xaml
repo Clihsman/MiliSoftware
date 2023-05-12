@@ -6,119 +6,239 @@
       xmlns:local="clr-namespace:MiliSoftware.Views.Customers"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1000"
-      MinHeight="450" MinWidth="1000"
-      MaxHeight="450" MaxWidth="1000"
+     MinHeight="460" MinWidth="1000"
+      MaxHeight="460" MaxWidth="1000"
       Title="New Client">
 
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
-     Margin="50" materialDesign:ShadowAssist.ShadowDepth="Depth4">
-        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
-            <Grid Margin="20">
-                <StackPanel>
+     Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost" SnackbarMessageQueue="{Binding ElementName=MySnackbar, Path=MessageQueue}">
+            <Grid Margin="10">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="220"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
 
                     <StackPanel VerticalAlignment="Top" Margin="0,10" Orientation="Horizontal" Height="25">
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="LandPlots" />
-                            <TextBox x:Name="tbCodigo" Width="100">
-                                <materialDesign:HintAssist.Hint>
-                                    <TextBlock Foreground="Black">Código</TextBlock>
-                                </materialDesign:HintAssist.Hint>
-                            </TextBox>
+                            <materialDesign:PackIcon x:Name="iconCode" Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="LandPlots" />
+                            <!-- Codigo del proveedor -->
+                            <TextBox x:Name="tbCode" Width="120"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="AccountQuestionOutline" />
-                            <ComboBox x:Name="cbTipo" materialDesign:HintAssist.Hint="Tipo" Width="126">
-                                <ComboBoxItem Content="Persona" />
-                                <ComboBoxItem Content="Empresa" />
-                            </ComboBox>
+                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="ShapeOutline" />
+                            <!-- Categoría del proveedor -->
+                            <ComboBox x:Name="cbCategory" Width="130"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Account" />
-                            <TextBox x:Name="tbNombres" Width="150" materialDesign:HintAssist.Hint="Nombres"/>
-                            <TextBox x:Name="tbApellidos" Margin="10,0,0,0" Width="150" materialDesign:HintAssist.Hint="Apellidos"/>
+                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="FileTableBoxMultipleOutline" />
+                            <!-- Grupo del proveedor -->
+                            <ComboBox x:Name="cbGrup" Width="126"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Gmail" />
-                            <TextBox x:Name="tbCorreo" Width="173" materialDesign:HintAssist.Hint="Correo"/>
+                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="BookmarkMultipleOutline" />
+                            <!-- Giro del negocio -->
+                            <ComboBox x:Name="cbLineOfBusiness" Width="126"/>
                         </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="AccountOutline" />
+                            <!-- Nombre del proveedor -->
+                            <TextBox  x:Name="tbName" Width="285"/>
+                        </StackPanel>
+
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10" VerticalAlignment="Top" Height="25">
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="FileCabinet" />
+                            <!-- Tipo de proveedor -->
+                            <ComboBox x:Name="cbType" Width="182"/>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
                             <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="IdCard" />
-                            <ComboBox x:Name="cbTipoIdentificacion" materialDesign:HintAssist.Hint="Tipo de identificación" Width="182">
-                            </ComboBox>
+                            <!-- Tipo de documento -->
+                            <ComboBox x:Name="cbDocumentType" Width="182"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
                             <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="CardAccountDetailsOutline" />
-                            <TextBox x:Name="tbIdentificacion" Width="184" materialDesign:HintAssist.Hint="Identificación"/>
+                            <!-- Numero de documento -->
+                            <TextBox x:Name="tbDocument" Width="182"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
                             <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="TooltipImageOutline" />
-                            <TextBox x:Name="tbFoto" Width="170" materialDesign:HintAssist.Hint="Foto"/>
+                            <!-- Foto del proveedor -->
+                            <TextBox x:Name="tbPicture" Width="269"/>
                         </StackPanel>
 
-                        <StackPanel  Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                    </StackPanel>
+
+                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                        <!-- Descripción del proveedor -->
+                        <TextBox x:Name="tbDescription" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Margin="10,0"
+                             Height="100"
+                             Width="330"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"      
+                             MaxLength="300" 
+                             Padding="8"/>
+
+                        <StackPanel Width="150" Height="100" >
+                            <CheckBox x:Name="chSaveImage"/>
+
+                            <Border Width="150" Height="82" CornerRadius="5" BorderThickness="1" BorderBrush="Black">
+                                <Image Source="{Binding Path=Text, ElementName=tbPicture}"/>
+                            </Border>
+
+                            <Image Source="{Binding Path=Text, ElementName=tbFoto}"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="15,0,0,0">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Phone" />
+                                <TextBox x:Name="tbCelCode0" Width="30">
+                                </TextBox>
+                                <TextBox x:Name="tbContact0" Margin="8,0,0,0" Width="110">
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Phone" />
+                                <TextBox x:Name="tbCelCode1" Width="30">
+                                </TextBox>
+                                <TextBox x:Name="tbContact1" Margin="8,0,0,0" Width="110">
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Phone" />
+                                <TextBox x:Name="tbCelCode2" Width="30">
+                                </TextBox>
+                                <TextBox x:Name="tbContact2" Margin="8,0,0,0" Width="110">
+                                </TextBox>
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10,0,0,0">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                                <!-- Correo Electrónico -->
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="EmailOutline" />
+                                <TextBox x:Name="tbEmail1" Width="200"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                                <!-- Correo Electrónico -->
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="EmailOutline" />
+                                <TextBox x:Name="tbEmail2" Width="200"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                                <!-- Correo Electrónico -->
+                                <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="EmailOutline" />
+                                <TextBox x:Name="tbEmail3" Width="200"/>
+                            </StackPanel>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="1">
+
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                            <!-- Registro de empresa -->
                             <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="HomeCityOutline" />
-                            <TextBox x:Name="tbSucursal" Width="173" materialDesign:HintAssist.Hint="Código de la Sucursal"/>
+                            <TextBox x:Name="tbBusinessRegistration" Width="200"/>
                         </StackPanel>
 
+                        <StackPanel Orientation="Horizontal" Margin="15,0,0,0"  Width="auto" HorizontalAlignment="Left">
+                            <!-- Impuesto Incluido -->
+                            <CheckBox x:Name="chTaxIncluded"/>
+                        </StackPanel>
                     </StackPanel>
 
-                    <StackPanel VerticalAlignment="Top" Margin="0,10" Orientation="Horizontal" Height="25">
-
-                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
-
-                            <ComboBox x:Name="cbPais" materialDesign:HintAssist.Hint="País" materialDesign:HintAssist.HintOpacity=".26"
-                                      IsEditable="True" Width="120">
-                            </ComboBox>
-
-                            <!--TextBox Width="120" materialDesign:HintAssist.Hint="País" Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"/-->
-                            <TextBox x:Name="tbDepartamento" Margin="10,0,0,0" Width="150" materialDesign:HintAssist.Hint="Departamento" />
-                            <TextBox x:Name="tbCiudad" Margin="10,0,0,0" Width="120" materialDesign:HintAssist.Hint="Ciudad"/>
-                            <TextBox x:Name="tbCodigoPostal" Margin="10,0,0,0" Width="120" materialDesign:HintAssist.Hint="Código Postal"/>
-                            <TextBox x:Name="tbDireccion" Margin="10,0,0,0" Width="250" materialDesign:HintAssist.Hint="Dirección"/>
-                        </StackPanel>
-
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                        <!-- Dirección 0 -->
+                        <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
+                        <ComboBox x:Name="cbAmountry0" IsEditable="True" Width="120"/>
+                        <TextBox x:Name="tbCondition0" Margin="10,0,0,0" Width="200" />
+                        <TextBox x:Name="tbCity0" Margin="10,0,0,0" Width="150"/>
+                        <TextBox x:Name="tbPostalCode0" Margin="10,0,0,0" Width="140"/>
+                        <TextBox x:Name="tbDirection0" Margin="10,0,0,0" Width="260"/>
                     </StackPanel>
 
-                    <StackPanel VerticalAlignment="Top" Margin="0,10" Orientation="Horizontal" Height="25">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                        <!-- Dirección 1 -->
+                        <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
+                        <ComboBox x:Name="cbAmountry1" IsEditable="True" Width="120"/>
+                        <TextBox x:Name="tbCondition1" Margin="10,0,0,0" Width="200" />
+                        <TextBox x:Name="tbCity1" Margin="10,0,0,0" Width="150"/>
+                        <TextBox x:Name="tbPostalCode1" Margin="10,0,0,0" Width="140"/>
+                        <TextBox x:Name="tbDirection1" Margin="10,0,0,0" Width="260"/>
+                    </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Phone" />
-                            <TextBox materialDesign:HintAssist.Hint="(Cod)" Width="30">
-                            </TextBox>
-                            <TextBox materialDesign:HintAssist.Hint="# Contacto 1" Margin="8,0,0,0" Width="100">
-                            </TextBox>
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10"  Width="auto" HorizontalAlignment="Left">
+                        <!-- Dirección 2 -->
+                        <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="MapMarkerOutline" />
+                        <ComboBox x:Name="cbAmountry2" IsEditable="True" Width="120"/>
+                        <TextBox x:Name="tbCondition2" Margin="10,0,0,0" Width="200" />
+                        <TextBox x:Name="tbCity2" Margin="10,0,0,0" Width="150"/>
+                        <TextBox x:Name="tbPostalCode2" Margin="10,0,0,0" Width="140"/>
+                        <TextBox x:Name="tbDirection2" Margin="10,0,0,0" Width="260"/>
+                    </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="Phone" />
-                            <TextBox materialDesign:HintAssist.Hint="(Cod)" Width="30">
-                            </TextBox>
-                            <TextBox materialDesign:HintAssist.Hint="# Contacto 2" Margin="8,0,0,0" Width="100">
-                            </TextBox>
-                        </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Orientation="Horizontal" Background="Transparent" Height="40">
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="10,4" x:Name="btSave" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        Height="Auto" Width="98" materialDesign:ButtonAssist.CornerRadius="10" FontSize="14"/>
+
+                        <Button Margin="5,4" x:Name="btCancel" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        Height="Auto" Width="105" materialDesign:ButtonAssist.CornerRadius="10" FontSize="14"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                        <Button x:Name="btAccountingData" Width="30" Height="30" Margin="5,0,5,0" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
+                            <materialDesign:PackIcon
+                             Foreground="White"
+                             Kind="CashMultiple"
+                             Width="20"
+                             Height="20"/>
+                        </Button>
 
                     </StackPanel>
 
                 </StackPanel>
-                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" Background="Transparent" Height="40">
 
-                    <Button Margin="10,4" x:Name="btGuardar" Click="BtGuardar_Click" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
-                        Height="Auto" Width="98" materialDesign:ButtonAssist.CornerRadius="10" FontSize="14" Content="GUARDAR"/>
+                <materialDesign:Snackbar Margin="130,0,0,0" Grid.Row="2" x:Name="MySnackbar" MessageQueue="{materialDesign:MessageQueue}"/>
 
-                </StackPanel>
-                <TextBlock Text="@MiliSoftware 2.0"  Margin="753,298,0,-3" FontSize="12" Foreground="#c2c0be" VerticalAlignment="Center" FontFamily="/MiliWpfUI;component/Resources/#Panipuri" Height="15"/>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="@MiliSoftware 2.0" FontSize="12" Foreground="#c2c0be" FontFamily="/MiliWpfUI;component/Resources/#Panipuri" Height="15"/>
+
             </Grid>
         </materialDesign:DialogHost>
     </materialDesign:Card>

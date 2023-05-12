@@ -19,7 +19,7 @@
         <materialDesign:DialogHost x:Name="DialogHost">
             <StackPanel>
                 <StackPanel>
-                 <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+                 <materialDesign:PopupBox x:Name="pbTools" HorizontalAlignment="Right" Margin="0 20 20 0"
                   PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
                      <StackPanel Width="100">
                          <StackPanel>
@@ -30,27 +30,40 @@
                 </materialDesign:PopupBox>
                  <Image Margin="50,50,50,5" Width="300" Height="139" Source="/MiliSoftware;component/Resources/Logo.png"/>
 
-                 <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" x:Name="tbWelcome"
+                <ProgressBar
+                    x:Name="pgBar"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    HorizontalAlignment="Center"
+                    IsIndeterminate="True"
+                    Visibility="Collapsed"
+                    Value="0" />
+
+                    <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" x:Name="tbWelcome"
                            FontSize="29" FontWeight="Bold" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
 
                  <TextBlock FontSize="18" HorizontalAlignment="Center" 
                            x:Name="tbInfo" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
 
-                 <TextBox Margin="0 50 0 0" x:Name="tbUserEmail" Width="300" FontSize="18" BorderThickness="2" 
-                         BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                 <TextBox BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="0 50 0 0" x:Name="tbUserEmail" Width="300" FontSize="18" BorderThickness="2" 
+                          Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    
+                 <TextBlock Margin="53,5,0,0" x:Name="tbAlertEmail" Visibility="Collapsed" Foreground="#FAABAB" FontFamily="Arial Rounded MT Bold" TextAlignment="Left">Por favor, Ingrese el Correo Electronico.</TextBlock>
 
-                <PasswordBox Margin="0 20 0 0" x:Name="tbUserPassword" Width="300" FontSize="18"
+                 <PasswordBox Margin="0 20 0 0" x:Name="tbUserPassword" Width="300" FontSize="18"
                          BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                    
+                    <TextBlock Margin="53,5,0,0" x:Name="tbAlertPassword" Visibility="Collapsed" Foreground="#FAABAB" FontFamily="Arial Rounded MT Bold" TextAlignment="Left">Por favor, Ingrese la Contraseña.</TextBlock>
 
-                <Button Margin="0 20 0 0" x:Name="loginBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+
+                    <Button Margin="0 20 0 0" x:Name="loginBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" 
                         Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18"/>
 
-                <Button Margin="0 20 0 0" x:Name="signupBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300"
+                    <Button Margin="0 20 0 0" x:Name="signupBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" />
 
-            </StackPanel>
+
+                </StackPanel>
            </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

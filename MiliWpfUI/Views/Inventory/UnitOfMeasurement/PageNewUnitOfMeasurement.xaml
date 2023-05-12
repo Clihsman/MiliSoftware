@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:MiliSoftware.Views.Inventory.UnitOfMeasurement"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      Width="570" Height="260"
+      Width="570" Height="200"
       Title="PageNewUnitOfMeasurement">
 
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
@@ -15,7 +15,7 @@
             <Grid Margin="15">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="140"/>
+                    <RowDefinition Height="80"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 

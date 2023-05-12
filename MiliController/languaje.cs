@@ -440,28 +440,7 @@ namespace MiliSoftware
                 hintTbDirection = "Dirección",
                 toolTipBtAccountingData = "Datos Contables",
                 contentBtSave = "GUARDAR",
-                contentBtCancel = "CANCELAR",
-
-                cbTypesItems = new string[] { "Producto", "Servicio", "Consumo" },
-                hintCbGroup = "Grupo de inventario",
-                hintTbBarcode = "Código de barras",
-                hintCbUnitOfMeasurement = "Unidad de medida",
-                itemsCbUnitOfMeasurement = new string[] { "Unidad", "Centímetro", "Milimetro", "Metro", "Litro", "Kilo", "Gramo", "Hora", "Minuto" },
-                hintCbTaxClassification = "Clasificación tributaria",
-                itensCbTaxClassification = new string[] { "Excluido", "Exento", "Gravado" },
-                hintTbStore = "Bodega",
-
-            
-                toolTipCbSupplier = "Selecionar Proveedor",
-                hintTbNameSupplier = "Nombre",
-                hintTbPurchaseValue = "Vr. de Compra",
-                hintCbVAT = "INP",
-                hintTbPurchaseValueWithVAT = "Vr. de Compra con IVA",
-                hintTbtbWinPercentage = "% de ganancia",
-                hintTbSaleValue = "Vr. de Venta",
-                contentCbInvoiceWithoutExistence = "Facturar sin existencia",
-                contentChVatIncludedInTheSaleValue = "IVA incluido al Vr. de venta",
-                hintTbCantMin = "Cantidad Mínima"
+                contentBtCancel = "CANCELAR"
             };
 
             // Email
@@ -479,7 +458,7 @@ namespace MiliSoftware
             // Login
             data[9] = new
             {
-                contentTbWelcome = "Bienvenido de Nuevo!",
+                contentTbWelcome = "¡Bienvenido de Nuevo!",
                 contentTbInfo = "Inicie sesión en una cuenta existente",
                 hintTbEmail = "Correo Electrónico",
                 hintTbPassword = "Contraseña",

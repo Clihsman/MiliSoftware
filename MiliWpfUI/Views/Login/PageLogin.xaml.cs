@@ -41,10 +41,9 @@ namespace MiliSoftware.Login.View
         public event EventHandler OnClosed;
         public event Func<bool> OnLogin;
 
-        public ICRUD<string, object[], string, string> controller { get; set; }
         public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        LoginController con;
+        private LoginController controller;
 
         public PageLogin(Frame frame)
         {
@@ -53,15 +52,11 @@ namespace MiliSoftware.Login.View
             LoadLanguage();
             LoadEvents();
             this.frame = frame;
-            con = new LoginController(this);
+            controller = new LoginController(this);
         }
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            FormStart.Instace.DragMove();
-        }
-        
+        #region Functions
+
         private void LoadLanguage()
         {
             tbWelcome.Text = languaje.PageLogin.contentTbWelcome;
@@ -83,8 +78,12 @@ namespace MiliSoftware.Login.View
             btnExit.Click += BtnExitClick;
             btnHelp.Click += BtnHelpClick;
             tbUserPassword.KeyDown += TbUserPasswordKeyDown;
+            tbUserPassword.PasswordChanged += TbUserPasswordTextChange;
+            tbUserEmail.TextChanged += TbUserEmailTextChange;
             Loaded += PageLoaded;
         }
+
+        #endregion
 
         #region Events
 
@@ -93,11 +92,13 @@ namespace MiliSoftware.Login.View
             tbUserEmail.Focus();
         }
 
-        private void LoginBtnClick(object sender, RoutedEventArgs e)
-        {        
-            bool login = OnLogin?.Invoke() is true;
-            
-            if (login)
+        private async void LoginBtnClick(object sender, RoutedEventArgs e)
+        {
+            if (!VerifyData()) return;
+            DisableUI();
+
+            bool logIn = await controller.LogIn();
+            if (logIn)
             {
                 /*
                 Application.Current.MainWindow = new MainWindow();
@@ -108,11 +109,69 @@ namespace MiliSoftware.Login.View
             }
             else
             {
-                if (con.GetError()?.Value<int>("statusCode") == 404)
-                    MessageBox.Show("Error de conexion con el servidor");
-                else
+                if (controller.GetError()?.Value<int>("statusCode") == 404)
+                {
+                    MessageBox.Show(controller.GetError()?.Value<string>("message"), "MiliSoftware: " + controller.GetError()?.Value<int>("statusCode"));
+                }
+                else if (controller.GetError()?.Value<int>("statusCode") == 401)
+                {
                     MessageBox.Show("Correo o contraseña incorrecta");
+                }
             }
+            
+            EnableUI();
+        }
+       
+        private void DisableUI() {
+            pgBar.Visibility = Visibility.Visible;
+            tbUserEmail.IsEnabled = false;
+            tbUserPassword.IsEnabled = false;
+            signupBtn.IsEnabled = false;
+            loginBtn.IsEnabled = false;
+            pbTools.IsEnabled = false;
+        }
+
+        private void EnableUI()
+        {
+            pgBar.Visibility = Visibility.Collapsed;
+            tbUserEmail.IsEnabled = true;
+            tbUserPassword.IsEnabled = true;
+            signupBtn.IsEnabled = true;
+            loginBtn.IsEnabled = true;
+            pbTools.IsEnabled = true;
+        }
+
+        private bool VerifyData()
+        {
+            bool target = true;
+
+            if (string.IsNullOrWhiteSpace(tbUserEmail.Text))
+            {
+                tbAlertEmail.Visibility = Visibility.Visible;
+                tbUserEmail.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FAABAB"));
+                tbUserEmail.Focus();
+                target = false;
+            }
+            else
+            {
+                tbAlertEmail.Visibility = Visibility.Collapsed;
+                tbUserEmail.BorderBrush = (Brush)FindResource("MaterialDesignDivider");
+            }
+
+            if (string.IsNullOrWhiteSpace(tbUserPassword.Password))
+            {
+                tbAlertPassword.Visibility = Visibility.Visible;
+                tbUserPassword.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FAABAB"));
+                if(target) tbUserPassword.Focus();
+                target = false;
+            }
+            else
+            {
+                tbAlertPassword.Visibility = Visibility.Collapsed;
+                tbUserPassword.BorderBrush = (Brush)FindResource("MaterialDesignDivider");
+            }
+
+            return target;
         }
 
         private void SignupBtnClick(object sender, RoutedEventArgs e)
@@ -133,6 +192,30 @@ namespace MiliSoftware.Login.View
         private void TbUserPasswordKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) LoginBtnClick(sender, e);
+        }
+
+        private void TbUserEmailTextChange(object sender, RoutedEventArgs e)
+        {
+            if (tbUserEmail.Text.Length > 0 && tbAlertEmail.Visibility == Visibility.Visible)
+            {
+                tbAlertEmail.Visibility = Visibility.Collapsed;
+                tbUserEmail.BorderBrush = (Brush)FindResource("MaterialDesignDivider");
+            }
+        }
+
+        private void TbUserPasswordTextChange(object sender, RoutedEventArgs e)
+        {
+            if (tbUserPassword.Password.Length > 0 && tbAlertPassword.Visibility == Visibility.Visible)
+            {
+                tbAlertPassword.Visibility = Visibility.Collapsed;
+                tbUserPassword.BorderBrush = (Brush)FindResource("MaterialDesignDivider");
+            }
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            FormStart.Instace.DragMove();
         }
 
         #endregion

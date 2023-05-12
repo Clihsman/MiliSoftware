@@ -16,6 +16,7 @@
      Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost" SnackbarMessageQueue="{Binding ElementName=MySnackbar, Path=MessageQueue}">
             <StackPanel>
+                
                 <Grid Height="460" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -35,7 +36,7 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel HorizontalAlignment="Center" Grid.Row="0">
-                            <TextBlock x:Name="tbProducts" Text="TITLEs" Margin="0,0" FontSize="18" VerticalAlignment="Center" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
+                            <TextBlock x:Name="tbProducts" Margin="0,0" FontSize="18" VerticalAlignment="Center" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
                             <Separator/>
                         </StackPanel>
 
@@ -57,7 +58,7 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel HorizontalAlignment="Center" Grid.Row="0">
-                            <TextBlock x:Name="tbProductsComponents" Text="TITLE" Margin="0,0" FontSize="18" VerticalAlignment="Center" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
+                            <TextBlock x:Name="tbProductsComponents" Margin="0,0" FontSize="18" VerticalAlignment="Center" FontFamily="/MiliSoftware;component/Resources/#Panipuri"/>
                             <Separator/>
                         </StackPanel>
 

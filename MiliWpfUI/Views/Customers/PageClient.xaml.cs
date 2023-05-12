@@ -1,4 +1,5 @@
-﻿using MiliSoftware.UI;
+﻿using MaterialDesignThemes.Wpf;
+using MiliSoftware.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,11 +35,12 @@ namespace MiliSoftware.Views.Customers
         public PageClient(Frame parent)
         {
             InitializeComponent();
-
+            LoadLanguage();
+            /*
             List<string> list = new List<string>();
             list.Add("Cedula de Identidad");
 
-            cbTipoIdentificacion.ItemsSource = list;
+            //cbTipoIdentificacion.ItemsSource = list;
 
             List<string> paises = new List<string>();
 
@@ -48,97 +50,13 @@ namespace MiliSoftware.Views.Customers
 
                 if (!paises.Contains(regionInfo.DisplayName))
                     paises.Add(regionInfo.DisplayName);
-            }
+            }*/
 
             this.parent = parent;
-            cbPais.ItemsSource = paises.OrderBy(key => key);
+          //  cbPais.ItemsSource = paises.OrderBy(key => key);
             // SetDecimalTextBox(tbCodigo);
-        }
-
-        public static void SetDecimalTextBox(TextBox texbox)
-        {
-            texbox.KeyDown += delegate (object o, KeyEventArgs e)
-            {
-                if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Tab)
-                    e.Handled = false;
-                else
-                    e.Handled = true;
-            };
-
-            texbox.TextChanged += delegate
-            {
-                if (!string.IsNullOrWhiteSpace(texbox.Text))
-                {
-                    double value = double.Parse(texbox.Text.Replace(".", "").Replace(",", ""));
-                    texbox.Text = GetTotal(value);
-                    texbox.Select(texbox.Text.Length, 0);
-                }
-                else
-                {
-                    texbox.Text = "0";
-                    texbox.Select(texbox.Text.Length, 0);
-                }
-            };
-        }
-
-        public static string GetTotal(double total)
-        {
-            string tlString = total.ToString();
-            string result = "";
-
-            string currentTotal = "";
-            int id = -1;
-            for (int i = tlString.Length - 1; i > -1; i--)
-            {
-                if (id < 2)
-                    id++;
-                else
-                {
-                    currentTotal += ".";
-                    id = 0;
-                }
-
-                currentTotal += tlString[i];
-            }
-
-            for (int i = currentTotal.Length - 1; i > -1; i--)
-            {
-                result += currentTotal[i];
-            }
-
-            return result;
-        }
-
-        public static void SetIntTextBox(TextBox texbox)
-        {
-            texbox.KeyDown += delegate (object o, KeyEventArgs e)
-            {
-
-                if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Tab)
-                    e.Handled = false;
-                else
-                    e.Handled = true;
-            };
-
-            texbox.TextChanged += delegate
-            {
-                if (string.IsNullOrWhiteSpace(texbox.Text))
-                {
-                    texbox.Text = "0";
-                    texbox.Select(texbox.Text.Length, 0);
-                }
-                else if (texbox.Text.StartsWith("0"))
-                {
-                    try
-                    {
-                        texbox.Text = int.Parse(texbox.Text).ToString();
-                        texbox.Select(texbox.Text.Length, 0);
-                    }
-                    catch { }
-                }
-            };
-
-            texbox.Text = "0";
+            
+            this.parent = parent;
         }
 
         private void BtGuardar_Click(object sender, RoutedEventArgs e)
@@ -157,14 +75,78 @@ namespace MiliSoftware.Views.Customers
 
         public void SetEditMode()
         {
+            /*
             editMode = true;
             tbCodigo.IsEnabled = false;
+            */
         }
+
+        #region Functions
+
+        /// <summary>
+        /// En metodo se encarga de cargar el idioma del formulario
+        /// </summary>
+        private void LoadLanguage()
+        {
+            // data supplier
+            tbCode.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCode);
+            cbCategory.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCategory);
+            cbCategory.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCategory);
+            cbLineOfBusiness.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbLineOfBusiness);
+            cbGrup.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbGrup);
+            tbName.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbName);
+            cbType.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbType);
+            cbDocumentType.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbDocumentType);
+            tbDocument.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDocument);
+            tbPicture.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPicture);
+            tbDescription.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDescription);
+            chSaveImage.Content = languaje.PageSupplier.contentChSaveImage;
+            tbEmail1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbEmail);
+            tbEmail2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbEmail);
+            tbEmail3.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbEmail);
+            tbBusinessRegistration.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbBusinessRegistration);
+            chTaxIncluded.Content = languaje.PageSupplier.contentChTaxIncluded;
+            // Contact 0
+            tbCelCode0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCelCode);
+            tbContact0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbContact);
+            // Contact 1
+            tbCelCode1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCelCode);
+            tbContact1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbContact);
+            // Contact 2
+            tbCelCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCelCode);
+            tbContact2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbContact);
+            // Amountry 0
+            cbAmountry0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            tbCondition0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
+            tbCity0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
+            tbPostalCode0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
+            tbDirection0.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
+            // Amountry 1
+            cbAmountry1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            tbCondition1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
+            tbCity1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
+            tbPostalCode1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
+            tbDirection1.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
+            // Amountry 2
+            cbAmountry2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintCbCountry);
+            tbCondition2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCondition);
+            tbCity2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbCity);
+            tbPostalCode2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbPostalCode);
+            tbDirection2.SetValue(HintAssist.HintProperty, languaje.PageSupplier.hintTbDirection);
+            //Tools
+            btAccountingData.ToolTip = languaje.PageSupplier.toolTipBtAccountingData;
+            btSave.Content = languaje.PageSupplier.contentBtSave;
+            btCancel.Content = languaje.PageSupplier.contentBtCancel;
+            //***************************
+
+        }
+
+        #endregion
 
         #region ClientGUI
 
         public object[] GetValues()
-        {
+        {/*
             string codigo = tbCodigo.Text;
             string tipo = cbTipo.Text;
             string nombres = tbNombres.Text;
@@ -196,12 +178,13 @@ namespace MiliSoftware.Views.Customers
                 { "CodigoPostal" , codigoPostal },
                 { "Direccion" , direccion }
             };
-
-            return new object[] { client };
+            */
+            return new object[] { null };
         }
 
         public void SetValues(object[] value)
         {
+            /*
             dynamic client = null;
 
             if (value is DObject[] && value.Length > 0)
@@ -227,6 +210,7 @@ namespace MiliSoftware.Views.Customers
                 tbCodigoPostal.Text = client.CodigoPostal;
                 tbDireccion.Text = client.Direccion;
             }
+            */
         }
 
         public void Show()

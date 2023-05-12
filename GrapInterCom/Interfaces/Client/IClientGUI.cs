@@ -9,6 +9,7 @@ namespace MiliSoftware.UI
 {
     public interface IClientGUI : IGUI<string, object[], string, string>
     {
+     //    ClientController controller;
          object[] GetValues();
          void SetValues(object[] datas);
     }

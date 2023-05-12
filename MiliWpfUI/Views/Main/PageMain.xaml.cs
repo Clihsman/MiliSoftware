@@ -50,6 +50,11 @@ namespace MiliSoftware.Views.Main
 
         public PageMain()
         {
+            //C:\Users\Clihsman\Downloads\176123.jpg
+          //  BitmapImage image = new BitmapImage(new Uri("https://images.alphacoders.com/176/176123.jpg", UriKind.Absolute));
+            BitmapImage image = new BitmapImage(new Uri("file://C:/Users/Clihsman/Downloads/176123.jpg", UriKind.Absolute));
+            Background = new ImageBrush(image);
+
             InitializeComponent();
             loadLanguaje();
             LoadEvents();
@@ -57,6 +62,7 @@ namespace MiliSoftware.Views.Main
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+          
             buttons = new Dictionary<PackIcon, bool>() {
                 {btCustomers, false},
                 {btSuppliers, false},
@@ -98,7 +104,7 @@ namespace MiliSoftware.Views.Main
             btHome.MouseDown += btHomeClick;
 
             // Containers
-
+            /*
             int puntero = 0;
             bool playSound = false;
             string[] musics = System.IO.Directory.GetFiles(@"F:\antiguop\Nueva carpeta (2)","*.mp3");
@@ -171,7 +177,7 @@ namespace MiliSoftware.Views.Main
                     mcBtPausePlay.Kind = PackIconKind.Play;
                 }
             };
-
+            */
             //***********
 
             foreach (Control control in stMenuBar.Children)

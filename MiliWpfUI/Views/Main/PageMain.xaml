@@ -8,13 +8,6 @@
         mc:Ignorable="d"
        
         Title="MiliSoftware"  d:DesignHeight="450" d:DesignWidth="800">
-
-    <Page.Background>
-        <ImageBrush Stretch="UniformToFill" ImageSource="https://cdn.pixabay.com/photo/2016/12/17/18/51/spices-1914130_1280.jpg">
-
-        </ImageBrush>
-    </Page.Background>
-
     <Grid>
 
         <Grid.ColumnDefinitions>
