@@ -5,13 +5,14 @@
  * Assembly : GrapInterCom             *
  * *************************************/
 
+using MiliSoftware;
 using MiliSoftware.UI;
 
 namespace GrapInterCom.Interfaces.Inventory
 {
-    public  interface ProductComponentsGUI : IGUI<string, object[], string, string>
+    public  interface ProductComponentsGUI : IGUI<string, ProductComponent[], string, string>
     {
-        object[] GetValues();
+        ProductComponent[] GetValues();
         void SetValues(object[] datas);
     }
 }

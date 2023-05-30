@@ -6,19 +6,34 @@
       xmlns:local="clr-namespace:MiliSoftware.Views.Alerts"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      Width="400"
-      Height="250"
+      Width="465"
+      Height="180"
       Title="Alert">
 
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
      Margin="10" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <Grid Margin="10">
-                <StackPanel>
-                    <StackPanel x:Name="stContainer">
-                        <TextBlock FontSize="120" TextAlignment="Center" Text="Alert"></TextBlock>
-                        <Button x:Name="btnClose" Margin="25,10,25,0" FontSize="18">Close</Button>
-                    </StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" x:Name="stContainer">
+                    <TextBlock  FontSize="18" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalAlignment="Left" TextAlignment="Center" Text="Estas seguro de eliminar el grupo de inventario?"></TextBlock>
+                </Grid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Bottom">
+                    <Button x:Name="btnNo" Margin="0,0,0,0" FontSize="18" Width="130" Background="Green" BorderBrush="Green">No</Button>
+                    <Button x:Name="btnYes" Margin="10,0,0,0"  FontSize="18" Width="130" Background="Red" BorderBrush="Red">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                            Foreground="White" Margin="0,3,0,0"
+                             Kind="DeleteOutline" 
+                             Width="20"
+                             Height="20"/>
+                            <TextBlock Margin="5,0,0,0">Eliminar</TextBlock>
+                        </StackPanel>
+                       
+                    </Button>
                 </StackPanel>
             </Grid>
         </materialDesign:DialogHost>

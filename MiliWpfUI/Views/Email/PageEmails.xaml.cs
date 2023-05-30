@@ -64,11 +64,11 @@ namespace MiliSoftware.Views.Email
         #region Events
 
         private void btNewClick(object sender,EventArgs e) {
-            PageEmail pageEmail = new PageEmail(Main.MainWindow.Instace.dialogFrame);
-            Main.MainWindow.Instace.parentFrame.IsEnabled = false;
+            PageEmail pageEmail = new PageEmail(Main.MainWindow.Instace.GetFrameDialog());
+          //  Main.MainWindow.Instace.parentFrame.IsEnabled = false;
             pageEmail.OnClosed += delegate {
-                Main.MainWindow.Instace.dialogFrame.Content = null;
-                Main.MainWindow.Instace.parentFrame.IsEnabled = true;
+            //    Main.MainWindow.Instace.dialogFrame.Content = null;
+              //  Main.MainWindow.Instace.parentFrame.IsEnabled = true;
             };
             EmailController emailController = new EmailController(pageEmail);
         }
@@ -84,12 +84,12 @@ namespace MiliSoftware.Views.Email
                 string from = message.From;
                 string subject = message.Subject;
 
-                Main.MainWindow.Instace.parentFrame.IsEnabled = false;
-                PageEmailView pageEmailView = new PageEmailView(Main.MainWindow.Instace.dialogFrame);
+               // Main.MainWindow.Instace.parentFrame.IsEnabled = false;
+                PageEmailView pageEmailView = new PageEmailView(Main.MainWindow.Instace.GetFrameDialog());
                 pageEmailView.SetData(from, message.Date, subject, message.Body);
                 pageEmailView.OnClosed += delegate {
-                    Main.MainWindow.Instace.dialogFrame.Content = null;
-                    Main.MainWindow.Instace.parentFrame.IsEnabled = true;
+                  //  Main.MainWindow.Instace.dialogFrame.Content = null;
+                  //  Main.MainWindow.Instace.parentFrame.IsEnabled = true;
                 };
                 EmailViewController emailViewController = new EmailViewController(pageEmailView);
             }

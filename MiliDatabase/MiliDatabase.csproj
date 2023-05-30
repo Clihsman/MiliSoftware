@@ -109,10 +109,6 @@
     <Compile Include="SqlLite\Schema\SqlSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GrapInterCom\GrapInterCom.csproj">
-      <Project>{90e1faee-b35e-4b5d-b534-dcde667a57a7}</Project>
-      <Name>GrapInterCom</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiliFileEngine\MiliFileEngine.csproj">
       <Project>{03FCB972-CAB9-4753-9610-1458ED322F39}</Project>
       <Name>MiliFileEngine</Name>

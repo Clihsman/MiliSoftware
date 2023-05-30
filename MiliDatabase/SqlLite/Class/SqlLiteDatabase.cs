@@ -2,7 +2,7 @@
  * Author : Clihsman Iscala            *
  * Company : All Software Company      *
  * Creation date : 30/10/2022          *
- * Assembly : MiliDatabase              *
+ * Assembly : MiliDatabase             *
  * *************************************/
 
 using System;
@@ -105,7 +105,9 @@ namespace MiliSoftware.SqlLite
         /// </param>
         public int ExecuteNomQueryID(string query)
         {
+#pragma warning disable CA2100
             SQLiteCommand command = new SQLiteCommand(query, connection);
+#pragma warning restore CA2100
             int id = command.ExecuteNonQuery();
             command.Dispose();
             return id;

@@ -19,7 +19,9 @@ namespace MiliSoftware
         public static dynamic PageEmail;
         public static dynamic PageLogin;
         public static dynamic PageUnitOfMeasurement;
-
+        public static dynamic PageExport;
+        public static dynamic PageInventoryGroup;
+        public static dynamic PageInventoryNewGroup;
         public static void Init()
         {
 
@@ -27,8 +29,8 @@ namespace MiliSoftware
             MiliFileEngine.src.Resources.MiliResources.Externs.SetString(
               MiliFileEngine.src.Resources.ResHash.GetHash("SETTING"), Newtonsoft.Json.JsonConvert.SerializeObject(new
               {
-                 language = "es-CO",
-              //  language = "en-US"
+               language = "es-CO",
+           //     language = "en-US"
                           }));
 
             CreateLenjuages();
@@ -57,11 +59,14 @@ namespace MiliSoftware
             PageEmail = value[8];
             PageLogin = value[9];
             PageUnitOfMeasurement = value[10];
+            PageExport = value[11];
+            PageInventoryGroup = value[12];
+            PageInventoryNewGroup = value[13];
         }
 
         private static void EnUS() {
 
-            object[] data = new object[10];
+            object[] data = new object[12];
 
             // MainWindow
             data[0] = new
@@ -262,13 +267,31 @@ namespace MiliSoftware
                 toolTipBtnExit = "Exit application"
             };
 
+            // PageUnitOfMeasurement
+            data[10] = new
+            {
+                toolTipBtnNew = "New unit of measure",
+                toolTipBtnDelete = "Delete unit of measure",
+                toolTipBtnEdit = "Edit unit of measure",
+                toolTipBtnExport = "Export data"
+            };
+
+            // PageExport
+            data[11] = new
+            {
+                toolTipBtnExportExcel = "Export to Excel",
+                toolTipBtnExportWord = "Export to Word",
+                toolTipBtnExportPdf = "Export to PDF",
+                toolTipBtnExportPng = "Exportar to PNG"
+            };
+
             MiliFileEngine.src.Resources.MiliResources.Externs.SetString(MiliFileEngine.src.Resources.ResHash.GetHash("en-US"), Newtonsoft.Json.JsonConvert.SerializeObject(data));
         }
 
         private static void EsCO()
         {
 
-            object[] data = new object[11];
+            object[] data = new object[14];
 
             // MainWindow
             data[0] = new
@@ -478,6 +501,38 @@ namespace MiliSoftware
                 toolTipBtnDelete = "Eliminar unidad de medida",
                 toolTipBtnEdit = "Editar unidad de medida",
                 toolTipBtnExport = "Exportar datos"
+            };
+
+            // PageExport
+            data[11] = new
+            {
+                toolTipBtnExportExcel = "Exportar a Excel",
+                toolTipBtnExportWord = "Exportar a Word",
+                toolTipBtnExportPdf = "Exportar a PDF",
+                toolTipBtnExportPng = "Exportar a PsNG"
+            };
+
+            // PageInventoryGroup
+            data[12] = new
+            {
+                toolTipBtnNew = "Nuevo Grupo",
+                toolTipBtnEdit = "Editar Grupo",
+                toolTipBtnDelete = "Eliminar Grupo",
+                toolTipBtnExport = "Exportar",
+                toolTipBtnUpdate = "Actualizar",
+                toolTipBtnExit = "Salir",
+                headCode = "Código",
+                headName = "Nombre"
+
+            };
+
+            // PageInventoryGroup
+            data[13] = new
+            {
+                hintTbCode = "Código",
+                hintTbName = "Nombre",
+                toolTipBtnSave = "Guardar",
+                toolTipBtnCancel = "Cancelar"
             };
 
             MiliFileEngine.src.Resources.MiliResources.Externs.SetString(MiliFileEngine.src.Resources.ResHash.GetHash("es-CO"), Newtonsoft.Json.JsonConvert.SerializeObject(data));

@@ -71,13 +71,13 @@ namespace MiliSoftware.Views.Suppliers
         #region Events
 
         private void btNewClick(object sender,EventArgs eventArgs) {
-            MainWindow.Instace.parentFrame.IsEnabled = false;
-            PageSupplier pageSupplier = new PageSupplier(MainWindow.Instace.dialogFrame);
+           // MainWindow.Instace.parentFrame.IsEnabled = false;
+            PageSupplier pageSupplier = new PageSupplier(MainWindow.Instace.GetFrameDialog());
             SuppliersController suppliersController = new SuppliersController(pageSupplier);
 
             pageSupplier.OnClosed += delegate {
-                MainWindow.Instace.dialogFrame.Content = null;
-                MainWindow.Instace.parentFrame.IsEnabled = true;
+             //   MainWindow.Instace.dialogFrame.Content = null;
+             //   MainWindow.Instace.parentFrame.IsEnabled = true;
             };
 
             pageSupplier.Show();

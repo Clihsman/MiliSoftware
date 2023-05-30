@@ -14,7 +14,7 @@ namespace MiliSoftware
     {
         public static void Main(string[] args)
         {
-            Assembly assembly = Assembly.GetAssembly(typeof(ControllerMain));
+            Assembly assembly = Assembly.GetAssembly(typeof(IJsonObject));
             Type[]  types = assembly.GetTypes();
 
 

@@ -55,12 +55,14 @@
     <Compile Include="Interfaces\Email\IEmailGUI.cs" />
     <Compile Include="Interfaces\Email\IEmailsGUI.cs" />
     <Compile Include="Interfaces\Email\IEmailViewGUI.cs" />
+    <Compile Include="Interfaces\Export\IExportGUI.cs" />
     <Compile Include="Interfaces\GUI\IAlert.cs" />
     <Compile Include="Interfaces\GUI\IGUI.cs" />
     <Compile Include="Interfaces\GUI\IGUIEvents.cs" />
     <Compile Include="Interfaces\GUI\IGUIInfo.cs" />
     <Compile Include="Interfaces\GUI\IGUITransform.cs" />
     <Compile Include="Interfaces\Inventory\EquivalentProductsGUI.cs" />
+    <Compile Include="Interfaces\Inventory\IInventoryGroupGUI.cs" />
     <Compile Include="Interfaces\Inventory\IInventoryGUI.cs" />
     <Compile Include="Interfaces\Inventory\IProductGUI.cs" />
     <Compile Include="Interfaces\Inventory\ProductComponentsGUI.cs" />
@@ -68,6 +70,11 @@
     <Compile Include="Interfaces\Suppliers\ISuppliersGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MiliModels\MiliModels.csproj">
+      <Project>{9d35b025-bc80-49f1-b230-e4b62438e83a}</Project>
+      <Name>MiliModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

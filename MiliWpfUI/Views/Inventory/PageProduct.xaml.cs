@@ -11,6 +11,8 @@ using Microsoft.Win32;
 using MiliSoftware.Inventory;
 using MiliSoftware.UI;
 using MiliSoftware.Views.Customers;
+using MiliSoftware.Views.Inventory.InventoryGroup;
+using MiliSoftware.Views.Main;
 using MiliSoftware.WpfUI;
 using System;
 using System.Collections.Generic;
@@ -42,8 +44,8 @@ namespace MiliSoftware.Views.Inventory
 
         private Frame parent;
 
-        private object[] components;
-        private object[] equivalents;
+        private ProductComponent[] components;
+        private EquivalentProduct[] equivalents;
 
         public PageProduct(Frame parent)
         {
@@ -51,7 +53,9 @@ namespace MiliSoftware.Views.Inventory
             this.parent = parent;
             LoadLanguage();
             LoadExternalControls();
-            LoadEvents();    
+            LoadEvents();
+
+            cbGroup.ItemsSource = new[]  {"Principal","Nuevo Grupo"};
         }
 
         private void LoadLanguage()
@@ -59,7 +63,7 @@ namespace MiliSoftware.Views.Inventory
             tbCode.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintTbCode);
             cbType.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintCbType);
             cbType.ItemsSource = languaje.PageProduct.cbTypesItems;
-            cbGrup.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintCbGroup);
+            cbGroup.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintCbGroup);
             tbName.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintTbName);
             tbBarcode.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintTbBarcode);
             cbUnitOfMeasurement.SetValue(HintAssist.HintProperty, languaje.PageProduct.hintCbUnitOfMeasurement);
@@ -242,9 +246,24 @@ namespace MiliSoftware.Views.Inventory
             btComponents.Click += btComponentsClick;
             btEquivalentProducts.Click += btEquivalentProductsClick;
             tbPicture.TextChanged += tbPictureTextChanged;
+            cbGroup.SelectionChanged += cbGroupSelectionChange;
         }
 
         #region Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            const string Prefijo = "BBC*";
+            tbCode.Text = Prefijo;
+        }
+
+        private void cbGroupSelectionChange(object sender, SelectionChangedEventArgs e) {
+            if (cbGroup.SelectedIndex == 1) {
+                PageInventoryGroup pageInventoryGroup = new PageInventoryGroup();
+                InventoryGroupController groupController = new InventoryGroupController(pageInventoryGroup);
+            }
+            cbGroup.SelectedIndex = -1;
+        }
 
         private void btCancelClick(object o, EventArgs e)
         {
@@ -256,7 +275,7 @@ namespace MiliSoftware.Views.Inventory
         {
             string Code = tbCode.Text;
             int Type = cbType.SelectedIndex;
-            int Group = cbGrup.SelectedIndex;
+            int Group = cbGroup.SelectedIndex;
             string Name = tbName.Text;
             string Barcode = tbBarcode.Text;
             int UnitOfMeasurement = cbUnitOfMeasurement.SelectedIndex;
@@ -279,7 +298,7 @@ namespace MiliSoftware.Views.Inventory
             string Value5 = tbValue5.Text;
 
             Product product = new Product(Code, Type, Group, Name, Barcode, UnitOfMeasurement, TaxClassification, Store, Picture, Description,  SaveImage,  Key0, 
-                Value0,  Key1,  Value1,  Key2, Value2,  Key3,  Value3,  Key4,  Value4,  Key5,  Value5,(EquivalentProduct[])equivalents, (ProductComponent[])components);
+                Value0,  Key1,  Value1,  Key2, Value2,  Key3,  Value3,  Key4,  Value4,  Key5,  Value5, equivalents, components);
 
             controller.Create(product);
 
@@ -289,36 +308,30 @@ namespace MiliSoftware.Views.Inventory
 
         private void btComponentsClick(object o, EventArgs e)
         {
-            PageProductComponents pageProductComponents = new PageProductComponents(Main.MainWindow.Instace.dialogFrame1);
+            PageProductComponents pageProductComponents = new PageProductComponents(Main.MainWindow.Instace.GetFrameDialog());
             pageProductComponents.SetValues(components);
             ProductComponentsContoller productComponentsContoller = new ProductComponentsContoller(pageProductComponents);
 
-            Main.MainWindow.Instace.dialogFrame.IsEnabled = false;
-
             pageProductComponents.OnClosed += delegate
             {
-                Main.MainWindow.Instace.dialogFrame1.Content = null;
-                Main.MainWindow.Instace.dialogFrame.IsEnabled = true;
+                Main.MainWindow.Instace.CloseFrameDialog();
 
                 if (pageProductComponents.DialogResult == DialogResult.OK)
                 {
                     components = pageProductComponents.GetValues();
-                    Console.WriteLine(pageProductComponents.GetValues().Length);
                 }
             };
         }
 
         private void btEquivalentProductsClick(object o, EventArgs e)
         {
-            PageEquivalentProducts pageEquivalentProducts = new PageEquivalentProducts(Main.MainWindow.Instace.dialogFrame1);
+            PageEquivalentProducts pageEquivalentProducts = new PageEquivalentProducts(Main.MainWindow.Instace.GetFrameDialog());
             pageEquivalentProducts.SetValues(equivalents);
             EquivalentProductsController equivalentProductsController = new EquivalentProductsController(pageEquivalentProducts);
-            Main.MainWindow.Instace.dialogFrame.IsEnabled = false;
 
             pageEquivalentProducts.OnClosed += delegate
             {
-                Main.MainWindow.Instace.dialogFrame1.Content = null;
-                Main.MainWindow.Instace.dialogFrame.IsEnabled = true;
+                Main.MainWindow.Instace.CloseFrameDialog();
 
                 if (pageEquivalentProducts.DialogResult == DialogResult.OK)
                 {
@@ -428,10 +441,5 @@ namespace MiliSoftware.Views.Inventory
 
         #endregion
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            const string Prefijo = "BBC*";
-            tbCode.Text = Prefijo;
-        }
     }
 }

@@ -94,7 +94,7 @@ namespace MiliSoftware.Views.Inventory
 
         private void LoadEvents() {
             btNew.Click += (o,e) => {
-                Main.MainWindow.Instace.dialogFrame.Content = new PageNewUnitOfMeasurement();
+                Main.MainWindow.Instace.GetFrameDialog().Content = new PageNewUnitOfMeasurement();
             };
         }
     }

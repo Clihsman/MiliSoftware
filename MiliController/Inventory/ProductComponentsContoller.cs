@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace MiliSoftware.Inventory
 {
-    public class ProductComponentsContoller : IController<string, object[], string, string>
+    public class ProductComponentsContoller : IController<string, ProductComponent[], string, string>
     {
         public ProductComponentsContoller(ProductComponentsGUI productComponentsGUI)
         {
@@ -29,7 +29,7 @@ namespace MiliSoftware.Inventory
             throw new System.NotImplementedException();
         }
 
-        public object[] Read(object[] data)
+        public ProductComponent[] Read(ProductComponent[] data)
         {
             List<ProductComponent> products = new List<ProductComponent>();
 

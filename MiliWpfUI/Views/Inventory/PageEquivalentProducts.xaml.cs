@@ -28,9 +28,11 @@ namespace MiliSoftware.Views.Inventory
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        public ICRUD<string, object[], string, string> controller { get; set; }
+        public ICRUD<string, EquivalentProduct[], string, string> controller { get; set; }
         public DialogResult DialogResult { get; set; }
         private Frame parent;
+
+        #region Othor
 
         public PageEquivalentProducts(Frame parent)
         {
@@ -38,17 +40,7 @@ namespace MiliSoftware.Views.Inventory
             this.parent = parent;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            products = new List<object>();
-            products.AddRange(controller.Read(null));
-
-            lvProducts.ItemsSource = products;
-
-            LoadLanguage();
-            LoadEvents();
-            RemoveFromExistingProducts();
-        }
+        #endregion
 
         #region Functions
 
@@ -107,6 +99,18 @@ namespace MiliSoftware.Views.Inventory
         #endregion
 
         #region Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            products = new List<object>();
+            products.AddRange(controller.Read(null));
+
+            lvProducts.ItemsSource = products;
+
+            LoadLanguage();
+            LoadEvents();
+            RemoveFromExistingProducts();
+        }
 
         private void lvProductsSelectItem(object sender, SelectionChangedEventArgs e)
         {
@@ -196,9 +200,9 @@ namespace MiliSoftware.Views.Inventory
 
         #endregion
 
-        #region ProductComponentsGUI
+        #region EquivalentProductsGUI
 
-        public object[] GetValues()
+        public EquivalentProduct[] GetValues()
         {
             List<EquivalentProduct> equivalents = new List<EquivalentProduct>();
 
@@ -210,7 +214,7 @@ namespace MiliSoftware.Views.Inventory
             return equivalents.ToArray();
         }
 
-        public void SetValues(object[] data)
+        public void SetValues(EquivalentProduct[] data)
         {
             if (data != null && data.Length > 0)
             {

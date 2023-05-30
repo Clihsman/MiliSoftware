@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,9 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Login\User.cs" />
+    <Compile Include="Objects\Inventory\InventoryGroup.cs" />
+    <Compile Include="Objects\Login\User.cs" />
+    <Compile Include="Objects\Accounting\AccountingPosition.cs" />
+    <Compile Include="Objects\Accounting\AccountingSeat.cs" />
+    <Compile Include="Objects\Client\Client.cs" />
+    <Compile Include="Objects\DObject.cs" />
+    <Compile Include="Objects\Inventory\EquivalentProduct.cs" />
+    <Compile Include="Objects\Inventory\Product.cs" />
+    <Compile Include="Objects\Inventory\ProductComponent.cs" />
+    <Compile Include="Objects\IObjects\IJsonObject.cs" />
+    <Compile Include="Objects\Others\Address.cs" />
+    <Compile Include="Objects\Supplier\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiliDatabase\MiliDatabase.csproj">
+      <Project>{1ec11c79-24eb-4c07-b792-89fd6feba6ec}</Project>
+      <Name>MiliDatabase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

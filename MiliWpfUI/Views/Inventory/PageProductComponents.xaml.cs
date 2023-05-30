@@ -31,7 +31,7 @@ namespace MiliSoftware.Views.Inventory
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        public ICRUD<string, object[], string, string> controller { get; set; }
+        public ICRUD<string, ProductComponent[], string, string> controller { get; set; }
         public DialogResult DialogResult { get; set; }
         private Frame parent;
         private IntTextBox tbAmount;
@@ -224,7 +224,7 @@ namespace MiliSoftware.Views.Inventory
 
         #region ProductComponentsGUI
 
-        public object[] GetValues()
+        public ProductComponent[] GetValues()
         {
             List<ProductComponent> productComponents = new List<ProductComponent>();
 

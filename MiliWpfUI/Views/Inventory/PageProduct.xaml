@@ -40,7 +40,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  Width="auto" HorizontalAlignment="Left">
                             <materialDesign:PackIcon Foreground="Black" Margin="0,5,5,0" Width="15" Height="15" HorizontalAlignment="Left" Kind="FileTableBoxMultipleOutline" />
-                            <ComboBox x:Name="cbGrup" Width="126"/>
+                            <ComboBox x:Name="cbGroup" Width="126"/>
 
                         </StackPanel>
 
@@ -490,7 +490,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="50,0">
-                        <Button x:Name="btEquivalentProducts" ToolTip="Productos equivalente" Width="30" Height="30" Margin="5,0,5,0" 
+                        <Button x:Name="btEquivalentProducts" Width="30" Height="30" Margin="5,0,5,0" 
                             Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
                             <materialDesign:PackIcon
                              Foreground="White"
@@ -498,7 +498,7 @@
                              Width="20"
                              Height="20"/>
                         </Button>
-                        <Button x:Name="btComponents" Width="30" ToolTip="Componentes del producto" Height="30" Margin="5,0,5,0" 
+                        <Button x:Name="btComponents" Width="30" Height="30" Margin="5,0,5,0" 
                             Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
                             <materialDesign:PackIcon
                             Foreground="White"

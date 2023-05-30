@@ -7,7 +7,6 @@
  
 using MiliSoftware.SqlLite;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace MiliSoftware
 {
@@ -34,6 +33,7 @@ namespace MiliSoftware
             JObject jObject = JObject.Parse(json);
             _id = jObject.Value<string>(nameof(_id));
             Code = jObject.Value<string>(nameof(Code));
+            Name = jObject.Value<string>(nameof(Name));
         }
 
         public string ToJson()
@@ -41,6 +41,7 @@ namespace MiliSoftware
             JObject jObject = new JObject();
             jObject.Add(nameof(_id), _id);
             jObject.Add(nameof(Code), Code);
+            jObject.Add(nameof(Name), Name);
             return jObject.ToString();
         }
     }

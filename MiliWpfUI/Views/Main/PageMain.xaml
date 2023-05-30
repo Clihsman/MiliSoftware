@@ -77,8 +77,8 @@
                              Foreground="Black"
                              Kind="HelpCircleOutline" 
                              Width="25"
-                             Height="25"
-                             Margin="10,0,0,0"
+                             Height="Auto"
+                             Margin="10,0,0,3" VerticalAlignment="Stretch"
                     />
 
                 <materialDesign:PackIcon  
@@ -287,10 +287,10 @@
                         <StackPanel Width="145" Margin="0,0,5,0">
                             <TextBlock x:Name="mcTbTitle" Margin="0,0,0,0" FontSize="18" Foreground="White" FontFamily="Arial Rounded MT Bold"></TextBlock>
                         </StackPanel>
-                        
+
                         <Slider x:Name="meSlVolume" Width="70" Maximum="1" Value="0.5"></Slider>
-                     </StackPanel>
-                            <!--TextBlock FontSize="22" Foreground="White" FontFamily="Arial Rounded MT Bold">No es Como yo</-->
+                    </StackPanel>
+                    <!--TextBlock FontSize="22" Foreground="White" FontFamily="Arial Rounded MT Bold">No es Como yo</-->
                     <ProgressBar  x:Name="mePgMedia" Margin="0,1" Height="10"/>
                 </StackPanel>
             </Border>
@@ -298,9 +298,22 @@
 
         </StackPanel>
 
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="parentFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
-        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame1" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
+        <Grid x:Name="gdDialog" Grid.Row="1" Opacity="0.97" Margin="0,25,0,0">
+            
+        </Grid>
+
+        <StackPanel x:Name="alertDialog" Visibility="Hidden" Grid.Row="1" Margin="0,25,0,10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Border Width="270" Height="80" Background="#444444" CornerRadius="10,5,5,10">
+                <StackPanel Height="80" Margin="16,0,16,0" Orientation="Horizontal">
+                    <Image Source="C:\Users\Clihsman\Downloads\check.png" Width="45" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBlock FontSize="18" x:Name="alertDialogText" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Width="200" FontFamily="Arial Rounded MT Bold"/>
+                </StackPanel>
+            </Border>
+            <Border Width="10" Height="80" Background="#00ffcc" Margin="269,-80,0,0" CornerRadius="0,4,4,0"/>
+        </StackPanel>
+
+        <!--Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/>
+        <Frame Grid.Row="1" IsEnabled="True" Grid.Column="1" x:Name="dialogFrame1" Opacity="0.96" NavigationUIVisibility="Hidden" HorizontalAlignment="Stretch" Margin="0,25,0,0"/-->
 
         <StackPanel x:Name="stTools" Margin="10" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Border Width="32" Height="31" CornerRadius="5" Background="Black" Opacity="0.6">

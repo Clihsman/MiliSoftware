@@ -37,10 +37,6 @@ namespace MiliSoftware.Login.View
     {
         private Frame frame;
 
-        public event EventHandler OnOpen;
-        public event EventHandler OnClosed;
-        public event Func<bool> OnLogin;
-
         public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private LoginController controller;
@@ -98,7 +94,7 @@ namespace MiliSoftware.Login.View
             DisableUI();
 
             bool logIn = await controller.LogIn();
-            if (logIn)
+            if (!logIn)
             {
                 /*
                 Application.Current.MainWindow = new MainWindow();

@@ -106,11 +106,51 @@ namespace MiliSoftware.SqlLite
             return string.Format("({0})", string.Join(",", fields));
         }
 
+        private string GetDeleteParams(object[] data)
+        {
+            List<string> fields = new List<string>();
+
+            for (int i = 0; i < Fields.Length; i++)
+            {
+                if (Fields[i].Name == "_id" && data[i] != null) continue;
+                fields.Add(string.Format("{0} = @{0}", Fields[i].Name));
+            }
+
+            return string.Format("{0}", string.Join(" AND ", fields));
+        }
+
+        private string GetEditParams(object[] data)
+        {
+            List<string> fields = new List<string>();
+
+            for (int i = 0; i < Fields.Length; i++)
+            {
+                if (Fields[i].Name == "_id") continue;
+                fields.Add(string.Format("{0} = @{0}", Fields[i].Name));
+            }
+
+            return string.Format("{0}", string.Join(",", fields));
+        }
+
         public void Save(SqlLiteDatabase database, params object[] data)
         {
             InsertSqlTableRef(database, data);
             database.ExecuteNomQueryID(string.Format("INSERT INTO {0}{1} VALUES {2}"
                 , SqlTable.TableName, GetFieldNames(), GetFieldParams()), GetInsertData(database, data));
+        }
+
+        public void Delete(SqlLiteDatabase database, params object[] data)
+        {
+            InsertSqlTableRef(database, data);
+            database.ExecuteNomQueryID(string.Format("DELETE FROM {0} WHERE {2}"
+                , SqlTable.TableName, GetFieldNames(), GetDeleteParams(data)), GetInsertData(database, data));
+        }
+
+        public void Edit(SqlLiteDatabase database, params object[] data)
+        {
+            InsertSqlTableRef(database, data);
+            database.ExecuteNomQueryID(string.Format("UPDATE {0} SET {1} WHERE _id=@_id"
+                , SqlTable.TableName, GetEditParams(data)), GetInsertData(database, data));
         }
 
         public void Save(string _id, SqlLiteDatabase database, params object[] data)
@@ -154,7 +194,11 @@ namespace MiliSoftware.SqlLite
             Dictionary<string, object> insertData = new Dictionary<string, object>();
 
             for (int i = 0; i < Fields.Length; i++)
+            {
+                if (Fields[i].Name == "_id")
+                    Console.WriteLine(data[i]);
                 insertData.Add(string.Format("@{0}", Fields[i].Name), data[i]);
+            }
 
             if (!insertData.ContainsKey("@_id"))
                 insertData.Add("@_id", IdGenerator.GenerateId(database.GetRowCount(SqlTable.TableName)));
@@ -162,6 +206,19 @@ namespace MiliSoftware.SqlLite
                 insertData["@_id"] = IdGenerator.GenerateId(database.GetRowCount(SqlTable.TableName));
 
             return insertData;
+        }
+
+        private Dictionary<string, object> GetDeleteData(SqlLiteDatabase database, object[] data)
+        {
+            Dictionary<string, object> deleteData = new Dictionary<string, object>();
+
+            for (int i = 0; i < Fields.Length; i++)
+            {
+                if (Fields[i].Name == "_id" && data[i] != null) continue;
+                deleteData.Add(string.Format("@{0}", Fields[i].Name), data[i]);
+            }
+
+            return deleteData;
         }
 
         public T FindOne<T>(SqlLiteDatabase database, string _id) where T : class

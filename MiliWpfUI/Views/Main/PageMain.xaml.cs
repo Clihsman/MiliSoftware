@@ -7,6 +7,7 @@ using MiliSoftware.UI;
 using MiliSoftware.Views.Customers;
 using MiliSoftware.Views.Debug;
 using MiliSoftware.Views.Email;
+using MiliSoftware.Views.Export;
 using MiliSoftware.Views.Inventory;
 using MiliSoftware.Views.Suppliers;
 using System;
@@ -51,8 +52,10 @@ namespace MiliSoftware.Views.Main
         public PageMain()
         {
             //C:\Users\Clihsman\Downloads\176123.jpg
-          //  BitmapImage image = new BitmapImage(new Uri("https://images.alphacoders.com/176/176123.jpg", UriKind.Absolute));
-            BitmapImage image = new BitmapImage(new Uri("file://C:/Users/Clihsman/Downloads/176123.jpg", UriKind.Absolute));
+            //  BitmapImage image = new BitmapImage(new Uri("https://images.alphacoders.com/176/176123.jpg", UriKind.Absolute));
+            //  BitmapImage image = new BitmapImage(new Uri("file://C:/Users/Clihsman/Downloads/176123.jpg", UriKind.Absolute));
+            BitmapImage image = new BitmapImage(new Uri("https://cdn.pixabay.com/photo/2016/12/16/15/25/christmas-1911637_1280.jpg", UriKind.RelativeOrAbsolute));
+            //https://cafetunetole.com/wp-content/uploads/2020/10/porque%CC%81-compramos.jpg
             Background = new ImageBrush(image);
 
             InitializeComponent();
@@ -62,7 +65,7 @@ namespace MiliSoftware.Views.Main
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-          
+
             buttons = new Dictionary<PackIcon, bool>() {
                 {btCustomers, false},
                 {btSuppliers, false},
@@ -195,7 +198,8 @@ namespace MiliSoftware.Views.Main
 
         private void btHetpClick(object sender, MouseButtonEventArgs e)
         {
-            parentFrame.Content = new PageUnitOfMeasurement();
+            // parentFrame.Content = new PageUnitOfMeasurement();
+            
         }
 
         private void loadLanguaje()
@@ -217,7 +221,7 @@ namespace MiliSoftware.Views.Main
 
         private void btDebugClick(object sender, EventArgs e)
         {
-            parentFrame.Content = new PageDebug();
+            GetFrame().Content = new PageDebug();
         }
 
         private void btInventoryClick(object sender, RoutedEventArgs e)
@@ -228,7 +232,7 @@ namespace MiliSoftware.Views.Main
                 iGUI = null;
             }
 
-            pageInventory = new PageInventory(parentFrame);
+            pageInventory = new PageInventory(GetFrame());
             iGUI = pageInventory;
             Title = string.Format("{0}@{1}", TITLE, languaje.MainWindow.toolTipInventory);
             InventoryController inventoryController = new InventoryController(pageInventory);
@@ -243,7 +247,7 @@ namespace MiliSoftware.Views.Main
                 iGUI = null;
             }
 
-            pageCustomers = new PageCustomers(parentFrame);
+            pageCustomers = new PageCustomers(GetFrame());
             iGUI = pageCustomers;
             ClientController clientController = new ClientController(pageCustomers);
             UpdateButtonChecked((PackIcon)sender);
@@ -257,7 +261,7 @@ namespace MiliSoftware.Views.Main
                 iGUI = null;
             }
 
-            pageSuppliers = new PageSuppliers(parentFrame);
+            pageSuppliers = new PageSuppliers(GetFrame());
             iGUI = pageSuppliers;
             SuppliersController suppliersController = new SuppliersController(pageSuppliers);
             UpdateButtonChecked((PackIcon)sender);
@@ -272,7 +276,7 @@ namespace MiliSoftware.Views.Main
                 iGUI = null;
             }
 
-            pageEmails = new PageEmails(parentFrame);
+            pageEmails = new PageEmails(GetFrame());
             iGUI = pageEmails;
             EmailsController emailController = new EmailsController(pageEmails);
             UpdateButtonChecked((PackIcon)sender);
@@ -285,10 +289,6 @@ namespace MiliSoftware.Views.Main
                 iGUI.Close();
                 iGUI = null;
             }
-
-            parentFrame.Content = null;
-            dialogFrame.Content = null;
-            dialogFrame1.Content = null;
 
             UpdateButtonChecked((PackIcon)sender, false);
         }
@@ -304,7 +304,7 @@ namespace MiliSoftware.Views.Main
 
             }
             catch { }
-           // ((Control)sender).Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#345ceb"));
+            // ((Control)sender).Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#345ceb"));
         }
 
         private void PackIcon_MouseLeave(object sender, MouseEventArgs e)
@@ -317,7 +317,7 @@ namespace MiliSoftware.Views.Main
                 }
             }
             catch { }
-          //  ((Control)sender).Foreground = Brushes.Black;
+            //  ((Control)sender).Foreground = Brushes.Black;
         }
 
         #endregion
@@ -388,6 +388,72 @@ namespace MiliSoftware.Views.Main
                 stDate.Visibility = Visibility.Visible;
                 stTools.Visibility = Visibility.Visible;
             }
+        }
+
+        public Frame GetFrameDialog() {
+            // Se desabilitan los controles para que solo quede habilitado el Dialogo
+            stMenuBar.IsEnabled = false;
+            stToolBar.IsEnabled = false;
+            foreach (UIElement panel in gdDialog.Children) panel.IsEnabled = false;
+
+            // Se crea un nuevo Frame para el dialogo
+            Frame frame = new Frame();
+            frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+            frame.HorizontalAlignment = HorizontalAlignment.Stretch;
+            gdDialog.Children.Add(frame);
+            return frame;
+        }
+
+        public Frame GetFrame()
+        {
+            // Se eliminan los frames creados
+            gdDialog.Children.Clear();
+            // Se crea un nuevo Frame
+            Frame frame = new Frame();
+            frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+            frame.HorizontalAlignment = HorizontalAlignment.Stretch;
+            gdDialog.Children.Add(frame);
+            return frame;
+        }
+
+        public void CloseFrameDialog(Frame frame)
+        {
+            gdDialog.Children.Remove(frame);
+            frame.Content = null;
+            gdDialog.Children[gdDialog.Children.Count - 1].IsEnabled = true;
+            if (gdDialog.Children.Count == 1) {
+                stMenuBar.IsEnabled = true;
+                stToolBar.IsEnabled = true;
+            }
+        }
+
+        public void CloseFrameDialog()
+        {
+            gdDialog.Children.RemoveAt(gdDialog.Children.Count - 1);
+            gdDialog.Children[gdDialog.Children.Count - 1].IsEnabled = true;
+            if (gdDialog.Children.Count == 1)
+            {
+                stMenuBar.IsEnabled = true;
+                stToolBar.IsEnabled = true;
+            }
+        }
+
+        public void AlertDialog(string msg) {
+            alertDialogText.Text = msg;
+            ThicknessAnimation animation = new ThicknessAnimation(new Thickness(0, 25, -276, 10), new Thickness(0, 25, 10, 10), TimeSpan.FromMilliseconds(290));
+            alertDialog.Visibility = Visibility.Visible;
+            animation.Completed += delegate
+            {
+                this.Invoke(new TimeSpan(0, 0, 0, 2, 500),delegate {
+                    animation = new ThicknessAnimation(new Thickness(0, 25, 10, 10), new Thickness(0, 25, -276, 10), TimeSpan.FromMilliseconds(250));
+                    animation.Completed += delegate
+                    {
+                        alertDialog.Visibility = Visibility.Hidden;
+                    };
+                    alertDialog.BeginAnimation(MarginProperty, animation);
+                });
+            };
+            alertDialog.BeginAnimation(MarginProperty, animation);
         }
 
         #endregion

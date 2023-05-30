@@ -141,7 +141,7 @@ namespace MiliSoftware.Views.Customers
 
         private void btNewClick(object o, EventArgs e)
         {
-            PageClient pageClient = new PageClient(Main.MainWindow.Instace.dialogFrame);
+            PageClient pageClient = new PageClient(Main.MainWindow.Instace.GetFrameDialog());
             ClientController clientController = new ClientController(pageClient);
 
             pageClient.Show();

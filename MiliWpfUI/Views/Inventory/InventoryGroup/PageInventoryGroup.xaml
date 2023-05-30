@@ -1,0 +1,107 @@
+﻿<Page x:Class="MiliSoftware.Views.Inventory.InventoryGroup.PageInventoryGroup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:MiliSoftware.Views.Inventory.InventoryGroup"
+      mc:Ignorable="d"    
+      Width="650" Height="400"
+      Title="PageInventoryGroup">
+
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
+     Margin="20" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <ListView Grid.Row="0" x:Name="lvInventoryGroups">
+                    <ListView.View>
+                        <GridView x:Name="lvHeaders">
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel x:Name="progBar"
+                    Visibility="Hidden"
+                    Margin="16">
+                    <ProgressBar
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        HorizontalAlignment="Center"
+                        Margin="16"
+                        IsIndeterminate="True"
+                        Value="0" />
+                </StackPanel>
+
+                <StackPanel x:Name="stTools" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+
+
+                    <Button x:Name="btExit" Width="30" Height="30" Margin="10,15,0,0"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
+                        <materialDesign:PackIcon
+                            Foreground="White"
+                             Kind="Close" 
+                             Width="20"
+                             Height="20"
+                            />
+                    </Button>
+
+                    <Button x:Name="btUpdate" Width="30" Height="30" Margin="10,15,0,0" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
+                        <materialDesign:PackIcon
+                            Foreground="White"
+                             Kind="Update" 
+                             Width="20"
+                             Height="20"/>
+                    </Button>
+
+                    <Button x:Name="btExport" Width="30" Height="30" Margin="10,15,0,0" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
+                        <materialDesign:PackIcon
+                            Foreground="White"
+                             Kind="FileExportOutline" 
+                             Width="20"
+                             Height="20"/>
+                    </Button>
+
+                    <Button x:Name="btDelete" Width="30" Height="30" Margin="10,15,0,0" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                            IsEnabled="False">
+                        <materialDesign:PackIcon
+                            Foreground="{Binding Path=Foreground, ElementName=btDelete}"
+                             Kind="DeleteOutline" 
+                             Width="20"
+                             Height="20"/>
+                    </Button>
+
+                    <Button x:Name="btEdit" Width="30" Height="30" Margin="10,15,0,0" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                            IsEnabled="False">
+                        <materialDesign:PackIcon
+                            Foreground="White"
+                             Kind="SquareEditOutline" 
+                             Width="20"
+                             Height="20"/>
+                    </Button>
+
+                    <Button x:Name="btNew" Width="30" Height="30" Margin="10,15,10,0"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}">
+                        <materialDesign:PackIcon
+                            Foreground="White"
+                             Kind="Plus" 
+                             Width="20"
+                             Height="20"
+                            />
+                    </Button>
+
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="@MiliSoftware 2.0" FontSize="12" Foreground="#c2c0be" FontFamily="/MiliWpfUI;component/Resources/#Panipuri" Height="15"/>
+            </Grid>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
+</Page>

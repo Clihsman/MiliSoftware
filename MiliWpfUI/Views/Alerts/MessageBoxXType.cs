@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiliModels
+namespace MiliSoftware.Views.Alerts
 {
-    public class Class1
+    public enum MessageBoxXType
     {
+        YesNo,
+        CancelOK,
+        DeleteNO
     }
 }

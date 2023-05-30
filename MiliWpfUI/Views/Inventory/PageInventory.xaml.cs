@@ -4,6 +4,7 @@ using MiliSoftware.GUI.Styles;
 using MiliSoftware.GUI.Styles.Components;
 using MiliSoftware.Inventory;
 using MiliSoftware.UI;
+using MiliSoftware.Views.Export;
 using MiliSoftware.Views.Main;
 using System;
 using System.Collections.Generic;
@@ -62,11 +63,11 @@ namespace MiliSoftware.Views.Inventory
                 btEdit.BorderBrush = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
                 btEdit.Background = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
             }
-            //
+            //************************************
         }
 
         private void LoadLanguage() {
-            tbSearch.SetValue(MaterialDesignThemes.Wpf.HintAssist.HintProperty, languaje.PageInventory.hintTbSearch);
+            tbSearch.SetValue(HintAssist.HintProperty, languaje.PageInventory.hintTbSearch);
             btSearch.ToolTip = languaje.PageInventory.toolTipBtSearchProduct;
             btSetting.ToolTip = languaje.PageInventory.tooTipBtSetting;
             btAssignGroup.ToolTip = languaje.PageInventory.tooTipBtAssignGroup;
@@ -79,19 +80,23 @@ namespace MiliSoftware.Views.Inventory
 
         private void LoadEvents() {
             btNew.Click += btNewClick;
+            btExport.Click += (o,e) =>  {
+             MainWindow.Instace.GetFrameDialog().Content = new PageExport();
+            };
         }
 
         #region Events
 
         private void btNewClick(object o, EventArgs e)
         {
-            MainWindow.Instace.parentFrame.IsEnabled = false;
-            PageProduct pageProduct = new PageProduct(MainWindow.Instace.dialogFrame) { };
+            //MainWindow.Instace.parentFrame.IsEnabled = false;
+            PageProduct pageProduct = new PageProduct(MainWindow.Instace.GetFrameDialog()) { };
             ProductController productController = new ProductController(pageProduct);
 
             pageProduct.OnClosed += delegate {
-                MainWindow.Instace.dialogFrame.Content = null;
-                MainWindow.Instace.parentFrame.IsEnabled = true;
+                Main.MainWindow.Instace.CloseFrameDialog();
+                //    MainWindow.Instace.dialogFrame.Content = null;
+                //  MainWindow.Instace.parentFrame.IsEnabled = true;
             };
 
             pageProduct.Show();
