@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1927
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiliEngine", "MiliEngine\MiliEngine.csproj", "{591283EA-4548-445B-86B1-E71046C542C4}"
 EndProject
@@ -30,8 +30,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToolBox", "ToolBox", "{31410C14-7E75-4BE5-8757-568C8AB3AACB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiliTools", "MiliTools\MiliTools.csproj", "{50F58155-6A83-4B45-BF47-923D45F58FFD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{9EABC658-C225-445C-976F-94AB2BD49301}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiliModels", "MiliModels\MiliModels.csproj", "{9D35B025-BC80-49F1-B230-E4B62438E83A}"
 EndProject

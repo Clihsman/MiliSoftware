@@ -11,22 +11,11 @@ using MiliSoftware.Login.Controller;
 using MiliSoftware.Paginas;
 using MiliSoftware.Paginas.Login;
 using MiliSoftware.UI;
-using MiliSoftware.Views.Main;
-using MiliWpfUI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MiliSoftware.Login.View
 {
@@ -38,8 +27,7 @@ namespace MiliSoftware.Login.View
         private Frame frame;
 
         public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        private LoginController controller;
+        private readonly LoginController controller;
 
         public PageLogin(Frame frame)
         {
@@ -86,35 +74,35 @@ namespace MiliSoftware.Login.View
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             tbUserEmail.Focus();
+            
+#if DEBUG
+            tbUserEmail.Text = "clihsman.cs@gmail.com";
+            tbUserPassword.Password = "clihsman123457896.";
+#endif
+            
         }
 
         private async void LoginBtnClick(object sender, RoutedEventArgs e)
         {
             if (!VerifyData()) return;
             DisableUI();
+            string token = await controller.LogIn();
 
-            bool logIn = await controller.LogIn();
-            if (!logIn)
-            {
-                /*
-                Application.Current.MainWindow = new MainWindow();
-                FormStart.Instace.Close();
-                Application.Current.MainWindow.Show();
-                */
-                FormStart.Instace.myFrame.NavigationService.Navigate(new PgStart() { showWindows = true });
-            }
-            else
-            {
-                if (controller.GetError()?.Value<int>("statusCode") == 404)
-                {
-                    MessageBox.Show(controller.GetError()?.Value<string>("message"), "MiliSoftware: " + controller.GetError()?.Value<int>("statusCode"));
-                }
-                else if (controller.GetError()?.Value<int>("statusCode") == 401)
-                {
+            switch (token) {
+                case "unable_to_connect_to_remote_server":
+                    MessageBox.Show("No se pudo establecer la conexion con el servidor remoto", "MiliSoftware", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "invalid_credentials":
                     MessageBox.Show("Correo o contraseña incorrecta");
-                }
+                    break;
+                case "not_found":
+                    MessageBox.Show("404 No Encontrado", "MiliSoftware", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    FormStart.Instace.myFrame.NavigationService.Navigate(new PgStart() { showWindows = true });
+                    break;
             }
-            
+
             EnableUI();
         }
        

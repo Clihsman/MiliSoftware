@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiliSoftware</RootNamespace>
     <AssemblyName>MiliController</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,18 +55,25 @@
     <Compile Include="Inventory\EquivalentProductsController.cs" />
     <Compile Include="Inventory\InventoryController.cs" />
     <Compile Include="Inventory\InventoryGroupController.cs" />
+    <Compile Include="Inventory\InventoryStoreController.cs" />
     <Compile Include="Inventory\ProductComponentsContoller.cs" />
     <Compile Include="Inventory\ProductController.cs" />
     <Compile Include="languaje.cs" />
     <Compile Include="Login\LoginController.cs" />
     <Compile Include="Main\ControllerMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setting\SettingController.cs" />
     <Compile Include="Suppliers\SuppliersController.cs" />
+    <Compile Include="Tools\Extencions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrapInterCom\GrapInterCom.csproj">
       <Project>{90e1faee-b35e-4b5d-b534-dcde667a57a7}</Project>
       <Name>GrapInterCom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiliApiClient\MiliApiClient.csproj">
+      <Project>{a638ca22-9e68-404f-aec3-ef1ff1b0f7f0}</Project>
+      <Name>MiliApiClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiliDatabase\MiliDatabase.csproj">
       <Project>{1EC11C79-24EB-4C07-B792-89FD6FEBA6EC}</Project>

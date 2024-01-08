@@ -5,11 +5,24 @@
  * Assembly : MiliController           *
  * *************************************/
 
+/*
+    Es esta clase se crea los datos del producto
+    Los atributos SqlField y SqlTableRef permiten 
+    que la base de datos local se cree sin nesesidad 
+    de escribir el sql y tambien permite 
+    (Guardar, Eliminar, Editar, Actualizar) los datos
+    la interfaz IJsonObject da los metodos para convertir
+    la clase en un Json y cargar de un Json la clase
+*/
+
 using Newtonsoft.Json.Linq;
 using MiliSoftware.SqlLite;
 
 namespace MiliSoftware
 {
+    /// <summary>
+    /// Esta clase contiene todos la información del producto
+    /// </summary>
     [SqlTable("Products")]
     public class Product : IJsonObject
     {
@@ -17,21 +30,21 @@ namespace MiliSoftware
         [SqlField(SqlFieldType.Text)]
         public string _id { get; protected set; }
         [SqlField(SqlFieldType.Text)]
-        public string Code { get; protected set; }
+        public string Code { get; set; }
         [SqlField(SqlFieldType.Integer)]
-        public int Type { get; protected set; }
-        [SqlField(SqlFieldType.Integer)]
-        public int Group { get; protected set; }
+        public dynamic Type { get; set; }
+        [SqlTableRef("InventoryGroup", SqlTableRefType.Field)]
+        public dynamic InventoryGroup { get; set; }
         [SqlField(SqlFieldType.Text)]
-        public string Name { get; protected set; }
+        public string Name { get; set; }
         [SqlField(SqlFieldType.Text)]
         public string Barcode { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public int UnitOfMeasurement { get; protected set; }
+        public dynamic UnitOfMeasurement { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public int TaxClassification { get; protected set; }
+        public dynamic TaxClassification { get; protected set; }
         [SqlField(SqlFieldType.Integer)]
-        public int Store { get; protected set; }
+        public dynamic Store { get; set; }
         [SqlField(SqlFieldType.Text)]
         public string Picture { get; protected set; }
         [SqlField(SqlFieldType.Text)]
@@ -68,16 +81,44 @@ namespace MiliSoftware
         public EquivalentProduct[] EquivalentProducts { get; protected set; }
         // product components
         [SqlTableRef("ProductComponents", SqlTableRefType.Array)]
-        public ProductComponent[] ProductComponents { get; protected set; }
+        public ProductComponent[] ProductComponents { get; set; }
 
-        public Product(string Code, int Type, int Group, string Name, string Barcode, int UnitOfMeasurement, int TaxClassification,
+        /// <summary>
+        /// Constructor de la clase Product
+        /// </summary>
+        /// <param name="Code">Codigo del producto</param>
+        /// <param name="Type">Tipo de producto</param>
+        /// <param name="Group">Grupo en que se encuentra el producto</param>
+        /// <param name="Name">Nombre del producto</param>
+        /// <param name="Barcode">Codigo de barras del producto</param>
+        /// <param name="UnitOfMeasurement">Unidad de medida del producto</param>
+        /// <param name="TaxClassification">Clasificacion tributaria del producto</param>
+        /// <param name="Store">Bodega en que se encuentra el producto </param>
+        /// <param name="Picture">Imagen del productos</param>
+        /// <param name="Description">Descripcion del producto</param>
+        /// <param name="SaveImage">Guardar imagen en el servidor?</param>
+        /// <param name="Key0">Tipo definido por el Usuario</param>
+        /// <param name="Value0">Tipo definido por el Usuario</param>
+        /// <param name="Key1">Tipo definido por el Usuario</param>
+        /// <param name="Value1">Tipo definido por el Usuario</param>
+        /// <param name="Key2">Tipo definido por el Usuario</param>
+        /// <param name="Value2">Tipo definido por el Usuario</param>
+        /// <param name="Key3">Tipo definido por el Usuario</param>
+        /// <param name="Value3">Tipo definido por el Usuario</param>
+        /// <param name="Key4">Tipo definido por el Usuario</param>
+        /// <param name="Value4">Tipo definido por el Usuario</param>
+        /// <param name="Key5">Tipo definido por el Usuario</param>
+        /// <param name="Value5">Tipo definido por el Usuario</param>
+        /// <param name="EquivalentProducts">Productos equivalentes</param>
+        /// <param name="ProductComponents">Componentes del producto</param>
+        public Product(string Code, int Type, InventoryGroup InventoryGroup, string Name, string Barcode, int UnitOfMeasurement, int TaxClassification,
          int Store, string Picture, string Description, bool SaveImage, string Key0, string Value0, string Key1, string Value1, string Key2,
          string Value2, string Key3,  string Value3, string Key4, string Value4,string Key5, string Value5, 
          EquivalentProduct[] EquivalentProducts, ProductComponent[] ProductComponents)
         {
             this.Code = Code;
             this.Type = Type;
-            this.Group = Group;
+            this.InventoryGroup = InventoryGroup;
             this.Name = Name;
             this.Barcode = Barcode;
             this.UnitOfMeasurement = UnitOfMeasurement;
@@ -107,13 +148,17 @@ namespace MiliSoftware
 
         public Product(){}
 
+        /// <summary>
+        /// Carga de un Json los datos de la clase
+        /// </summary>
+        /// <param name="json"></param>
         public void FromJson(string json)
         {
             JObject jObject = JObject.Parse(json);
             _id = jObject.Value<string>(nameof(_id));
             Code = jObject.Value<string>(nameof(Code));
             Type = jObject.Value<int>(nameof(Type));
-            Group = jObject.Value<int>(nameof(Group));
+           // Group = jObject.Value<int>(nameof(Group));
             Name = jObject.Value<string>(nameof(Name));
             Barcode = jObject.Value<string>(nameof(Barcode));
             UnitOfMeasurement = jObject.Value<int>(nameof(UnitOfMeasurement));
@@ -148,7 +193,7 @@ namespace MiliSoftware
                 {
                     JObject equivalent = (JObject)equivalens[i];
                     EquivalentProducts[i] = new EquivalentProduct(
-                        equivalent.Value<string>(nameof(EquivalentProduct._id)),
+                        equivalent.Value<int>(nameof(EquivalentProduct.id)),
                         equivalent.Value<string>(nameof(EquivalentProduct.Code)),
                         equivalent.Value<string>(nameof(EquivalentProduct.Name)));
                 }
@@ -165,7 +210,7 @@ namespace MiliSoftware
                 {
                     JObject productComponent = (JObject)productComponents[i];
                     ProductComponents[i] = new ProductComponent(
-                        productComponent.Value<string>(nameof(ProductComponent._id)),
+                        productComponent.Value<int>(nameof(ProductComponent.id)),
                         productComponent.Value<string>(nameof(ProductComponent.Code)),
                         productComponent.Value<string>(nameof(EquivalentProduct.Name)),
                         productComponent.Value<int>(nameof(ProductComponent.Amount)));
@@ -173,34 +218,43 @@ namespace MiliSoftware
             }
         }
 
+        /// <summary>
+        /// Convierte la clase en un Json
+        /// </summary>
+        /// <returns>JSON</returns>
         public string ToJson()
         {
-            JObject jObject = new JObject();
-            jObject.Add(nameof(Code), Code);
-            jObject.Add(nameof(Type), Type);
-            jObject.Add(nameof(Group), Group);
-            jObject.Add(nameof(Name), Name);
-            jObject.Add(nameof(Barcode), Barcode);
-            jObject.Add(nameof(UnitOfMeasurement), UnitOfMeasurement);
-            jObject.Add(nameof(TaxClassification), TaxClassification);
-            jObject.Add(nameof(Store), Store);
-            jObject.Add(nameof(Picture), Picture);
-            jObject.Add(nameof(Description), Description);
-            jObject.Add(nameof(SaveImage), SaveImage);
+            JObject jObject = new JObject
+            {
+                { nameof(Code), Code },
+                { nameof(Type), Type },
 
-            // key value group
-            jObject.Add(nameof(Key0), Key0);
-            jObject.Add(nameof(Value0), Value0);
-            jObject.Add(nameof(Key1), Key1);
-            jObject.Add(nameof(Value1), Value1);
-            jObject.Add(nameof(Key2), Key2);
-            jObject.Add(nameof(Value2), Value2);
-            jObject.Add(nameof(Key3), Key3);
-            jObject.Add(nameof(Value3), Value3);
-            jObject.Add(nameof(Key4), Key4);
-            jObject.Add(nameof(Value4), Value4);
-            jObject.Add(nameof(Key5), Key5);
-            jObject.Add(nameof(Value5), Value5);
+                //jObject.Add(nameof(Group), Group);
+                { nameof(InventoryGroup), InventoryGroup?.GetJObject() },
+
+                { nameof(Name), Name },
+                { nameof(Barcode), Barcode },
+                { nameof(UnitOfMeasurement), UnitOfMeasurement },
+                { nameof(TaxClassification), TaxClassification },
+                { nameof(Store), Store },
+                { nameof(Picture), Picture },
+                { nameof(Description), Description },
+                { nameof(SaveImage), SaveImage },
+
+                // key value group
+                { nameof(Key0), Key0 },
+                { nameof(Value0), Value0 },
+                { nameof(Key1), Key1 },
+                { nameof(Value1), Value1 },
+                { nameof(Key2), Key2 },
+                { nameof(Value2), Value2 },
+                { nameof(Key3), Key3 },
+                { nameof(Value3), Value3 },
+                { nameof(Key4), Key4 },
+                { nameof(Value4), Value4 },
+                { nameof(Key5), Key5 },
+                { nameof(Value5), Value5 }
+            };
 
             // equivalent products 
             if (EquivalentProducts == null) jObject.Add(nameof(EquivalentProducts), null);
@@ -209,14 +263,16 @@ namespace MiliSoftware
                 JArray equivalens = new JArray();
                 foreach (EquivalentProduct equivalent in EquivalentProducts)
                 {
-                    JObject o_equivalent = new JObject();
-                    o_equivalent.Add(nameof(EquivalentProduct._id), equivalent._id);
-                    o_equivalent.Add(nameof(EquivalentProduct.Code), equivalent.Code);
+                    JObject o_equivalent = new JObject
+                    {
+                        { nameof(EquivalentProduct.id), equivalent.id },
+                        { nameof(EquivalentProduct.Code), equivalent.Code },
+                        { nameof(EquivalentProduct.Name), equivalent.Name }
+                    };
                     equivalens.Add(o_equivalent);
                 }
                 jObject.Add(nameof(EquivalentProducts), equivalens);
             }
-
             // product components
             if (ProductComponents == null) jObject.Add(nameof(ProductComponents), null);
             else
@@ -224,10 +280,13 @@ namespace MiliSoftware
                 JArray components = new JArray();
                 foreach (ProductComponent productComponent in ProductComponents)
                 {
-                    JObject o_productComponent = new JObject();
-                    o_productComponent.Add(nameof(ProductComponent._id), productComponent._id);
-                    o_productComponent.Add(nameof(ProductComponent.Code), productComponent.Code);
-                    o_productComponent.Add(nameof(ProductComponent.Amount), productComponent.Amount);
+                    JObject o_productComponent = new JObject
+                    {
+                        { nameof(ProductComponent.id), productComponent.id },
+                        { nameof(ProductComponent.Code), productComponent.Code },
+                        { nameof(ProductComponent.Name), productComponent.Name },
+                        { nameof(ProductComponent.Amount), productComponent.Amount }
+                    };
                     components.Add(o_productComponent);
                 }
                 jObject.Add(nameof(ProductComponents), components);

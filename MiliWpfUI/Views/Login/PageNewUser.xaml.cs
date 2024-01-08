@@ -64,13 +64,14 @@ namespace MiliSoftware.Paginas.Login
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
         {
+            /*
             WebServices.WebPostService postService = new WebServices.WebPostService("http://localhost:3000/api/auth/signup");
             postService.PostJson(new {
                 username = tbUserName.Text,
                 email = tbGmail.Text,
                 password = tbPassword.Password
             });
-            
+            */
 
             parent_frame.NavigationService.Navigate(new PgVUser(parent_frame));
         }

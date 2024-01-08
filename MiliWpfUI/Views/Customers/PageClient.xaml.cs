@@ -36,6 +36,7 @@ namespace MiliSoftware.Views.Customers
         {
             InitializeComponent();
             LoadLanguage();
+            LoadEvents();
             /*
             List<string> list = new List<string>();
             list.Add("Cedula de Identidad");
@@ -53,35 +54,19 @@ namespace MiliSoftware.Views.Customers
             }*/
 
             this.parent = parent;
-          //  cbPais.ItemsSource = paises.OrderBy(key => key);
+            //  cbPais.ItemsSource = paises.OrderBy(key => key);
             // SetDecimalTextBox(tbCodigo);
-            
+
             this.parent = parent;
         }
 
-        private void BtGuardar_Click(object sender, RoutedEventArgs e)
-        {
-            if (editMode)
-            {
-                string json = JsonConvert.SerializeObject(GetValues());
-                controller.Update(json);
-            }
-            else
-            {
-                string json = JsonConvert.SerializeObject(GetValues());
-                controller.Create(json);
-            }
-        }
+        #region Functions
 
         public void SetEditMode()
-        {
-            /*
+        {        
             editMode = true;
-            tbCodigo.IsEnabled = false;
-            */
+            tbCode.IsEnabled = false;     
         }
-
-        #region Functions
 
         /// <summary>
         /// En metodo se encarga de cargar el idioma del formulario
@@ -139,6 +124,35 @@ namespace MiliSoftware.Views.Customers
             btCancel.Content = languaje.PageSupplier.contentBtCancel;
             //***************************
 
+        }
+
+        private void LoadEvents()
+        {
+            btCancel.Click += btnCancelClick;
+            btSave.Click += btSaveClick;
+        }
+
+        #endregion
+
+        #region Events
+
+        private void btnCancelClick(object o, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btSaveClick(object sender, RoutedEventArgs e)
+        {
+            if (editMode)
+            {
+                string json = JsonConvert.SerializeObject(GetValues());
+                controller.Update(json);
+            }
+            else
+            {
+                string json = JsonConvert.SerializeObject(GetValues());
+                controller.Create(json);
+            }
         }
 
         #endregion
@@ -231,7 +245,8 @@ namespace MiliSoftware.Views.Customers
 
         public void Close()
         {
-            throw new NotImplementedException();
+            OnClosed?.Invoke(this,new EventArgs());
+            Main.MainWindow.Instace.CloseFrameDialog();
         }
 
         public int GetWidth()

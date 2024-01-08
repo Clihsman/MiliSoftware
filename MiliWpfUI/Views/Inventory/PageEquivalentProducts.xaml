@@ -136,6 +136,7 @@
                         </Button>
 
                     </StackPanel>
+                    <Button x:Name="activateControl" Width="0" Height="0"></Button>
                 </Grid>
 
             </StackPanel>

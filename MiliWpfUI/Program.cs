@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace MiliSoftware
 {
     public static class Program
-    {  
+    {
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
@@ -22,7 +22,7 @@ namespace MiliSoftware
             MiliSoftware.ControllerMain.Main(args);
             MiliWpfUI.App app = new MiliWpfUI.App();
             app.InitializeComponent();
-            app.Run();        
+            app.Run();
         }
     }
 }

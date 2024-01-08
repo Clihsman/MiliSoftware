@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiliWebService</RootNamespace>
     <AssemblyName>MiliWebService</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +66,7 @@
     <Compile Include="MVC\Model\RSA\Intefaces\IRSADecrypt.cs" />
     <Compile Include="MVC\Model\RSA\Intefaces\IRSAEncrypt.cs" />
     <Compile Include="MVC\Model\RSA\Intefaces\IRSAServices.cs" />
+    <Compile Include="WebServices\Response.cs" />
     <Compile Include="WebServices\WebFileFormat.cs" />
     <Compile Include="WebServices\WebGetService.cs" />
     <Compile Include="WebServices\WebPostService.cs" />
@@ -72,10 +75,17 @@
     <Compile Include="WebServices\WebServiceError.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVC\Model\WebServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiliApiClient\MiliApiClient.csproj">
+      <Project>{a638ca22-9e68-404f-aec3-ef1ff1b0f7f0}</Project>
+      <Name>MiliApiClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

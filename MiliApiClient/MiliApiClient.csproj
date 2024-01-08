@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A638CA22-9E68-404F-AEC3-EF1FF1B0F7F0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MiliSoftware</RootNamespace>
+    <AssemblyName>MiliApiClient</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MiliSoftware.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Acceso\AccesoApi.cs" />
+    <Compile Include="Acceso\Modelos\AccesoToken.cs" />
+    <Compile Include="Acceso\Modelos\Credenciales.cs" />
+    <Compile Include="Api.cs" />
+    <Compile Include="ApiController\Attributes\InField.cs" />
+    <Compile Include="ApiController\Attributes\InJoin.cs" />
+    <Compile Include="ApiController\Attributes\RestController.cs" />
+    <Compile Include="ApiController\Attributes\RestHost.cs" />
+    <Compile Include="ApiController\Attributes\RestMethod.cs" />
+    <Compile Include="ApiController\Emuns\MethodType.cs" />
+    <Compile Include="ApiController\RestApp.cs" />
+    <Compile Include="ApiController\RestResponse.cs" />
+    <Compile Include="DIAN\DIAN_UBL_Structures.cs" />
+    <Compile Include="Errores\AccesoError.cs" />
+    <Compile Include="Inventario\InventarioGrupoApi.cs" />
+    <Compile Include="Inventario\InventarioProductoApi.cs" />
+    <Compile Include="Inventario\Modelos\InventarioGrupo.cs" />
+    <Compile Include="Inventario\Modelos\Producto.cs" />
+    <Compile Include="Inventario\Modelos\ProductoComponente.cs" />
+    <Compile Include="Inventario\Modelos\ProductoEquivalente.cs" />
+    <Compile Include="Inventario\ProductoComponenteApi.cs" />
+    <Compile Include="Inventario\ProductoEquivaleneteApi.cs" />
+    <Compile Include="ApiController\Models\MessageObject.cs" />
+    <Compile Include="ApiController\Models\Model.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Store\AppStaticStore.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiliModels\MiliModels.csproj">
+      <Project>{9d35b025-bc80-49f1-b230-e4b62438e83a}</Project>
+      <Name>MiliModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

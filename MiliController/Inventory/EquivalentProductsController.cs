@@ -7,13 +7,18 @@
 
 
 using GrapInterCom.Interfaces.Inventory;
+using MiliSoftware.Inventario;
+using MiliSoftware.Inventario.Modelos;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MiliSoftware.Inventory
 {
     public class EquivalentProductsController : IController<string, EquivalentProduct[], string, string>
     {
+        private InventarioProductoApi InventarioProductoApi { get; set; } = new InventarioProductoApi();
+
         public EquivalentProductsController(EquivalentProductsGUI equivalentProductsGUI)
         {
             equivalentProductsGUI.controller = this;
@@ -32,6 +37,7 @@ namespace MiliSoftware.Inventory
 
         public EquivalentProduct[] Read(EquivalentProduct[] data)
         {
+            /*
             List<EquivalentProduct> products = new List<EquivalentProduct>();
 
             SqlLite.SqlLiteDatabase sqlLiteDatabase = new SqlLite.SqlLiteDatabase();
@@ -44,8 +50,8 @@ namespace MiliSoftware.Inventory
                     (string)value[nameof(ProductComponent.Code)],
                     (string)value[nameof(ProductComponent.Name)]));
             }
-
-            sqlLiteDatabase.Close();
+            */
+         //   sqlLiteDatabase.Close();
             /*
             sqlLiteDatabase.Close();
              SqlConnection connection = new SqlConnection("Data Source=DESKTOP-V156BBR\\TECHNOTEL;Initial Catalog=monica_9;Persist Security Info=True;User ID=sa;Password=Admin2012");
@@ -77,7 +83,13 @@ namespace MiliSoftware.Inventory
                 // Console.WriteLine("Error");
             }
             */
-            return products.ToArray();
+            return null;
+        }
+
+        public async Task<EquivalentProduct[]> ObtenerListaProductos() {
+            Producto[] productos = await InventarioProductoApi.ObtenerTodosLosProductos();
+            EquivalentProduct[] productosEquivalentes = productos.Select(producto => new EquivalentProduct(producto.Id, producto.Codigo, producto.Nombre)).ToArray();
+            return productosEquivalentes;
         }
 
         public bool Update(string data)

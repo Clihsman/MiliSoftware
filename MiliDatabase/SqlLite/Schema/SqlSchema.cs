@@ -45,9 +45,9 @@ namespace MiliSoftware.SqlLite
                     values[i] = field.GetValue(instance);
                 }
                 else
-                {
+                { 
                     var property = type.GetProperty(sqlField.Name);
-                    values[i] = property.GetValue(instance);
+                    if(!(property is null)) values[i] = property.GetValue(instance);
                 }
             }
 
@@ -139,10 +139,22 @@ namespace MiliSoftware.SqlLite
                 , SqlTable.TableName, GetFieldNames(), GetFieldParams()), GetInsertData(database, data));
         }
 
+        public void Save(string _id, SqlLiteDatabase database, params object[] data)
+        {
+            InsertSqlTableRef(database, data);
+            Dictionary<string, object> insertData = GetInsertData(database, data);
+            insertData["@_id"] = _id;
+
+            database.ExecuteNomQueryID(string.Format("INSERT INTO {0}{1} VALUES {2}"
+                , SqlTable.TableName, GetFieldNames(), GetFieldParams()), insertData);
+        }
+
         public void Delete(SqlLiteDatabase database, params object[] data)
         {
             InsertSqlTableRef(database, data);
             database.ExecuteNomQueryID(string.Format("DELETE FROM {0} WHERE {2}"
+                , SqlTable.TableName, GetFieldNames(), GetDeleteParams(data)), GetInsertData(database, data));
+            Console.WriteLine(string.Format("DELETE FROM {0} WHERE {2}"
                 , SqlTable.TableName, GetFieldNames(), GetDeleteParams(data)), GetInsertData(database, data));
         }
 
@@ -153,15 +165,7 @@ namespace MiliSoftware.SqlLite
                 , SqlTable.TableName, GetEditParams(data)), GetInsertData(database, data));
         }
 
-        public void Save(string _id, SqlLiteDatabase database, params object[] data)
-        {
-            InsertSqlTableRef(database, data);
-            Dictionary<string, object> insertData = GetInsertData(database, data);
-            insertData["@_id"] = _id;
-
-            database.ExecuteNomQueryID(string.Format("INSERT INTO {0}{1} VALUES {2}"
-                , SqlTable.TableName, GetFieldNames(), GetFieldParams()), insertData);
-        }
+ 
 
         private object[] InsertSqlTableRef(SqlLiteDatabase database, object[] data)
         {
@@ -173,6 +177,7 @@ namespace MiliSoftware.SqlLite
             {
                 if (Fields[i] is SqlTableRef)
                 {
+                   // Console.WriteLine("Name: {0} IsArray : {1}", ((SqlTableRef)Fields[i]).Name, data[i] is null);
                     if (data[i] != null && data[i].GetType().IsArray && ((SqlTableRef)Fields[i]).SqlTableRefType == SqlTableRefType.Array)
                     {
                         SqlSchema sqlSchema = loader.LoadSqlSchema(((Array)data[i]).GetValue(0).GetType());
@@ -183,6 +188,14 @@ namespace MiliSoftware.SqlLite
                             data[i] = _id;
                             sqlSchema.Save(_id, database, sqlSchema.GetDataArray(dataTableRef));
                         }
+                    }
+                    else if (data[i] != null && !data[i].GetType().IsArray && ((SqlTableRef)Fields[i]).SqlTableRefType == SqlTableRefType.Field)
+                    {
+                        SqlSchema sqlSchema = loader.LoadSqlSchema(data[i].GetType());
+                        if (sqlSchema == null) continue;
+                        string _id = IdGenerator.GenerateId(database.GetRowCount(sqlSchema.SqlTable.TableName));
+                        sqlSchema.Save(_id, database, sqlSchema.GetDataArray(data[i]));
+                        data[i] = _id;
                     }
                 }
             }
@@ -350,8 +363,6 @@ namespace MiliSoftware.SqlLite
                                 Array array = sqlSchema.FindArray(database, refType, href);
                                 property.SetValue(instance, array);
                             }
-                            Console.WriteLine(refType.FullName);
-                            Console.WriteLine("HRef {0}", data[sqlTableRef.Name]);
                         }
 
                     }
