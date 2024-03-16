@@ -6,7 +6,13 @@
  * *************************************/
 
 using GrapInterCom.Interfaces.Inventory;
+using MiliSoftware.Errores;
+using MiliSoftware.Inventario;
+using MiliSoftware.Inventario.Modelos;
 using MiliSoftware.SqlLite;
+using MiliSoftware.WebServices;
+using MiliWebService.WebServices;
+using OpenRestClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +23,8 @@ namespace MiliSoftware.Inventory
 {
     public class InventoryGroupController : IController<InventoryGroup, InventoryGroup[], InventoryGroup, InventoryGroup>
     {
+        private InventarioGrupoApi InventarioGrupoApi = new InventarioGrupoApi();
+
         public InventoryGroupController(IInventoryGroupGUI inventoryGroup) {
             inventoryGroup.controller = this;
             inventoryGroup.Show();
@@ -44,13 +52,14 @@ namespace MiliSoftware.Inventory
         public bool Delete(InventoryGroup data)
         {
             try
-            {
+            {/*
                 SqlLiteDatabase database = new SqlLiteDatabase();
                 database.Open();
                 SqlLoader loader = new SqlLoader();
                 SqlSchema schema = loader.LoadSqlSchema(typeof(InventoryGroup));
                 schema.Delete(database, schema.GetDataArray(data));
                 database.Close();
+                */
             }
             catch
             {
@@ -62,13 +71,56 @@ namespace MiliSoftware.Inventory
 
         public InventoryGroup[] Read(InventoryGroup[] a)
         {
+            WebService.InitServices("", "");
+            Response response = WebService.GetString("api/productos");
+            string json = null;
+
+            if (response)
+            {
+                json = response.Body as string;
+            }
+            else {
+                return null;
+            }
+         
+            Console.WriteLine(json);
+            /*
+    
+
             SqlLiteDatabase database = new SqlLiteDatabase();
             database.Open();
             SqlLoader loader = new SqlLoader();
             SqlSchema schema = loader.LoadSqlSchema(typeof(InventoryGroup));
             InventoryGroup[] data = schema.Find<InventoryGroup>(database);
+
+            Console.WriteLine(data[0].ToJson());
+
             database.Close();
-            return data;
+            */
+            return InventoryGroup.FromJsonArray(json);
+        }
+
+        public async Task<int> EliminarGrupo(params int[] ids)
+        {
+            return await InventarioGrupoApi.Delete(ids);
+        }
+
+        public async Task<List<InventoryGroup>> GetInventoryGroups()
+        {
+            RestResponse<InventarioGrupo[], AccesoError> repuesta = await InventarioGrupoApi.All();
+            if (repuesta)
+                return new List<InventoryGroup>(repuesta.Value0.Select(o => new InventoryGroup(o.Codigo, o.Nombre) {Id=o.Id}));
+            return null;
+        }
+
+        public async Task<InventoryGroup> GuardarGrupo(InventoryGroup grupo) {
+            InventarioGrupo inventarioGrupo = await InventarioGrupoApi.Save(new InventarioGrupo() { Id = grupo.Id, Codigo = grupo.Code, Nombre = grupo.Name });
+            return new InventoryGroup {Id=inventarioGrupo.Id, Name= inventarioGrupo.Nombre, Code= inventarioGrupo.Codigo};
+        }
+
+        public async Task<int> ActualizarGrupo(InventoryGroup grupo)
+        {
+            return await InventarioGrupoApi.Update(new InventarioGrupo() { Id = grupo.Id, Codigo = grupo.Code, Nombre = grupo.Name }, grupo.Id);
         }
 
         public bool Update(InventoryGroup data)

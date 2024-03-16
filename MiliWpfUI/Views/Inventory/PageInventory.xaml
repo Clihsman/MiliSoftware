@@ -29,7 +29,7 @@
                 </ListView>
 
                 <StackPanel x:Name="progBar"
-                    Visibility="Hidden"
+                    Visibility="Collapsed"
                     Margin="16">
                     <ProgressBar
                         Style="{StaticResource MaterialDesignCircularProgressBar}"

@@ -14,7 +14,7 @@ namespace MiliSoftware
     public class ProductComponent : IJsonObject
     {
         [SqlField(SqlFieldType.Text)]
-        public string _id { get; protected set; }
+        public int id { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Code { get; protected set; }
         [SqlField(SqlFieldType.Text)]
@@ -24,9 +24,9 @@ namespace MiliSoftware
 
         public ProductComponent() { }
 
-        public ProductComponent(string _id, string Code, string Name, int Amount)
+        public ProductComponent(int id, string Code, string Name, int Amount)
         {
-            this._id = _id;
+            this.id = id;
             this.Code = Code;
             this.Name = Name;
             this.Amount = Amount;
@@ -35,7 +35,7 @@ namespace MiliSoftware
         public string ToJson()
         {
             JObject jObject = new JObject();
-            jObject.Add(nameof(_id), _id);
+            jObject.Add(nameof(id), id);
             jObject.Add(nameof(Code), Code);
             jObject.Add(nameof(Amount), Amount);
             return jObject.ToString();
@@ -44,7 +44,7 @@ namespace MiliSoftware
         public void FromJson(string json)
         {
             JObject jObject = JObject.Parse(json);
-            _id = jObject.Value<string>(nameof(_id));
+            id = jObject.Value<int>(nameof(id));
             Code = jObject.Value<string>(nameof(Code));
             Amount = jObject.Value<int>(nameof(Amount));
         }

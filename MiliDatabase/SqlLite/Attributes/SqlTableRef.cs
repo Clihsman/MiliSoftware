@@ -18,6 +18,7 @@ namespace MiliSoftware.SqlLite
 
         public override bool Equals(object obj)
         {
+            if (!(obj is SqlTableRef)) return false;
             SqlTableRef sqlTable = (SqlTableRef)obj;
             return sqlTable.Name == Name && sqlTable.SqlTableRefType == SqlTableRefType;
         }

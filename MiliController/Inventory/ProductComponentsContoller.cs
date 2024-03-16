@@ -6,13 +6,19 @@
  * *************************************/
 
 using GrapInterCom.Interfaces.Inventory;
+using MiliSoftware.Inventario.Modelos;
+using MiliSoftware.Inventario;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MiliSoftware.Inventory
 {
     public class ProductComponentsContoller : IController<string, ProductComponent[], string, string>
     {
+        private InventarioProductoApi InventarioProductoApi { get; set; } = new InventarioProductoApi();
+
         public ProductComponentsContoller(ProductComponentsGUI productComponentsGUI)
         {
             productComponentsGUI.controller = this;
@@ -39,7 +45,7 @@ namespace MiliSoftware.Inventory
             foreach (Dictionary<string, object> value in sqlLiteDatabase.ExecuteQueryD("SELECT _id,Code,Name FROM Products"))
             {
                 products.Add(new ProductComponent(
-                       (string)value[nameof(ProductComponent._id)],
+                       (int)value[nameof(ProductComponent.id)],
                        (string)value[nameof(ProductComponent.Code)],
                        (string)value[nameof(EquivalentProduct.Name)], 0
                     ));
@@ -78,6 +84,13 @@ namespace MiliSoftware.Inventory
             }
             */
             return products.ToArray();
+        }
+
+        public async Task<ProductComponent[]> ObtenerListaProductos()
+        {
+            Producto[] productos = await InventarioProductoApi.ObtenerTodosLosProductos();
+            ProductComponent[] productosComponentes = productos.Select(producto => new ProductComponent(producto.Id, producto.Codigo, producto.Nombre, 0)).ToArray();
+            return productosComponentes;
         }
 
         public bool Update(string data)

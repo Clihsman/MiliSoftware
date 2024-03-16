@@ -26,6 +26,30 @@ namespace MiliSoftware.Views.Alerts
                 return pageYesNo.MessageBoxXAction;
             }
 
+            if (type == MessageBoxXType.Error500)
+            {
+                Page500Error page500Error = new Page500Error();
+               // page500Error.tbkMessage.Text = message;
+                Main.MainWindow.Instace.GetFrameDialog().Content = page500Error;
+                return page500Error.MessageBoxXAction;
+            }
+
+            if (type == MessageBoxXType.Error404)
+            {
+                Page404Error page404Error = new Page404Error();
+                // page500Error.tbkMessage.Text = message;
+                Main.MainWindow.Instace.GetFrameDialog().Content = page404Error;
+                return page404Error.MessageBoxXAction;
+            }
+
+            if (type == MessageBoxXType.Error503)
+            {
+                PageCloudError page503Error = new PageCloudError();
+                // page500Error.tbkMessage.Text = message;
+                Main.MainWindow.Instace.GetFrameDialog().Content = page503Error;
+                return page503Error.MessageBoxXAction;
+            }
+
             throw new NotImplementedException();
         }
     }

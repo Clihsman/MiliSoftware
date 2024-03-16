@@ -1,4 +1,5 @@
 ﻿using GrapInterCom.Interfaces.Inventory;
+using MiliSoftware.GUI.Styles;
 using MiliSoftware.Inventory;
 using MiliSoftware.UI;
 using MiliSoftware.Views.Alerts;
@@ -25,18 +26,22 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
     /// </summary>
     public partial class PageInventoryGroup : Page, IInventoryGroupGUI
     {
+
+        public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICRUD<InvGroup, InvGroup[], InvGroup, InvGroup> controller { get; set; }
+        private InventoryGroupController InventoryGroupController { get; set; }
+
+        public event EventHandler OnOpen;
+        public event EventHandler OnClosed;
+
         public PageInventoryGroup()
         {
             InitializeComponent();
             LoadEvents();
+            LoadStyles();
             LoadLanguage();
         }
 
-        public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ICRUD<InvGroup, InvGroup[], InvGroup, InvGroup> controller { get; set; }
-
-        public event EventHandler OnOpen;
-        public event EventHandler OnClosed;
 
         #region Functions
 
@@ -60,8 +65,34 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
             btExit.ToolTip = languaje.PageInventoryGroup.toolTipBtnExit;
         }
 
-        private void LoadData() {  
-            lvInventoryGroups.ItemsSource = controller.Read(null);
+        private async void LoadData() {
+            InventoryGroupController = controller as InventoryGroupController;
+            List<InvGroup> inventoryGroups = await InventoryGroupController.GetInventoryGroups();
+            lvInventoryGroups.ItemsSource = inventoryGroups;
+           
+            // se habilita la interfas grafica
+            lvInventoryGroups.Visibility = Visibility.Visible;
+            progBar.Visibility = Visibility.Collapsed;
+        }
+
+        private void LoadStyles()
+        {
+            StyleSheet styleSheet = StyleSheet.Load("assets/styles/coloredStyle.json");
+
+            if (styleSheet.GetFormStyle("form_inventory") != null)
+            {
+                btDelete.Foreground = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_delete").GetForegroundBrush();
+                btDelete.BorderBrush = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_delete").GetBackgroundBrush();
+                btDelete.Background = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_delete").GetBackgroundBrush();
+
+                btNew.Foreground = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_new").GetForegroundBrush();
+                btNew.BorderBrush = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_new").GetBackgroundBrush();
+                btNew.Background = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_new").GetBackgroundBrush();
+
+                btEdit.Foreground = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetForegroundBrush();
+                btEdit.BorderBrush = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
+                btEdit.Background = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
+            }
         }
 
         #endregion
@@ -70,11 +101,16 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
 
         private void OnLoaded(object sender, EventArgs e)
         {
+            // se desabilita la interfas grafica
+            lvInventoryGroups.Visibility = Visibility.Collapsed;
+            progBar.Visibility = Visibility.Visible;
+
             // Se crea los campos para el GridView
             lvHeaders.Columns.Add(new GridViewColumn() { Header = languaje.PageInventoryGroup.headCode, DisplayMemberBinding = new Binding("Code") });
             lvHeaders.Columns.Add(new GridViewColumn() { Header = languaje.PageInventoryGroup.headName, DisplayMemberBinding = new Binding("Name") });
             // Se carga los datos del controlador
             LoadData();
+          
         }
 
         private void btNewClick(object o, EventArgs e)
@@ -102,19 +138,19 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
 
         private void btDeleteClick(object o, EventArgs e)
         {
-            MessageBoxX.Show("Esta seguro bro de eliminar el grupo de inventario?", MessageBoxXType.YesNo).Then((dialogResult) => {
+            MessageBoxX.Show("Esta seguro bro de eliminar el grupo de inventario?", MessageBoxXType.DeleteNO).Then(async (dialogResult) => {
                 if (dialogResult == DialogResult.No) return;
 
-                bool deleteData = false;
+                int[] ids = lvInventoryGroups.SelectedItems.Select<InvGroup, int>(grupo => grupo.Id).ToArray();
 
-                foreach (InvGroup invGroup in lvInventoryGroups.SelectedItems) deleteData = controller.Delete(invGroup);
+                InventoryGroupController = controller as InventoryGroupController;
 
-                if (deleteData)
+                if (await InventoryGroupController.EliminarGrupo(ids) == ids.Length)
                 {
                     Main.MainWindow.Instace.AlertDialog("Datos Eliminados");
                     LoadData();
                 }
-            });        
+            });       
         }
 
         private void lvInventoryGroupsSelectionChanged(object sender, SelectionChangedEventArgs e) {

@@ -2,6 +2,7 @@
 using MiliSoftware.Customers;
 using MiliSoftware.Email;
 using MiliSoftware.Inventory;
+using MiliSoftware.Setting;
 using MiliSoftware.Suppliers;
 using MiliSoftware.UI;
 using MiliSoftware.Views.Customers;
@@ -9,9 +10,12 @@ using MiliSoftware.Views.Debug;
 using MiliSoftware.Views.Email;
 using MiliSoftware.Views.Export;
 using MiliSoftware.Views.Inventory;
+using MiliSoftware.Views.Setting;
 using MiliSoftware.Views.Suppliers;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -44,6 +48,7 @@ namespace MiliSoftware.Views.Main
         private PageInventory pageInventory = null;
         private PageCustomers pageCustomers = null;
         private PageSuppliers pageSuppliers = null;
+        private SettingPage pageSetting = null;
         private PageEmails pageEmails;
         //*******************
 
@@ -59,7 +64,7 @@ namespace MiliSoftware.Views.Main
             Background = new ImageBrush(image);
 
             InitializeComponent();
-            loadLanguaje();
+            LoadLanguaje();
             LoadEvents();
         }
 
@@ -85,6 +90,9 @@ namespace MiliSoftware.Views.Main
                 while (MainWindow.Instace != null)
                 {
                     IsNetworkAvailable();
+                    Dispatcher.Invoke(new Action(()=> {
+                        tbDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy").SetUpperPrimaryChars();
+                    }));
                     Thread.Sleep(5000);
                 }
             }));
@@ -98,14 +106,14 @@ namespace MiliSoftware.Views.Main
         private void LoadEvents()
         {
             Loaded += Window_Loaded;
-            btCustomers.MouseDown += btCustomersClick;
-            btInventory.MouseDown += btInventoryClick;
-            btSuppliers.MouseDown += btSuppliersClick;
-            btEmail.MouseDown += btEmailClick;
-            btDebug.MouseDown += btDebugClick;
-            btHelp.MouseDown += btHetpClick;
-            btHome.MouseDown += btHomeClick;
-
+            btCustomers.MouseDown += BtCustomersClick;
+            btInventory.MouseDown += BtInventoryClick;
+            btSuppliers.MouseDown += BtSuppliersClick;
+            btEmail.MouseDown += BtEmailClick;
+            btDebug.MouseDown += BtDebugClick;
+            btHelp.MouseDown += BtHetpClick;
+            btHome.MouseDown += BtHomeClick;
+            btSetting.MouseDown += BtSettingClick;
             // Containers
             /*
             int puntero = 0;
@@ -125,9 +133,9 @@ namespace MiliSoftware.Views.Main
             };
 
             mcBtPrevious.MouseDown += (o, e) => {
-                if (puntero > 0) puntero--;
+                if (puntero > 0) puntero--;D:\MiliDatos\Visual Studio 2015\Projects\MiliSoftware
                 else puntero = musics.Length - 1;
-
+                D:\MiliDatos\Visual Studio 2015\Projects\MiliSoftware
                 if (System.IO.File.Exists(musics[puntero]))
                     mcTbTitle.Text = System.IO.Path.GetFileName(musics[puntero]);
 
@@ -196,13 +204,13 @@ namespace MiliSoftware.Views.Main
             }
         }
 
-        private void btHetpClick(object sender, MouseButtonEventArgs e)
+        private void BtHetpClick(object sender, MouseButtonEventArgs e)
         {
             // parentFrame.Content = new PageUnitOfMeasurement();
             
         }
 
-        private void loadLanguaje()
+        private void LoadLanguaje()
         {
             pbTasks.ToolTip = languaje.MainWindow.toolTipTask;
             btAccount.ToolTip = languaje.MainWindow.toolTipAccount;
@@ -219,78 +227,62 @@ namespace MiliSoftware.Views.Main
 
         #region Events
 
-        private void btDebugClick(object sender, EventArgs e)
+        private void BtDebugClick(object sender, EventArgs e)
         {
             GetFrame().Content = new PageDebug();
         }
 
-        private void btInventoryClick(object sender, RoutedEventArgs e)
+        private void BtInventoryClick(object sender, RoutedEventArgs e)
         {
-            if (iGUI != null)
-            {
-                iGUI.Close();
-                iGUI = null;
-            }
-
-            pageInventory = new PageInventory(GetFrame());
+            CloseFrameDialog();
+            pageInventory = new PageInventory();
             iGUI = pageInventory;
             Title = string.Format("{0}@{1}", TITLE, languaje.MainWindow.toolTipInventory);
             InventoryController inventoryController = new InventoryController(pageInventory);
             UpdateButtonChecked((PackIcon)sender);
         }
 
-        private void btCustomersClick(object sender, RoutedEventArgs e)
+        private void BtCustomersClick(object sender, RoutedEventArgs e)
         {
-            if (iGUI != null)
-            {
-                iGUI.Close();
-                iGUI = null;
-            }
-
+            CloseFrameDialog();
             pageCustomers = new PageCustomers(GetFrame());
             iGUI = pageCustomers;
             ClientController clientController = new ClientController(pageCustomers);
             UpdateButtonChecked((PackIcon)sender);
         }
 
-        private void btSuppliersClick(object sender, RoutedEventArgs e)
+        private void BtSuppliersClick(object sender, RoutedEventArgs e)
         {
-            if (iGUI != null)
-            {
-                iGUI.Close();
-                iGUI = null;
-            }
-
-            pageSuppliers = new PageSuppliers(GetFrame());
+            CloseFrameDialog();
+            pageSuppliers = new PageSuppliers();
             iGUI = pageSuppliers;
             SuppliersController suppliersController = new SuppliersController(pageSuppliers);
             UpdateButtonChecked((PackIcon)sender);
 
         }
 
-        private void btEmailClick(object sender, MouseButtonEventArgs e)
+        private void BtEmailClick(object sender, MouseButtonEventArgs e)
         {
-            if (iGUI != null)
-            {
-                iGUI.Close();
-                iGUI = null;
-            }
-
-            pageEmails = new PageEmails(GetFrame());
+            CloseFrameDialog();
+            pageEmails = new PageEmails();
             iGUI = pageEmails;
             EmailsController emailController = new EmailsController(pageEmails);
             UpdateButtonChecked((PackIcon)sender);
         }
 
-        private void btHomeClick(object sender, MouseButtonEventArgs e)
+        private void BtHomeClick(object sender, MouseButtonEventArgs e)
         {
-            if (iGUI != null)
-            {
-                iGUI.Close();
-                iGUI = null;
-            }
-
+            CloseFrameDialog();
             UpdateButtonChecked((PackIcon)sender, false);
+        }
+
+        private void BtSettingClick(object sender, MouseButtonEventArgs e) {
+            CloseFrameDialog();
+            pageSetting = new SettingPage();
+            SettingController controller = new SettingController(pageSetting);
+            pageSetting.SettingController = controller;
+            iGUI = pageSetting;
+            UpdateButtonChecked((PackIcon)sender);
         }
 
         private void PackIcon_MouseEnter(object sender, MouseEventArgs e)
@@ -304,7 +296,6 @@ namespace MiliSoftware.Views.Main
 
             }
             catch { }
-            // ((Control)sender).Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#345ceb"));
         }
 
         private void PackIcon_MouseLeave(object sender, MouseEventArgs e)
@@ -339,14 +330,14 @@ namespace MiliSoftware.Views.Main
             {
                 Dispatcher.Invoke(new Action(delegate
                 {
-                    pinetwork.Kind = MaterialDesignThemes.Wpf.PackIconKind.WifiCheck;
+                    pinetwork.Kind = PackIconKind.WifiCheck;
                 }));
             }
             else
             {
                 Dispatcher.Invoke(new Action(delegate
                 {
-                    pinetwork.Kind = MaterialDesignThemes.Wpf.PackIconKind.WifiOff;
+                    pinetwork.Kind = PackIconKind.WifiOff;
                 }));
             }
         }
@@ -374,6 +365,7 @@ namespace MiliSoftware.Views.Main
             {
                 stSubOptions.Visibility = Visibility.Visible;
                 stDate.Visibility = Visibility.Hidden;
+                stMedia.Visibility = Visibility.Hidden;
                 stTools.Visibility = Visibility.Hidden;
                 DoubleAnimation animation = new DoubleAnimation(0, 250, new Duration(new TimeSpan(0, 0, 0, 0, 650)));
 
@@ -390,10 +382,7 @@ namespace MiliSoftware.Views.Main
             }
         }
 
-        public Frame GetFrameDialog() {
-            // Se desabilitan los controles para que solo quede habilitado el Dialogo
-            stMenuBar.IsEnabled = false;
-            stToolBar.IsEnabled = false;
+        public Frame GetFrameDialog() {   
             foreach (UIElement panel in gdDialog.Children) panel.IsEnabled = false;
 
             // Se crea un nuevo Frame para el dialogo
@@ -401,6 +390,12 @@ namespace MiliSoftware.Views.Main
             frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             frame.HorizontalAlignment = HorizontalAlignment.Stretch;
             gdDialog.Children.Add(frame);
+
+            // Se desabilitan los controles para que solo quede habilitado el Dialogo
+            bool enable = gdDialog.Children.Count <= 1;
+            stMenuBar.IsEnabled = enable;
+            stToolBar.IsEnabled = enable;
+
             return frame;
         }
 
@@ -429,9 +424,10 @@ namespace MiliSoftware.Views.Main
 
         public void CloseFrameDialog()
         {
-            gdDialog.Children.RemoveAt(gdDialog.Children.Count - 1);
-            gdDialog.Children[gdDialog.Children.Count - 1].IsEnabled = true;
-            if (gdDialog.Children.Count == 1)
+            if (gdDialog.Children.Count > 0) gdDialog.Children.RemoveAt(gdDialog.Children.Count - 1);
+            if (gdDialog.Children.Count > 0) gdDialog.Children[gdDialog.Children.Count - 1].IsEnabled = true;
+
+            if (gdDialog.Children.Count <= 1)
             {
                 stMenuBar.IsEnabled = true;
                 stToolBar.IsEnabled = true;

@@ -14,7 +14,7 @@ namespace MiliSoftware
     public class EquivalentProduct : IJsonObject
     {
         [SqlField(SqlFieldType.Text)]
-        public string _id { get; protected set; }
+        public int id { get; protected set; }
         [SqlField(SqlFieldType.Text)]
         public string Code { get; protected set; }
         [SqlField(SqlFieldType.Text)]
@@ -22,8 +22,8 @@ namespace MiliSoftware
 
         public EquivalentProduct() {}
 
-        public EquivalentProduct(string _id, string Code, string Name) {
-            this._id = _id;
+        public EquivalentProduct(int id, string Code, string Name) {
+            this.id = id;
             this.Code = Code;
             this.Name = Name;
         }
@@ -31,7 +31,7 @@ namespace MiliSoftware
         public void FromJson(string json)
         {
             JObject jObject = JObject.Parse(json);
-            _id = jObject.Value<string>(nameof(_id));
+            id = jObject.Value<int>(nameof(id));
             Code = jObject.Value<string>(nameof(Code));
             Name = jObject.Value<string>(nameof(Name));
         }
@@ -39,7 +39,7 @@ namespace MiliSoftware
         public string ToJson()
         {
             JObject jObject = new JObject();
-            jObject.Add(nameof(_id), _id);
+            jObject.Add(nameof(id), id);
             jObject.Add(nameof(Code), Code);
             jObject.Add(nameof(Name), Name);
             return jObject.ToString();

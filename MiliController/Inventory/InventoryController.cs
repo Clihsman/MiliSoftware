@@ -6,11 +6,19 @@
  * *************************************/
 
 using GrapInterCom.Interfaces.Inventory;
+using MiliSoftware.Errores;
+using MiliSoftware.Inventario.Modelos;
+using MiliSoftware.Inventario;
+using OpenRestClient;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace MiliSoftware.Inventory
 {
     public class InventoryController : IController<string, object[], string, string>
     {
+        private InventarioProductoApi inventarioProductoApi = new InventarioProductoApi();
+
         #region Constucts
 
         public InventoryController(IInventoryGUI inventoryGUI)
@@ -47,6 +55,26 @@ namespace MiliSoftware.Inventory
             */
 
             //            return DObject.GetArray(clientes);
+            return null;
+        }
+
+        public async Task<Product[]> TodosLosProductos()
+        {
+            
+            RestResponse<Producto[], AccesoError> resultado = await inventarioProductoApi.ObtenerTodosLosProductos();
+            if (resultado)
+            {
+                return resultado.Value0.Select(producto => new Product() {
+                    Name = producto.Nombre,
+                    Code = producto.Codigo,
+                    Type = producto.Tipo,
+                    InventoryGroup = producto.GrupoInventario,
+                    ProductComponents = producto.ProductoComponentes?.
+                        Select(componente => new ProductComponent(componente.Id,componente.Codigo,componente.Nombre, componente.Cantidad)).ToArray(),
+                    Store = producto.Bodega
+                }).ToArray();
+            }
+            
             return null;
         }
 

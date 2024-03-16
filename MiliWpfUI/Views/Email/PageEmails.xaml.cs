@@ -36,14 +36,12 @@ namespace MiliSoftware.Views.Email
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        private Frame parent;
         object[] emails = null;
         private string emailType = "received";
 
-        public PageEmails(Frame parent)
+        public PageEmails()
         {
             InitializeComponent();
-            this.parent = parent;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -231,7 +229,7 @@ namespace MiliSoftware.Views.Email
         public void Show()
         {
             OnOpen?.Invoke(this, new EventArgs());
-            parent.Content = this;
+            Main.MainWindow.Instace.GetFrameDialog().Content = this;
         }
 
         public DialogResult ShowDialog()

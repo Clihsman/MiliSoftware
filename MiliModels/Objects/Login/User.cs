@@ -5,17 +5,34 @@
  * Assembly : MiliModels               *
  * *************************************/
 
+using Newtonsoft.Json.Linq;
+
 namespace MiliSoftware
 {
-    public class User
+    public class User : IJsonObject
     {
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public User(string email,string password)
+        public User(string email, string password)
         {
             Email = email;
             Password = password;
+        }
+
+        public void FromJson(string json)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string ToJson()
+        {
+            return new JObject
+            {
+                { "email", Email },
+                { "password", Password }
+            }
+            .ToString();
         }
     }
 }

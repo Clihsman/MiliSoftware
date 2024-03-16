@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.IO;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace MiliSoftware
 {
@@ -30,6 +31,8 @@ namespace MiliSoftware
                 {
                     Console.WriteLine("\n" + sqlSchema.GetCreateTable());
                     database.ExecuteNomQuery(sqlSchema.GetCreateTable());
+
+                   
 
                     /*
                    if (sqlSchema != null && sqlSchema.SqlTable.TableName == "AccountingSeat")
@@ -68,27 +71,41 @@ namespace MiliSoftware
 
                     if (sqlSchema.SqlTable.TableName == "Products")
                     {
+                        foreach (Product product in sqlSchema.Find<Product>(database))
+                        {
+                            Console.WriteLine(product.ToJson());
+                        }
+                        /*
                         Product product = sqlSchema.FindOne<Product>(database, "3a0a5c1d2899000000030000");
                         ParseJson(product.ToJson());
-                     
+                     */
 
                     }
                 }
             }
 
+            SqlSchema sqlSchema2 = loader.LoadSqlSchema(typeof(Product));
+            Product[] products = sqlSchema2.Find<Product>(database);
+
+            foreach (Product product in products)
+            {
+                ParseJson(product.ToJson());
+            }
+
+
             database.Close();
 
-            Montar();
+            //Montar();
 
-            
 
-          //  StringBuilder volumeMap = new StringBuilder(1024);
-        //    QueryDosDevice("S:", volumeMap, 1024);
 
-          //  Console.WriteLine(volumeMap.ToString());
+            //  StringBuilder volumeMap = new StringBuilder(1024);
+            //    QueryDosDevice("S:", volumeMap, 1024);
 
-        //    Console.ReadKey();
-          //  Desmontar();
+            //  Console.WriteLine(volumeMap.ToString());
+
+            //    Console.ReadKey();
+         //     Desmontar();
         }
         
         [System.Runtime.InteropServices.DllImport("kernel32")]

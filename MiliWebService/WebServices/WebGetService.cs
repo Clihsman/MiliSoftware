@@ -5,12 +5,12 @@
  * Assembly : MiliWebService           *
  * *************************************/
 
-using MiliSoftware.Model.WebServices;
+using MiliSoftware.WebServices;
 using System;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MiliWebService.WebServices
 {
@@ -39,12 +39,7 @@ namespace MiliWebService.WebServices
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public void SetCredentials(string username, string password)
-        {
-            byte[] data = Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password);
-            string encoded = Convert.ToBase64String(data);
-            webRequest.Headers.Add("Authorization", "Basic " + encoded);
-        }
+ 
 
         /// <summary>
         /// Ace una peticion al servidor y este la devuelve en string
@@ -69,6 +64,27 @@ namespace MiliWebService.WebServices
             }
 
             return result;
+        }
+
+        public async Task<string> GetStringAsync()
+        {
+            Error = null;
+            try
+            {
+                using (WebResponse webResponse = await webRequest.GetResponseAsync())
+                {
+                    using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+                    {
+                        return await reader.ReadToEndAsync();
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Error = new WebServiceError(ex.Message, "GET", uri, ex.ToString());
+            }
+
+            return null;
         }
 
         public byte[] GetBuffer()

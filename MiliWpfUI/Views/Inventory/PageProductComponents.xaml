@@ -16,7 +16,18 @@
      Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost" SnackbarMessageQueue="{Binding ElementName=MySnackbar, Path=MessageQueue}">
             <StackPanel>
-                
+
+                <StackPanel x:Name="progBar"
+                    Visibility="Hidden"
+                    Margin="16">
+                                    <ProgressBar
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        HorizontalAlignment="Center"
+                        Margin="16"
+                        IsIndeterminate="True"
+                        Value="0" />
+                </StackPanel>
+
                 <Grid Height="460" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

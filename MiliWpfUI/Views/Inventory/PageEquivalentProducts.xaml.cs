@@ -29,6 +29,7 @@ namespace MiliSoftware.Views.Inventory
         public event EventHandler OnClosed;
 
         public ICRUD<string, EquivalentProduct[], string, string> controller { get; set; }
+        
         public DialogResult DialogResult { get; set; }
         private Frame parent;
 
@@ -65,11 +66,13 @@ namespace MiliSoftware.Views.Inventory
             lvProducts.MouseDoubleClick += lvProductMouseDoubleClick;
             lvProducts.KeyDown += lvProductsKeyDown;
             lvEquivalentProducts.SelectionChanged += lvEquivalentProductsSelectItem;
+            lvEquivalentProducts.KeyDown += lvEquivalentProductsKeyDown;
             btSearch.Click += btSearchClick;
             btAdd.Click += btAddClick;
             btRemove.Click += btRemoveClick;
             btExit.Click += btExitClick;
             btSave.Click += btSaveClick;
+            tbSearch.KeyDown += tbSearchKeyDown;
         }
 
         private void LoadLanguage()
@@ -87,12 +90,12 @@ namespace MiliSoftware.Views.Inventory
 
             // List View Products
             lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Code") });
-            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Name") });
+            lvHeadersProducts.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName,Width=300, DisplayMemberBinding = new Binding("Name") });
             //************
 
             // List View Products Components
             lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headCode, DisplayMemberBinding = new Binding("Code") });
-            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, DisplayMemberBinding = new Binding("Name") });
+            lvHeadersProductsComponets.Columns.Add(new GridViewColumn() { Header = languaje.PageEquivalentProducts.headName, Width = 300, DisplayMemberBinding = new Binding("Name") });
             //************
         }
 
@@ -110,7 +113,10 @@ namespace MiliSoftware.Views.Inventory
             LoadLanguage();
             LoadEvents();
             RemoveFromExistingProducts();
+            activateControl.Focus();
         }
+
+
 
         private void lvProductsSelectItem(object sender, SelectionChangedEventArgs e)
         {
@@ -195,8 +201,44 @@ namespace MiliSoftware.Views.Inventory
         private void lvProductsKeyDown(object o, KeyEventArgs e)
         {
             if (lvProducts.SelectedItem != null && e.Key == Key.Enter)
+            {
                 btAddClick(o, e);
+                activateControl.Focus();
+            }
         }
+
+        private void tbSearchKeyDown(object o, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                btSearchClick(o, e);
+            }
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.F))
+            {
+                tbSearch.Focus();
+            }
+            /*
+            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.S))
+            {
+                MessageBox.Show("Guardar Datos");
+            }
+            */
+        }
+
+        private void lvEquivalentProductsKeyDown(object o, KeyEventArgs e)
+        {        
+            if (lvEquivalentProducts.SelectedItem != null && e.Key == Key.Delete)
+            {
+                btRemoveClick(o, e);
+                activateControl.Focus();
+                Main.MainWindow.Instace.AlertDialog("Se removio un producto");
+            }
+        }
+
 
         #endregion
 
@@ -208,7 +250,7 @@ namespace MiliSoftware.Views.Inventory
 
             foreach (EquivalentProduct equivalent in lvEquivalentProducts.Items)
             {
-                equivalents.Add(new EquivalentProduct(equivalent._id, equivalent.Code, equivalent.Name));
+                equivalents.Add(new EquivalentProduct(equivalent.id, equivalent.Code, equivalent.Name));
             }
 
             return equivalents.ToArray();

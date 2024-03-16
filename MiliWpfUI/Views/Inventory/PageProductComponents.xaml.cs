@@ -1,5 +1,6 @@
 ﻿using GrapInterCom.Interfaces.Inventory;
 using MaterialDesignThemes.Wpf;
+using MiliSoftware.Inventory;
 using MiliSoftware.UI;
 using MiliSoftware.WpfUI;
 using System;
@@ -26,12 +27,13 @@ namespace MiliSoftware.Views.Inventory
     /// </summary>
     public partial class PageProductComponents : Page, ProductComponentsGUI
     {
-        private List<object> products;
+        private List<ProductComponent> products;
 
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        public ICRUD<string, ProductComponent[], string, string> controller { get; set; }
+        public ICRUD<string, ProductComponent[], string, string> controller { get => Controller; set => Controller = (ProductComponentsContoller)value; }
+        private ProductComponentsContoller Controller;
         public DialogResult DialogResult { get; set; }
         private Frame parent;
         private IntTextBox tbAmount;
@@ -44,11 +46,12 @@ namespace MiliSoftware.Views.Inventory
 
         #region Events
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             LoadControls();
             LoadLanguage();
             LoadEvents();
+            await LoadData();
             RemoveFromExistingProducts();
         }
 
@@ -78,29 +81,26 @@ namespace MiliSoftware.Views.Inventory
         {
             ProductComponent product = (ProductComponent)lvProducts.SelectedItem;
 
-            int Amount = (int)tbAmount.Value();
-
-            if (Amount > 0)
-            {
-                lvProductsComponets.Items.Add(new ProductComponent(product._id,product.Code, product.Name, Amount));
-
-                products.Remove(product);
-                lvProducts.ItemsSource = null;
-                lvProducts.ItemsSource = products;
-                tbCant.Text = "0";
-                btSave.IsEnabled = true;
-            }
-            else
-            {
+            if (tbAmount.Value() <= 0) {
                 MySnackbar.MessageQueue.Enqueue("La cantidad debe ser mayor a cero");
-            } 
+                return;
+            }
+
+            int Amount = (int)tbAmount.Value();
+            lvProductsComponets.Items.Add(new ProductComponent(product.id,product.Code, product.Name, Amount));
+
+            products.Remove(product);
+            lvProducts.ItemsSource = null;
+            lvProducts.ItemsSource = products;
+            tbCant.Text = "0";
+            btSave.IsEnabled = true;
         }
 
         private void btRemoveClick(object sender, EventArgs e)
         {
             ProductComponent product = (ProductComponent)lvProductsComponets.SelectedItem;
 
-            products.Add(new ProductComponent(product._id, product.Code, product.Name, 0));
+            products.Add(new ProductComponent(product.id, product.Code, product.Name, 0));
             lvProducts.ItemsSource = null;
             lvProducts.ItemsSource = products;
 
@@ -210,14 +210,17 @@ namespace MiliSoftware.Views.Inventory
         private void LoadControls()
         {
             tbAmount = new IntTextBox(tbCant);
-
-            products = new List<object>();
-            products.AddRange(controller.Read(null));
-
-            lvProducts.ItemsSource = products;
-
             var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(800));
             MySnackbar.MessageQueue = myMessageQueue;
+        }
+
+        private async Task LoadData() {
+            IsEnabled = false;
+            progBar.Visibility = Visibility.Visible;
+            products = new List<ProductComponent>(await Controller.ObtenerListaProductos());
+            lvProducts.ItemsSource = products;
+            progBar.Visibility = Visibility.Collapsed;
+            IsEnabled = true;
         }
 
         #endregion

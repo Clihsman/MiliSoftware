@@ -2,6 +2,7 @@
 using MiliSoftware.Suppliers;
 using MiliSoftware.UI;
 using MiliSoftware.Views.Main;
+using MiliSoftware.Views.Pacientes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,9 @@ namespace MiliSoftware.Views.Suppliers
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        private Frame parent;
-
-        public PageSuppliers(Frame parent)
+        public PageSuppliers()
         {
             InitializeComponent();
-            this.parent = parent;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -71,8 +69,8 @@ namespace MiliSoftware.Views.Suppliers
         #region Events
 
         private void btNewClick(object sender,EventArgs eventArgs) {
-           // MainWindow.Instace.parentFrame.IsEnabled = false;
-            PageSupplier pageSupplier = new PageSupplier(MainWindow.Instace.GetFrameDialog());
+            // MainWindow.Instace.parentFrame.IsEnabled = false;
+            PagePaciente pageSupplier = new PagePaciente(MainWindow.Instace.GetFrameDialog());
             SuppliersController suppliersController = new SuppliersController(pageSupplier);
 
             pageSupplier.OnClosed += delegate {
@@ -159,7 +157,7 @@ namespace MiliSoftware.Views.Suppliers
 
         public void Show()
         {
-            parent.Content = this;
+            MainWindow.Instace.GetFrameDialog().Content = this;
             OnOpen?.Invoke(this, new EventArgs());
         }
 

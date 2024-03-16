@@ -1,4 +1,5 @@
 ﻿using MiliSoftware.Model.WebServices;
+using MiliWebService.WebServices;
 using System;
 using System.IO;
 using System.Net;
@@ -29,8 +30,6 @@ namespace MiliSoftware.WebServices
 
         public string PostString(string data)
         {
-            string result = "";
-
             using (StreamWriter writer = new StreamWriter(webRequest.GetRequestStream()))
             {
                 writer.Write(data);
@@ -41,17 +40,16 @@ namespace MiliSoftware.WebServices
 
             using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
             {
-                result = reader.ReadToEnd().Trim();
+               return reader.ReadToEnd().Trim();
             }
-
-            return result;
         }
 
-        public async Task<string> PostJson(string json)
+        public async Task<Response> PostJson(string json)
         {
             string message = null;
             int statusCode = 404;
-            webRequest.ContentType = "application/json;charset=UTF-8";
+            webRequest.ContentType = "application/json";
+            Console.WriteLine(json);
             HttpWebResponse webResponse = null;
             try
             {
@@ -104,26 +102,18 @@ namespace MiliSoftware.WebServices
                     statusCode = 404;
                 }
                
-                message = ex.Message;
+              //  message = ex.Message;
             }
 
-            if (webResponse != null) webResponse.Dispose();
+            webResponse?.Dispose();
 
-            return GetJsonToObject(new {
-                statusCode,
-                message
-            });
-        }
-
-        public async Task<string> PostJson(object data)
-        {
-            return await PostJson(Newtonsoft.Json.JsonConvert.SerializeObject(data));
+            return new Response(message, statusCode);
         }
 
         public string PostJson(string[] data)
         {
             string result = "";
-            webRequest.ContentType = "application/json;charset=UTF-8";
+            webRequest.ContentType = "application/json";
 
             using (StreamWriter writer = new StreamWriter(webRequest.GetRequestStream()))
             {

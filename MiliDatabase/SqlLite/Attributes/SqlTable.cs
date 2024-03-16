@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiliSoftware.SqlLite
 {
+    /// <summary>
+    /// esta clase permite crear una tabla en sqlLite a traves de una clase
+    /// </summary>
     public class SqlTable : Attribute
     {
-        public string TableName {private set;get;}
+        /// <summary>
+        /// Obtiene el nombre de la tabla
+        /// </summary>
+        public string TableName {private set; get;}
 
         public SqlTable(string tableName) {
             TableName = tableName;

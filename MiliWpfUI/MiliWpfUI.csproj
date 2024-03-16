@@ -11,7 +11,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MiliSoftware</RootNamespace>
     <AssemblyName>MiliSoftware</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +34,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -55,7 +56,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>MiliSoftware.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icono.ico</ApplicationIcon>
@@ -122,6 +124,7 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -171,11 +174,23 @@
     <Compile Include="Views\Alerts\MessageBoxXAction.cs" />
     <Compile Include="Views\Alerts\MessageBoxX.cs" />
     <Compile Include="Views\Alerts\MessageBoxXType.cs" />
+    <Compile Include="Views\Alerts\Page404Error .xaml.cs">
+      <DependentUpon>Page404Error .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alerts\PageCloudError.xaml.cs">
+      <DependentUpon>PageCloudError.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alerts\Page500Error.xaml.cs">
+      <DependentUpon>Page500Error.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Alerts\PageDeleteNo.xaml.cs">
       <DependentUpon>PageDeleteNo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Alerts\PageYesNo.xaml.cs">
       <DependentUpon>PageYesNo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Charts\Chart.xaml.cs">
+      <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\MoneyTextBox.cs" />
     <Compile Include="Views\Controls\PercentageTextBox.cs" />
@@ -212,6 +227,12 @@
     <Compile Include="Views\Inventory\InventoryGroup\PageNewInventoryGroup.xaml.cs">
       <DependentUpon>PageNewInventoryGroup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Inventory\InventoryStore\PageInventoryStore.xaml.cs">
+      <DependentUpon>PageInventoryStore.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inventory\InventoryStore\PageNewInventoryStore.xaml.cs">
+      <DependentUpon>PageNewInventoryStore.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Inventory\PageEquivalentProducts.xaml.cs">
       <DependentUpon>PageEquivalentProducts.xaml</DependentUpon>
     </Compile>
@@ -245,6 +266,9 @@
     <Compile Include="Views\Main\PageMain.xaml.cs">
       <DependentUpon>PageMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Setting\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\FormStart.xaml.cs">
       <DependentUpon>FormStart.xaml</DependentUpon>
     </Compile>
@@ -255,13 +279,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Suppliers\PageSuppliers.xaml.cs">
-      <DependentUpon>PageSuppliers.xaml</DependentUpon>
+    <Compile Include="Views\Pacientes\PagePacientes.xaml.cs">
+      <DependentUpon>PagePacientes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Suppliers\PageSupplier.xaml.cs">
-      <DependentUpon>PageSupplier.xaml</DependentUpon>
+    <Compile Include="Views\Pacientes\PagePaciente.xaml.cs">
+      <DependentUpon>PagePaciente.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Alerts\Alert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Alerts\Page404Error .xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Alerts\PageCloudError.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Alerts\Page500Error.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -270,6 +306,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Alerts\PageYesNo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Charts\Chart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,7 +323,7 @@
     </Page>
     <Page Include="Views\Debug\PageDebug.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\Debug\USRegister.xaml">
       <SubType>Designer</SubType>
@@ -310,6 +350,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Inventory\InventoryGroup\PageNewInventoryGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inventory\InventoryStore\PageInventoryStore.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inventory\InventoryStore\PageNewInventoryStore.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,6 +405,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Setting\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\FormStart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -365,11 +417,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Suppliers\PageSuppliers.xaml">
+    <Page Include="Views\Pacientes\PagePacientes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Suppliers\PageSupplier.xaml">
+    <Page Include="Views\Pacientes\PagePaciente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -460,6 +512,7 @@
   <ItemGroup>
     <Resource Include="Properties\README.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,5 +1,6 @@
 ﻿using GrapInterCom.Interfaces.Inventory;
 using MaterialDesignThemes.Wpf;
+using MiliSoftware.Inventory;
 using MiliSoftware.UI;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,6 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
     {
         public bool EditMode { get; set; }
         public InvGroup InvGroup { get; set; }
-
         public PageNewInventoryGroup()
         {
             InitializeComponent();
@@ -36,7 +36,8 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
         }
 
         public DialogResult DialogResult { get; set; }
-        public ICRUD<InvGroup, InvGroup[], InvGroup, InvGroup> controller { get; set; } 
+        public ICRUD<InvGroup, InvGroup[], InvGroup, InvGroup> controller { get => Controller; set => Controller = value as InventoryGroupController; } 
+        private InventoryGroupController Controller { get; set; }
 
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
@@ -69,13 +70,24 @@ namespace MiliSoftware.Views.Inventory.InventoryGroup
             }
         }
 
-        private void btSaveClick(object sender, EventArgs e)
+        private async void btSaveClick(object sender, EventArgs e)
         {
             string code = tbCode.Text;
             string name = tbName.Text;
-            if (EditMode) controller.Update(new InvGroup(InvGroup._id, code, name));
-            else controller.Create(new InvGroup(code, name));
-            DialogResult = DialogResult.OK;
+
+            if (EditMode) {
+                await Controller.ActualizarGrupo(new InvGroup(code, name) {Id= InvGroup.Id });
+            } 
+            else {
+                InvGroup grupo = await Controller.GuardarGrupo(new InvGroup(code, name));
+               
+                if (grupo != null)
+                {
+                    DialogResult = DialogResult.OK;
+                }
+               
+            }// controller.Create(new InvGroup(code, name));
+       
             Close();
         }
 

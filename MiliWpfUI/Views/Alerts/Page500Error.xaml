@@ -1,0 +1,64 @@
+﻿<Page x:Class="MiliSoftware.Views.Alerts.Page500Error"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:MiliSoftware.Views.Alerts"
+      mc:Ignorable="d" 
+      Width="350"
+      Height="360"
+      Title="Page500Error">
+
+    <materialDesign:Card UniformCornerRadius="10"
+        Margin="10" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <materialDesign:Card.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.9">
+                <GradientStop Color="#DA4C4B" Offset="0.5" />
+                <GradientStop Color="White" Offset="0.5" />
+            </LinearGradientBrush>
+        </materialDesign:Card.Background>
+        
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="145"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" x:Name="stContainer">
+                    <StackPanel HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="DatabaseOutline" Foreground="White" Width="100" Height="100"/>
+                        <Border Background="#DA4C4B" CornerRadius="10 0 0 0 " Margin="60 -40 0 0" Width="30" Height="30">
+                            <materialDesign:PackIcon
+                                Kind="AlertCircleOutline"
+                                Foreground="White"
+                                Width="30" Height="30"
+                                />
+                        </Border>
+                        
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Error 500" FontWeight="Bold" x:Name="tbkMessage" 
+                                   FontSize="18" HorizontalAlignment="Center" Margin="10,0,0,0" Foreground="White" TextAlignment="Left"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,10,0">
+                        <TextBlock FontFamily="Calibri" FontSize="17" TextAlignment="Center" TextWrapping="Wrap" Height="132" Width="280">
+                            Lo sentimos, pero actualmente estamos experimentando dificultades técnicas. Este error 500 (Internal Server Error) indica que algo salió mal en nuestro servidor y estamos trabajando diligentemente para resolverlo.                      
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,10,0">
+                        <Button x:Name="btnAceptar" Content="Aceptar" Background="#DA4C4B" BorderBrush="#DA4C4B" Margin="0,0,0,0" FontSize="18" Width="140"/>
+                    </StackPanel>
+                </StackPanel>
+                
+              
+            </Grid>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
+</Page>

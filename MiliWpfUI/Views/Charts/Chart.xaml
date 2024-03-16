@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="MiliSoftware.Views.Charts.Chart"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MiliSoftware.Views.Charts"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="450">
+
+    <Grid>
+        <Border CornerRadius="5" Margin="15" Background="White">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect Opacity=".2"/>
+            </Border.BitmapEffect>
+            <StackPanel>
+                <TextBlock FontFamily="Segoe UI Semibold" FontSize="24" Margin="12,12,0,0">Customer feedback</TextBlock>
+                <TextBlock Foreground="Gray" Opacity="0.8" FontFamily="Segoe UI Semibold" FontSize="19" Margin="12,0,0,0">Positive comments</TextBlock>
+
+                <Grid Height="320">
+                    <StackPanel Margin="20,0,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="25,0,0,0">Q1</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="55,0,0,0">Q2</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="50,0,0,0">Q3</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="50,0,0,0">Q4</TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,20,0" HorizontalAlignment="Right">
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="0,40,0,0">40%</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="0,40,0,0">30%</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="0,40,0,0">20%</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="0,40,0,0">10%</TextBlock>
+                        <TextBlock Foreground="Gray" Opacity="0.95" FontFamily="Segoe UI Semibold" FontSize="19" Margin="0,33,0,0">0</TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Margin="20,55,0,0" HorizontalAlignment="Left">
+                        <Line X1="0" X2="330" Opacity="0.5" Stroke="Gray" Y1="0" Y2="0"></Line>
+                        <Line Margin="0,65,0,0"  X1="0" X2="330" Opacity="0.5" Stroke="Gray" Y1="0" Y2="0"></Line>
+                        <Line Margin="0,65,0,0"  X1="0" X2="330" Opacity="0.5" Stroke="Gray" Y1="0" Y2="0"></Line>
+                        <Line Margin="0,65,0,0"  X1="0" X2="330" Opacity="0.5" Stroke="Gray" Y1="0" Y2="0"></Line>
+                        <Line Margin="0,38,0,0" StrokeThickness="3" X1="0" X2="330" Opacity="0.5" Stroke="Gray" Y1="0" Y2="0"></Line>
+                    </StackPanel>
+
+                    <StackPanel Margin="40,0,0,30" Height="300" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <Border Margin="0,0,0,0" Width="35" Height="104" CornerRadius="18,18,0,0" VerticalAlignment="Bottom" Background="#FF6200EE"/>
+                        <Border Margin="40,0,0,0" Width="35" Height="150" CornerRadius="18,18,0,0" VerticalAlignment="Bottom" Background="#FF6200EE"/>
+                        <Border Margin="40,0,0,0" Width="35" Height="195" CornerRadius="18,18,0,0" VerticalAlignment="Bottom" Background="#FF6200EE"/>
+                        <Border Margin="40,0,0,0" Width="35" Height="230" CornerRadius="18,18,0,0" VerticalAlignment="Bottom" Background="#FF6200EE"/>
+                    </StackPanel>
+
+                </Grid>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

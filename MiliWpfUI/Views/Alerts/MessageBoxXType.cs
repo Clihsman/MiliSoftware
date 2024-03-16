@@ -10,6 +10,9 @@ namespace MiliSoftware.Views.Alerts
     {
         YesNo,
         CancelOK,
-        DeleteNO
+        DeleteNO,
+        Error500,
+        Error404,
+        Error503
     }
 }

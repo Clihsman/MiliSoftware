@@ -19,12 +19,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MiliSoftware.Views.Suppliers
+namespace MiliSoftware.Views.Pacientes
 {
     /// <summary>
     /// Lógica de interacción para PageSupplier.xaml
     /// </summary>
-    public partial class PageSupplier : Page, ISuppliersGUI
+    public partial class PagePaciente : Page, ISuppliersGUI
     {
         public ICRUD<string, object[], string, string> controller { get; set; }
         public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -34,7 +34,7 @@ namespace MiliSoftware.Views.Suppliers
 
         private Frame parent;
 
-        public PageSupplier(Frame parent)
+        public PagePaciente(Frame parent)
         {
             InitializeComponent();
             this.parent = parent;
@@ -47,6 +47,7 @@ namespace MiliSoftware.Views.Suppliers
         {
             IntTextBox intDocument = new IntTextBox(tbDocument);
         }
+
         /// <summary>
         /// Este metodo se encarga de cargar el Idioma de la interfaz grafica
         /// </summary>
@@ -106,12 +107,12 @@ namespace MiliSoftware.Views.Suppliers
 
         private void LoadEvents()
         {
-            tbPicture.TextChanged += tbPictureTextChange;
+            tbPicture.TextChanged += TbPictureTextChange;
             btSave.Click += delegate
             {
                 VerifyMandatoryData();
             };
-            btCancel.Click += btCancelClick;
+            btCancel.Click += TtCancelClick;
         }
 
         private void VerifyMandatoryData() {
@@ -149,7 +150,7 @@ namespace MiliSoftware.Views.Suppliers
 
         #region Events
 
-        private void tbPictureTextChange(object sender, EventArgs e)
+        private void TbPictureTextChange(object sender, EventArgs e)
         {
             if (tbPicture.Text == "*")
             {
@@ -163,9 +164,9 @@ namespace MiliSoftware.Views.Suppliers
             }
         }
 
-        private void btCancelClick(object sender, EventArgs e)
+        private void TtCancelClick(object sender, EventArgs e)
         {
-            OnClosed?.Invoke(sender, e);
+            Close();
         }
 
         #endregion
@@ -175,6 +176,7 @@ namespace MiliSoftware.Views.Suppliers
         public void Close()
         {
             OnClosed?.Invoke(this, new EventArgs());
+            Main.MainWindow.Instace.CloseFrameDialog();
         }
 
         public object GetGUI()

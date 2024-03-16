@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GrapInterCom</RootNamespace>
     <AssemblyName>GrapInterCom</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,9 +65,11 @@
     <Compile Include="Interfaces\Inventory\EquivalentProductsGUI.cs" />
     <Compile Include="Interfaces\Inventory\IInventoryGroupGUI.cs" />
     <Compile Include="Interfaces\Inventory\IInventoryGUI.cs" />
+    <Compile Include="Interfaces\Inventory\IInventoryStoreGUI.cs" />
     <Compile Include="Interfaces\Inventory\IProductGUI.cs" />
     <Compile Include="Interfaces\Inventory\ProductComponentsGUI.cs" />
     <Compile Include="Interfaces\Login\ILoginGUI.cs" />
+    <Compile Include="Interfaces\Setting\ISettingGUI.cs" />
     <Compile Include="Interfaces\Suppliers\ISuppliersGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

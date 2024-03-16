@@ -5,71 +5,42 @@
  * Assembly : MiliController           *
  * *************************************/
 
+using MiliSoftware.Acceso;
 using MiliSoftware.UI;
+using MiliSoftware.WebServices;
+using MiliWebService.WebServices;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Net.Http;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace MiliSoftware.Login.Controller
 {
     public class LoginController
     {
-        private ILoginGUI view { get; set; }
-
-        private Newtonsoft.Json.Linq.JObject error;
+        private ILoginGUI View { get; set; }
 
         public LoginController(ILoginGUI view)
         {
-            this.view = view;
+            View = view;
         }
 
-        public async Task<bool> LogIn()
+        public async Task<string> LogIn()
         {
-            WebServices.WebPostService webPostService = new WebServices.WebPostService("http://localhost:3000/api/auth/signin");
-            string result = await webPostService.PostJson(new User(view.GetUserEmail(), view.GetUserPassword()));
+            AccesoApi accesoApi = new AccesoApi();
+            var acceso = await accesoApi.Acceder(new Acceso.Modelos.Credenciales(View.GetUserEmail(), View.GetUserPassword()));
 
-            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Parse(result);
+            if (accesoApi.StatusCode == System.Net.HttpStatusCode.NotFound) return "not_found";
+            if (accesoApi.StatusCode == System.Net.HttpStatusCode.InternalServerError) return "not_found";
+            if (accesoApi.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable) return "unable_to_connect_to_remote_server";
 
-            Console.WriteLine(jObject);
-
-            if (jObject.Value<int>("statusCode") == 200)
+            if (accesoApi.StatusCode != System.Net.HttpStatusCode.BadRequest)
             {
-                return true;
+                AppStaticStore.SetToken(acceso.Token);
+                return acceso.Token;
             }
-            else
-            {
-                error = jObject;
-            }
-
-            return false;
-        }
-
-        private bool OnLogin()
-        {
-            /*
-            error = null;
-            WebServices.WebPostService webPostService = new WebServices.WebPostService("http://localhost:3000/api/auth/signin");
-            string result = webPostService.PostJson(new {
-                email= view.GetUserEmail(),
-                password= view.GetUserPassword()
-            });
-
-            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Parse(result);
-
-            if (jObject.Value<int>("statusCode") == 200)
-            {
-                return true;
-            }
-            else
-            {
-                error = jObject;
-                return false;
-            }
-            */
-            return true;
-        }
-
-        public Newtonsoft.Json.Linq.JObject GetError() {
-            return error;
+            return acceso.Error;
         }
     }
 }

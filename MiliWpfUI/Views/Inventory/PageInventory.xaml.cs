@@ -30,23 +30,22 @@ namespace MiliSoftware.Views.Inventory
     public partial class PageInventory : Page, IInventoryGUI
     {
         public ICRUD<string, object[], string, string> controller { get; set; }
+        private InventoryController Controller { get; set; }
         public DialogResult DialogResult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        private Frame parent;
-
+        private Product[] Products { get; set; }
         public event EventHandler OnOpen;
         public event EventHandler OnClosed;
 
-        public PageInventory(Frame parent)
+        public PageInventory()
         {
             InitializeComponent();
-            this.parent = parent;
+            LoadStyles();
             LoadLanguage();
             LoadEvents();
+        }
 
-
-            // Codigo Basura
-
+        private void LoadStyles()
+        {
             StyleSheet styleSheet = StyleSheet.Load("assets/styles/coloredStyle.json");
 
             if (styleSheet.GetFormStyle("form_inventory") != null)
@@ -63,7 +62,6 @@ namespace MiliSoftware.Views.Inventory
                 btEdit.BorderBrush = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
                 btEdit.Background = styleSheet.GetFormStyle("form_inventory").GetButtonStyle("btn_edit").GetBackgroundBrush();
             }
-            //************************************
         }
 
         private void LoadLanguage() {
@@ -79,27 +77,51 @@ namespace MiliSoftware.Views.Inventory
         }
 
         private void LoadEvents() {
-            btNew.Click += btNewClick;
+            btNew.Click += BtNewClick;
+            btEdit.Click += BtEditClick;
+            lvCustomers.SelectionChanged += LvProductsChange;
+
             btExport.Click += (o,e) =>  {
              MainWindow.Instace.GetFrameDialog().Content = new PageExport();
             };
         }
 
+        private async void LoadData() {
+            Controller = (InventoryController)controller;
+
+            progBar.Visibility = Visibility.Visible;
+            IsEnabled = false;
+            Products = await Controller.TodosLosProductos();
+
+            lvHeaders.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headCode, DisplayMemberBinding = new Binding("Code") });
+            lvHeaders.Columns.Add(new GridViewColumn() { Header = languaje.PageProductComponents.headName, DisplayMemberBinding = new Binding("Name") });
+            lvHeaders.Columns.Add(new GridViewColumn() { Header = "Tipo de Producto", DisplayMemberBinding = new Binding("Type") });
+            lvHeaders.Columns.Add(new GridViewColumn() { Header = "Grupo", DisplayMemberBinding = new Binding("InventoryGroup") });
+            lvHeaders.Columns.Add(new GridViewColumn() { Header = "Bodega", DisplayMemberBinding = new Binding("Store") });
+
+            lvCustomers.ItemsSource = Products;
+
+            progBar.Visibility = Visibility.Collapsed;
+            IsEnabled = true;
+        }
+
         #region Events
 
-        private void btNewClick(object o, EventArgs e)
+        private void LvProductsChange(object o, EventArgs e) {
+            btEdit.IsEnabled = lvCustomers.SelectedItems.Count == 1;
+        }
+
+        private void BtNewClick(object o, EventArgs e)
         {
             //MainWindow.Instace.parentFrame.IsEnabled = false;
-            PageProduct pageProduct = new PageProduct(MainWindow.Instace.GetFrameDialog()) { };
-            ProductController productController = new ProductController(pageProduct);
+            PageProduct pageProduct = new PageProduct();
+            _ = new ProductController(pageProduct);
+        }
 
-            pageProduct.OnClosed += delegate {
-                Main.MainWindow.Instace.CloseFrameDialog();
-                //    MainWindow.Instace.dialogFrame.Content = null;
-                //  MainWindow.Instace.parentFrame.IsEnabled = true;
-            };
-
-            pageProduct.Show();
+        private void BtEditClick(object o, EventArgs e) {
+            PageProduct pageProduct = new PageProduct();
+            pageProduct.SetProductEdit(Products[lvCustomers.SelectedIndex]);
+            _ = new ProductController(pageProduct);
         }
 
         #endregion
@@ -184,7 +206,8 @@ namespace MiliSoftware.Views.Inventory
 
         public void Show()
         {
-            parent.Content = this;
+            MainWindow.Instace.GetFrameDialog().Content = this;
+            LoadData();
         }
 
         public DialogResult ShowDialog()

@@ -9,6 +9,6 @@ namespace MiliSoftware.Model.WebServices
 {
     public enum WebFileFormat
     {
-        PNG,PDF,XML,JSON, DOCX, XLSX,OTHER
+        PNG,PDF,XML,JSON, DOCX, XLSX, OTHER
     }
 }
